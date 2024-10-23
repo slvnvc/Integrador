@@ -384,7 +384,7 @@ public class Principal extends javax.swing.JFrame {
                                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(60, 60, 60)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -447,7 +447,7 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel13.setText("Seleccionar un equipo:");
 
-        jLabel14.setText("Seleccionar un equipo:");
+        jLabel14.setText("Seleccionar usuario:");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);

@@ -559,7 +559,7 @@
                                       <Component id="jScrollPane2" min="-2" pref="490" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="60" max="32767" attributes="0"/>
+                              <EmptySpace pref="51" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -853,7 +853,7 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel14">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Seleccionar un equipo:"/>
+                        <Property name="text" type="java.lang.String" value="Seleccionar usuario:"/>
                       </Properties>
                     </Component>
                   </SubComponents>
