@@ -36,7 +36,8 @@ public class EquipoDAO {
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 Equipo equipo = new Equipo(
-                        rs.getInt("IdEquipo"),
+                        /*rs.getInt("IdEquipo"),*/
+                        rs.getInt("id_equipo"),
                         rs.getString("Nombre"),
                         rs.getString("Marca"),
                         rs.getString("Categoria"),
@@ -53,7 +54,8 @@ public class EquipoDAO {
 
     
     public void eliminarEquipo(int idEquipo) throws SQLException {
-        String query = "DELETE FROM equipo WHERE IdEquipo = ?";
+        String query = "DELETE FROM equipo WHERE id_equipo = ?";
+        /*String query = "DELETE FROM equipo WHERE IdEquipo = ?";*/
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, idEquipo);
             stmt.executeUpdate();
@@ -85,7 +87,8 @@ public class EquipoDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     equipo = new Equipo(
-                            rs.getInt("IdEquipo"),
+                            /*rs.getInt("IdEquipo"),*/
+                            rs.getInt("id_equipo"),
                             rs.getString("Nombre"),
                             rs.getString("Marca"),
                             rs.getString("Categoria"),
