@@ -10,26 +10,26 @@ package Modelo;
  */
 public class Encargado {
     
-    private int ipEncargado;
+    private int idEncargado;
     private String Nombre;
     private String Telefono;
     private String Correo;
     private String Contraseña;
 
-    public Encargado(int ipEncargado, String Nombre, String Telefono, String Correo, String Contraseña) {
-        this.ipEncargado = ipEncargado;
+    public Encargado(int idEncargado, String Nombre, String Telefono, String Correo, String Contraseña) {
+        this.idEncargado = idEncargado;
         this.Nombre = Nombre;
         this.Telefono = Telefono;
         this.Correo = Correo;
         this.Contraseña = Contraseña;
     }
 
-    public int getIpEncargado() {
-        return ipEncargado;
+    public int getIdEncargado() {
+        return idEncargado;
     }
 
-    public void setIpEncargado(int ipEncargado) {
-        this.ipEncargado = ipEncargado;
+    public void setIdEncargado(int idEncargado) {
+        this.idEncargado = idEncargado;
     }
 
     public String getNombre() {
