@@ -13,9 +13,6 @@ public class EquipoDAO {
         this.connection = Conectar.getConexion();  
         }
     
-    public EquipoControlador() {
-    equipoDAO = new EquipoDAO();
-}
 
     // Método para insertar un equipo
     public void insertarEquipo(Equipo equipo) throws SQLException {

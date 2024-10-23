@@ -4,6 +4,12 @@
  */
 package Vista;
 
+import Modelo.Equipo;
+import controlador.EquipoControlador;
+import java.sql.SQLException;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Silvana Villanueva
@@ -16,6 +22,40 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         initComponents();
         this.setLocationRelativeTo(null);
+    }
+    private void actualizarTabla() {
+    try {
+        EquipoControlador equipoControlador = new EquipoControlador();
+        List<Equipo> listaEquipos = equipoControlador.obtenerEquipos();
+        
+        DefaultTableModel modeloTabla = (DefaultTableModel) tblEquipos1.getModel();
+        modeloTabla.setRowCount(0); // Limpiar tabla
+
+        for (Equipo equipo : listaEquipos) {
+            Object[] fila = {
+                equipo.getIdEquipo(),
+                equipo.getNombre(),
+                equipo.getMarca(),
+                equipo.getCategoria(),
+                equipo.getModelo(),
+                equipo.getNumeroSerie(),
+                equipo.getCodigoInventario(),
+                equipo.getEstado()
+            };
+            modeloTabla.addRow(fila); // Agregar fila
+        }
+        } catch (SQLException ex) {
+        ex.printStackTrace();
+            }
+    }
+    private void limpiarFormulario() {
+        txtCod.setText("");
+        txtNombre.setText("");
+        txtMarca.setText("");
+        txtCategoria.setText("");
+        txtModelo.setText("");
+        txtSerie.setText("");
+        txtEstado.setText("");
     }
 
     /**
@@ -344,7 +384,54 @@ public class Principal extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel11.setText("Estado:");
 
+        txtCod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodActionPerformed(evt);
+            }
+        });
+
+        txtMarca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMarcaActionPerformed(evt);
+            }
+        });
+
+        txtCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCategoriaActionPerformed(evt);
+            }
+        });
+
+        txtNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreActionPerformed(evt);
+            }
+        });
+
+        txtModelo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtModeloActionPerformed(evt);
+            }
+        });
+
+        txtSerie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSerieActionPerformed(evt);
+            }
+        });
+
+        txtEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEstadoActionPerformed(evt);
+            }
+        });
+
         btnRegistrarEquipo.setText("Registrar");
+        btnRegistrarEquipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarEquipoActionPerformed(evt);
+            }
+        });
 
         tblEquipos1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -716,6 +803,63 @@ public class Principal extends javax.swing.JFrame {
     private void btnVolverrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverrActionPerformed
         jTabbedPane1.setSelectedIndex(0);
     }//GEN-LAST:event_btnVolverrActionPerformed
+
+    private void txtCodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodActionPerformed
+        //Codigo
+    }//GEN-LAST:event_txtCodActionPerformed
+
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+        //Nombre
+    }//GEN-LAST:event_txtNombreActionPerformed
+
+    private void txtMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMarcaActionPerformed
+        //Marca
+    }//GEN-LAST:event_txtMarcaActionPerformed
+
+    private void txtCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCategoriaActionPerformed
+        //Categoria 
+    }//GEN-LAST:event_txtCategoriaActionPerformed
+
+    private void txtModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtModeloActionPerformed
+        //Modelo
+    }//GEN-LAST:event_txtModeloActionPerformed
+
+    private void txtSerieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSerieActionPerformed
+        //Serie
+    }//GEN-LAST:event_txtSerieActionPerformed
+
+    private void txtEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEstadoActionPerformed
+        //Estado
+    }//GEN-LAST:event_txtEstadoActionPerformed
+
+    private void btnRegistrarEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarEquipoActionPerformed
+        //Boton del Registrar EQUIPO 
+    // Crear un objeto de la clase Equipo con los datos del formulario
+    String nombre = txtNombre.getText();
+    String marca = txtMarca.getText();
+    String categoria = txtCategoria.getText();
+    String modelo = txtModelo.getText();
+    String numeroSerie = txtSerie.getText();
+    String codigoInventario = txtCod.getText();
+    String estado = txtEstado.getText();
+
+    Equipo nuevoEquipo = new Equipo(0, nombre, marca, categoria, modelo, numeroSerie, codigoInventario, estado);
+
+    try {
+        // Enviar los datos al controlador para registrarlos en la BD
+        EquipoControlador equipoControlador = new EquipoControlador();
+        equipoControlador.agregarEquipo(nuevoEquipo);
+
+        // Actualizar la tabla después de insertar el equipo
+        actualizarTabla();
+        
+        // Limpiar campos después de registrar el equipo
+        limpiarFormulario();
+        
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+    }//GEN-LAST:event_btnRegistrarEquipoActionPerformed
 
     /**
      * @param args the command line arguments

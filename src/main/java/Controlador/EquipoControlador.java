@@ -10,9 +10,9 @@ public class EquipoControlador {
     private EquipoDAO equipoDAO;
 
     // Constructor
-    /*public EquipoControlador() {
+    public EquipoControlador() {
         equipoDAO = new EquipoDAO();
-    }*/
+    }
 
     
     public void agregarEquipo(Equipo equipo) throws SQLException {
