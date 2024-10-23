@@ -8,28 +8,28 @@ package Modelo;
  *
  * @author ANIBAL
  */
-public class Encarga {
+public class Encargado {
     
-    private int idEncargado;
+    private int ipEncargado;
     private String Nombre;
     private String Telefono;
     private String Correo;
-    private String Contraña;
+    private String Contraseña;
 
-    public Encarga(int idEncargado, String Nombre, String Telefono, String Correo, String Contraña) {
-        this.idEncargado = idEncargado;
+    public Encargado(int ipEncargado, String Nombre, String Telefono, String Correo, String Contraseña) {
+        this.ipEncargado = ipEncargado;
         this.Nombre = Nombre;
         this.Telefono = Telefono;
         this.Correo = Correo;
-        this.Contraña = Contraña;
+        this.Contraseña = Contraseña;
     }
 
-    public int getIdEncargado() {
-        return idEncargado;
+    public int getIpEncargado() {
+        return ipEncargado;
     }
 
-    public void setIdEncargado(int idEncargado) {
-        this.idEncargado = idEncargado;
+    public void setIpEncargado(int ipEncargado) {
+        this.ipEncargado = ipEncargado;
     }
 
     public String getNombre() {
@@ -56,15 +56,15 @@ public class Encarga {
         this.Correo = Correo;
     }
 
-    public String getContraña() {
-        return Contraña;
+    public String getContraseña() {
+        return Contraseña;
     }
 
-    public void setContraña(String Contraña) {
-        this.Contraña = Contraña;
+    public void setContraseña(String Contraseña) {
+        this.Contraseña = Contraseña;
     }
     
     
-    
+           
     
 }
