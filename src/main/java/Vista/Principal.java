@@ -41,9 +41,10 @@ public class Principal extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jButton1 = new javax.swing.JButton();
+        tblEquipos = new javax.swing.JTable();
+        btnAsignar = new javax.swing.JButton();
+        btnVerTrabajadores = new javax.swing.JButton();
+        btnRegistrar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -159,22 +160,29 @@ public class Principal extends javax.swing.JFrame {
 
         jTabbedPane1.setForeground(new java.awt.Color(51, 51, 51));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblEquipos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Codigo", "Nombre", "Marca", "Categoria", "Modelo", "Serie", "Estado"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblEquipos);
 
-        jToggleButton1.setText("PRUEBA COMPI");
+        btnAsignar.setText("Asignar");
+        btnAsignar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAsignarActionPerformed(evt);
+            }
+        });
 
-        jButton1.setText("PRUEBA DE LA COMPI MASTER");
+        btnVerTrabajadores.setText("Ver Trabajadores");
+
+        btnRegistrar.setText("Registrar");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -183,11 +191,12 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 598, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(43, 43, 43)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jToggleButton1)
-                    .addComponent(jButton1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnVerTrabajadores, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAsignar, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,10 +206,12 @@ public class Principal extends javax.swing.JFrame {
                         .addGap(28, 28, 28)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(74, 74, 74)
-                        .addComponent(jToggleButton1)
-                        .addGap(32, 32, 32)
-                        .addComponent(jButton1)))
+                        .addGap(82, 82, 82)
+                        .addComponent(btnRegistrar)
+                        .addGap(37, 37, 37)
+                        .addComponent(btnAsignar)
+                        .addGap(41, 41, 41)
+                        .addComponent(btnVerTrabajadores)))
                 .addContainerGap(78, Short.MAX_VALUE))
         );
 
@@ -341,6 +352,10 @@ public class Principal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnCSActionPerformed
 
+    private void btnAsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAsignarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -377,12 +392,14 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAsignar;
     private javax.swing.JButton btnCS;
     private javax.swing.JButton btnCompra;
     private javax.swing.JButton btnInventario;
+    private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnRemision;
     private javax.swing.JButton btnSalida;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnVerTrabajadores;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -395,7 +412,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JTable tblEquipos;
     // End of variables declaration//GEN-END:variables
 }
