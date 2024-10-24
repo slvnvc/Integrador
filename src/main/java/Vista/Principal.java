@@ -121,9 +121,10 @@ public class Principal extends javax.swing.JFrame {
             Object[] fila = {
                 
                 trabajador.getNombre(),
+                trabajador.getDNI(),
                 trabajador.getTelefono(),
-                trabajador.getCorreo(),
-                trabajador.getEquipo() // saldrá 0 
+                trabajador.getCorreo()
+                
             };
             modeloTabla.addRow(fila); // Agregar fila
         }
@@ -216,6 +217,8 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         tblTrabajadores = new javax.swing.JTable();
         jLabel18 = new javax.swing.JLabel();
+        btnBuscarTrabajador = new javax.swing.JButton();
+        txtBuscarTrabajador = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -802,13 +805,15 @@ public class Principal extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Nombre", "Telefono", "Correo", "Equipo Asignado"
+                "Nombre", "DNI", "Telefono", "Correo"
             }
         ));
         jScrollPane4.setViewportView(tblTrabajadores);
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel18.setText("Trabajadores:");
+
+        btnBuscarTrabajador.setText("Buscar");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -817,18 +822,28 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 758, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(52, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 758, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(52, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(250, 250, 250)
+                        .addComponent(txtBuscarTrabajador)
+                        .addGap(50, 50, 50)
+                        .addComponent(btnBuscarTrabajador)
+                        .addGap(60, 60, 60))))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
-                .addComponent(jLabel18)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24))
+                .addContainerGap(27, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(btnBuscarTrabajador)
+                    .addComponent(txtBuscarTrabajador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68))
         );
 
         javax.swing.GroupLayout PVerTrabajadoresLayout = new javax.swing.GroupLayout(PVerTrabajadores);
@@ -1057,6 +1072,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel PVerTrabajadores;
     private javax.swing.JButton btnAsignar;
     private javax.swing.JButton btnAsignarEquipo;
+    private javax.swing.JButton btnBuscarTrabajador;
     private javax.swing.JButton btnCS;
     private javax.swing.JButton btnCompra;
     private javax.swing.JButton btnInventario;
@@ -1105,6 +1121,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTable tblEquipos;
     private javax.swing.JTable tblEquipos1;
     private javax.swing.JTable tblTrabajadores;
+    private javax.swing.JTextField txtBuscarTrabajador;
     private javax.swing.JTextField txtCategoria;
     private javax.swing.JTextField txtCod;
     private javax.swing.JTextField txtEstado;

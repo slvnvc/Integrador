@@ -13,25 +13,24 @@ public class Trabajador {
     private String Nombre;
     private String Telefono;
     private String Correo;
-    private int Equipo;//la fk
+    private String DNI;//la fk
 
-    public Trabajador(int idTrabajador, String Nombre, String Telefono, String Correo, int Equipo) {
+    public Trabajador(int idTrabajador, String Nombre, String Telefono, String Correo, String DNI) {
         this.idTrabajador = idTrabajador;
         this.Nombre = Nombre;
         this.Telefono = Telefono;
         this.Correo = Correo;
-        this.Equipo = Equipo;
-    }
-//--
-    public int getEquipo() {
-        return Equipo;
+        this.DNI = DNI;
     }
 
-    public void setEquipo(int Equipo) {
-        this.Equipo = Equipo;
+    public String getDNI() {
+        return DNI;
     }
-//---
-    
+
+    public void setDNI(String DNI) {
+        this.DNI = DNI;
+    }
+
 
     public int getIdTrabajador() {
         return idTrabajador;
