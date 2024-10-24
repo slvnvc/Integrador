@@ -29,12 +29,12 @@ public class TrabajadorDAO {
 
     // Método para agregar un trabajador
     public void agregarTrabajador(Trabajador trabajador) throws SQLException {
-        String query = "INSERT INTO trabajador (Nombre, Telefono, Correo, ID_Equipo) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO trabajador (Nombre, Telefono, Correo, DNI) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, trabajador.getNombre());
             stmt.setString(2, trabajador.getTelefono());
             stmt.setString(3, trabajador.getCorreo());
-            stmt.setInt(4, trabajador.getEquipo());
+            stmt.setString(4, trabajador.getDNI());
             stmt.executeUpdate();
         }
     }
@@ -71,7 +71,7 @@ public class TrabajadorDAO {
                         rs.getString("Nombre"),
                         rs.getString("Telefono"),
                         rs.getString("Correo"),
-                        rs.getInt("ID_Equipo"));
+                        rs.getString("DNI"));
                 trabajadores.add(trabajador);
             }
         }
