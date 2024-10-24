@@ -4,7 +4,9 @@
  */
 package Vista;
 
+import Controlador.TrabajadorControlador;
 import Modelo.Equipo;
+import Modelo.Trabajador;
 import controlador.EquipoControlador;
 import java.sql.SQLException;
 import java.util.List;
@@ -106,6 +108,30 @@ public class Principal extends javax.swing.JFrame {
         ex.printStackTrace();
             }
     }
+    
+    private void actualizarTablaTrabajadores() {
+    try {
+        TrabajadorControlador trabajadorControlador = new TrabajadorControlador();
+        List<Trabajador> listaTrabajadores = trabajadorControlador.obtenerTrabajadores();
+        
+        DefaultTableModel modeloTabla = (DefaultTableModel) tblTrabajadores.getModel();
+        modeloTabla.setRowCount(0); // Limpiar tabla
+
+        for (Trabajador trabajador : listaTrabajadores) {
+            Object[] fila = {
+                
+                trabajador.getNombre(),
+                trabajador.getTelefono(),
+                trabajador.getCorreo(),
+                trabajador.getEquipo() // saldrá 0 
+            };
+            modeloTabla.addRow(fila); // Agregar fila
+        }
+        } catch (SQLException ex) {
+        ex.printStackTrace();
+            }
+    }
+    
     private void limpiarFormulario() {
         txtCod.setText("");
         txtNombre.setText("");
@@ -184,8 +210,12 @@ public class Principal extends javax.swing.JFrame {
         cmbUsuario = new javax.swing.JComboBox<>();
         txtUbi = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblAsignacion = new javax.swing.JTable();
         PVerTrabajadores = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblTrabajadores = new javax.swing.JTable();
+        jLabel18 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -319,6 +349,11 @@ public class Principal extends javax.swing.JFrame {
         });
 
         btnVerTrabajadores.setText("Ver Trabajadores");
+        btnVerTrabajadores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerTrabajadoresActionPerformed(evt);
+            }
+        });
 
         btnRegistrar.setText("Registrar");
         btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
@@ -659,7 +694,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblAsignacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -670,7 +705,7 @@ public class Principal extends javax.swing.JFrame {
                 "Equipo", "Usuario", "Fecha", "Ubicacion"
             }
         ));
-        jScrollPane3.setViewportView(jTable1);
+        jScrollPane3.setViewportView(tblAsignacion);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -759,15 +794,54 @@ public class Principal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab6", PAsignar);
 
+        tblTrabajadores.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Nombre", "Telefono", "Correo", "Equipo Asignado"
+            }
+        ));
+        jScrollPane4.setViewportView(tblTrabajadores);
+
+        jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel18.setText("Trabajadores:");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 758, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(52, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(21, Short.MAX_VALUE)
+                .addComponent(jLabel18)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
+        );
+
         javax.swing.GroupLayout PVerTrabajadoresLayout = new javax.swing.GroupLayout(PVerTrabajadores);
         PVerTrabajadores.setLayout(PVerTrabajadoresLayout);
         PVerTrabajadoresLayout.setHorizontalGroup(
             PVerTrabajadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 846, Short.MAX_VALUE)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         PVerTrabajadoresLayout.setVerticalGroup(
             PVerTrabajadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 432, Short.MAX_VALUE)
+            .addGroup(PVerTrabajadoresLayout.createSequentialGroup()
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("tab7", PVerTrabajadores);
@@ -933,6 +1007,11 @@ public class Principal extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_btnRegistrarEquipoActionPerformed
 
+    private void btnVerTrabajadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerTrabajadoresActionPerformed
+        jTabbedPane1.setSelectedIndex(6);
+        actualizarTablaTrabajadores();
+    }//GEN-LAST:event_btnVerTrabajadoresActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1000,6 +1079,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1012,16 +1092,19 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblAsignacion;
     private javax.swing.JTable tblEquipos;
     private javax.swing.JTable tblEquipos1;
+    private javax.swing.JTable tblTrabajadores;
     private javax.swing.JTextField txtCategoria;
     private javax.swing.JTextField txtCod;
     private javax.swing.JTextField txtEstado;

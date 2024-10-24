@@ -13,13 +13,25 @@ public class Trabajador {
     private String Nombre;
     private String Telefono;
     private String Correo;
+    private int Equipo;//la fk
 
-    public Trabajador(int idTrabajador, String Nombre, String Telefono, String Correo) {
+    public Trabajador(int idTrabajador, String Nombre, String Telefono, String Correo, int Equipo) {
         this.idTrabajador = idTrabajador;
         this.Nombre = Nombre;
         this.Telefono = Telefono;
         this.Correo = Correo;
+        this.Equipo = Equipo;
     }
+//--
+    public int getEquipo() {
+        return Equipo;
+    }
+
+    public void setEquipo(int Equipo) {
+        this.Equipo = Equipo;
+    }
+//---
+    
 
     public int getIdTrabajador() {
         return idTrabajador;
