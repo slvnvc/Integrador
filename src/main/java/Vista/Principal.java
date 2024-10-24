@@ -23,6 +23,34 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
     }
+    
+    private void cargarTabla() {
+        //carga la tabla previamente en el panel registrar
+    try {
+        EquipoControlador equipoControlador = new EquipoControlador();
+        List<Equipo> listaEquipos = equipoControlador.obtenerEquipos();
+        
+        DefaultTableModel modeloTabla = (DefaultTableModel) tblEquipos1.getModel();
+        modeloTabla.setRowCount(0); // Limpiar tabla
+
+        for (Equipo equipo : listaEquipos) {
+            Object[] fila = {
+                
+                equipo.getCodigoInventario(),
+                equipo.getNombre(),
+                equipo.getMarca(),
+                equipo.getCategoria(),
+                equipo.getModelo(),
+                equipo.getNumeroSerie(),
+                equipo.getEstado()
+            };
+            modeloTabla.addRow(fila); // Agregar fila
+        }
+        } catch (SQLException ex) {
+        ex.printStackTrace();
+            }
+    }
+    
     private void actualizarTabla() {
     try {
         EquipoControlador equipoControlador = new EquipoControlador();
@@ -33,13 +61,13 @@ public class Principal extends javax.swing.JFrame {
 
         for (Equipo equipo : listaEquipos) {
             Object[] fila = {
-                equipo.getIdEquipo(),
+                
+                equipo.getCodigoInventario(),
                 equipo.getNombre(),
                 equipo.getMarca(),
                 equipo.getCategoria(),
                 equipo.getModelo(),
                 equipo.getNumeroSerie(),
-                equipo.getCodigoInventario(),
                 equipo.getEstado()
             };
             modeloTabla.addRow(fila); // Agregar fila
@@ -786,6 +814,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
       jTabbedPane1.setSelectedIndex(4);
+      cargarTabla();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnAsignarEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarEquipoActionPerformed

@@ -4,6 +4,10 @@
  */
 package Vista;
 
+import DAO.EncargadoDAO;
+import Modelo.Encargado;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Silvana Villanueva
@@ -15,6 +19,7 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -66,6 +71,11 @@ public class Login extends javax.swing.JFrame {
         btnsesion.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnsesion.setForeground(new java.awt.Color(255, 255, 255));
         btnsesion.setText("Iniciar Sesión");
+        btnsesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnsesionActionPerformed(evt);
+            }
+        });
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/loguito.png"))); // NOI18N
 
@@ -123,6 +133,26 @@ public class Login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnsesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsesionActionPerformed
+      String usuario_str = txtusuario.getText();
+        String password_str = txtpassword.getText();
+        Encargado encargado = EncargadoDAO.login(usuario_str, password_str);
+            
+        if (encargado != null) {
+          System.out.println("probando"); //prueba de que no es null
+          Encargado usuario_valido = EncargadoDAO.getEncargado(encargado.getIdEncargado());
+          usuario_valido.setIdEncargado(encargado.getIdEncargado());
+                          
+          Principal princi = new Principal();
+          princi.setVisible(true);
+          princi.setLocationRelativeTo(null);
+          this.dispose();
+            }
+        else {
+            JOptionPane.showMessageDialog(null, "Credenciales incorrectas", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnsesionActionPerformed
 
     /**
      * @param args the command line arguments

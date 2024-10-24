@@ -24,6 +24,9 @@ public class Encargado {
         this.Contraseña = Contraseña;
     }
 
+    public Encargado() {
+        }
+
     public int getIdEncargado() {
         return idEncargado;
     }
