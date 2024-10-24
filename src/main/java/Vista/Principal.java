@@ -22,6 +22,7 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         initComponents();
         this.setLocationRelativeTo(null);
+        cargarTablaI();
     }
     
     private void cargarTabla() {
@@ -50,6 +51,35 @@ public class Principal extends javax.swing.JFrame {
         ex.printStackTrace();
             }
     }
+    
+     private void cargarTablaI() {
+        //carga la tabla previamente en el panel registrar
+    try {
+        EquipoControlador equipoControlador = new EquipoControlador();
+        List<Equipo> listaEquipos = equipoControlador.obtenerEquipos();
+        
+        DefaultTableModel modeloTabla = (DefaultTableModel) tblEquipos.getModel();
+        modeloTabla.setRowCount(0); // Limpiar tabla
+
+        for (Equipo equipo : listaEquipos) {
+            Object[] fila = {
+                
+                equipo.getCodigoInventario(),
+                equipo.getNombre(),
+                equipo.getMarca(),
+                equipo.getCategoria(),
+                equipo.getModelo(),
+                equipo.getNumeroSerie(),
+                equipo.getEstado()
+            };
+            modeloTabla.addRow(fila); // Agregar fila
+        }
+        } catch (SQLException ex) {
+        ex.printStackTrace();
+            }
+    }
+    
+    
     
     private void actualizarTabla() {
     try {
@@ -113,6 +143,7 @@ public class Principal extends javax.swing.JFrame {
         btnAsignar = new javax.swing.JButton();
         btnVerTrabajadores = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
         PCompra = new javax.swing.JPanel();
         PSalida = new javax.swing.JPanel();
         PRemision = new javax.swing.JPanel();
@@ -315,7 +346,7 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
+                        .addGap(57, 57, 57)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGap(82, 82, 82)
@@ -324,14 +355,20 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(btnAsignar)
                         .addGap(41, 41, 41)
                         .addComponent(btnVerTrabajadores)))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
+
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel17.setText("Equipos:");
 
         javax.swing.GroupLayout PInventarioLayout = new javax.swing.GroupLayout(PInventario);
         PInventario.setLayout(PInventarioLayout);
         PInventarioLayout.setHorizontalGroup(
             PInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 846, Short.MAX_VALUE)
+            .addGroup(PInventarioLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(617, Short.MAX_VALUE))
             .addGroup(PInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(PInventarioLayout.createSequentialGroup()
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -339,7 +376,10 @@ public class Principal extends javax.swing.JFrame {
         );
         PInventarioLayout.setVerticalGroup(
             PInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 432, Short.MAX_VALUE)
+            .addGroup(PInventarioLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jLabel17)
+                .addContainerGap(402, Short.MAX_VALUE))
             .addGroup(PInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PInventarioLayout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -784,6 +824,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarioActionPerformed
         jTabbedPane1.setSelectedIndex(0);
+        cargarTablaI();
     }//GEN-LAST:event_btnInventarioActionPerformed
 
     private void btnCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompraActionPerformed
@@ -827,10 +868,12 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         jTabbedPane1.setSelectedIndex(0);
+        cargarTablaI();
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnVolverrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverrActionPerformed
         jTabbedPane1.setSelectedIndex(0);
+        cargarTablaI();
     }//GEN-LAST:event_btnVolverrActionPerformed
 
     private void txtCodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodActionPerformed
@@ -956,6 +999,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
