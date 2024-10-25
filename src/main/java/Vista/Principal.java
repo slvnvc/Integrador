@@ -4,12 +4,15 @@
  */
 package Vista;
 
+import Controlador.OrdenAsignacionControlador;
 import Controlador.TrabajadorControlador;
 import Modelo.Equipo;
+import Modelo.OrdenAsignacion;
 import Modelo.Trabajador;
 import controlador.EquipoControlador;
 import java.sql.SQLException;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -18,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Principal extends javax.swing.JFrame {
 
+    
     /**
      * Creates new form Principal
      */
@@ -25,6 +29,8 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         cargarTablaI();
+        cargarEquiposDisponibles();
+        cargarTrabajadores();
     }
     
     private void cargarTabla() {
@@ -143,6 +149,123 @@ public class Principal extends javax.swing.JFrame {
         txtEstado.setText("");
     }
 
+       // cargar los equipos disponibles en el Cmb
+    public void cargarEquiposDisponibles() {
+        EquipoControlador equipoControlador = new EquipoControlador();
+        
+        try {
+            // Obtener la lista de equipos disponibles desde el controlador
+            List<Equipo> equiposDisponibles = equipoControlador.obtenerEquiposDispo();
+            
+            cmbEquipo.removeAllItems();  // limpio cmb
+
+            //lleno cmb con los NOMBRES de los equipos disponibles
+            for (Equipo equipo : equiposDisponibles) {
+                cmbEquipo.addItem(equipo.getNombre());
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+           
+        }
+    }
+    
+    //cargar trabjadores en el combo
+    public void cargarTrabajadores() {
+        TrabajadorControlador trabajadorControlador = new TrabajadorControlador();
+        
+        try {
+            // Obtener la lista de trabajadores desde el controlador
+            List<Trabajador> trabajadores = trabajadorControlador.obtenerTrabajadores();
+            
+            cmbTrabajador.removeAllItems();  // limpio cmb
+
+            //lleno cmb con los NOMBRES de los trabajdores 
+            for (Trabajador trabajador : trabajadores) {
+                cmbTrabajador.addItem(trabajador.getNombre());
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+           
+        }
+    }
+    
+
+    public void gestionarAsignacion() {
+    try {
+        // verificacion seleccion de trabajdor y equipo
+        if (cmbEquipo.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un equipo.");
+            return;
+        }
+
+        if (cmbTrabajador.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un trabajador.");
+            return;
+        }
+
+        EquipoControlador equipoControlador = new EquipoControlador();
+        TrabajadorControlador trabajadorControlador = new TrabajadorControlador();
+
+        // recopilar datos de combos y txtfield
+        int idEquipo = equipoControlador.obtenerIdEquipoPorNombre(cmbEquipo.getSelectedItem().toString());
+        int idTrabajador = trabajadorControlador.obtenerIdTrabajadorPorNombre(cmbTrabajador.getSelectedItem().toString());
+        String fechaAsignacion = txtFechaAsignacion.getText();
+        String areaAsignacion = txtArea.getText();
+
+        //validacion que no esten vacios 
+        if (fechaAsignacion.isEmpty() || areaAsignacion.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor complete todos los campos antes de asignar.");
+            return;
+        }
+
+        OrdenAsignacion nuevaOrden = new OrdenAsignacion(idEquipo, idTrabajador, fechaAsignacion, areaAsignacion);
+
+        //usando controlador
+        OrdenAsignacionControlador controlador = new OrdenAsignacionControlador();
+        controlador.agregarOrdenAsignacion(nuevaOrden);
+
+        JOptionPane.showMessageDialog(null, "Asignación guardada exitosamente.");
+
+        // limpiar al final para que no se borre lo seleccioando
+        limpiarFormAsignacion();
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al guardar la asignación en la base de datos.");
+    }
+}
+
+    private void cargarTablaAsignacion() {
+    DefaultTableModel modeloTabla = (DefaultTableModel) tblAsignacion.getModel();
+    modeloTabla.setRowCount(0); 
+
+    OrdenAsignacionControlador controlador = new OrdenAsignacionControlador();
+    try {
+        List<OrdenAsignacion> ordenes = controlador.obtenerTodasLasOrdenes();
+
+        for (OrdenAsignacion orden : ordenes) {
+            Object[] fila = {
+                orden.getNombreEquipo(),      //nuevos atributos en modelo
+                orden.getNombreTrabajador(),  
+                orden.getFechaAsignacion(),
+                orden.getArea()              
+            };
+            modeloTabla.addRow(fila);
+        }
+        
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al cargar las asignaciones desde la base de datos.");
+    }
+    
+}
+// limpiar todo
+    private void limpiarFormAsignacion() {
+    cmbEquipo.setSelectedIndex(-1);  
+    cmbTrabajador.setSelectedIndex(-1); 
+    txtFechaAsignacion.setText("");  
+    txtArea.setText("");  
+}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -162,6 +285,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         PInventario = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
@@ -208,10 +332,11 @@ public class Principal extends javax.swing.JFrame {
         btnOrdenAsignacion = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
         cmbEquipo = new javax.swing.JComboBox<>();
-        cmbUsuario = new javax.swing.JComboBox<>();
-        txtUbi = new javax.swing.JTextField();
+        cmbTrabajador = new javax.swing.JComboBox<>();
+        txtArea = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblAsignacion = new javax.swing.JTable();
+        txtFechaAsignacion = new javax.swing.JTextField();
         PVerTrabajadores = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -222,9 +347,9 @@ public class Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(0, 153, 255));
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
-        jPanel3.setBackground(new java.awt.Color(0, 153, 255));
+        jPanel3.setBackground(new java.awt.Color(102, 102, 102));
 
         btnInventario.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnInventario.setText("Inventario");
@@ -277,6 +402,10 @@ public class Principal extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(204, 204, 204));
         jLabel3.setText("SISTEMA DE INVENTARIO ");
 
+        jButton1.setBackground(new java.awt.Color(51, 51, 51));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setText("Notificaciones");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -291,13 +420,15 @@ public class Principal extends javax.swing.JFrame {
                         .addGap(31, 31, 31)
                         .addComponent(btnSalida)
                         .addGap(31, 31, 31)
-                        .addComponent(btnRemision)
-                        .addGap(31, 31, 31)
-                        .addComponent(btnCS))
+                        .addComponent(btnRemision))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(115, 115, 115)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addGap(21, 21, 21)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnCS)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -313,8 +444,10 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(41, 41, 41)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jButton1))
+                        .addGap(40, 40, 40)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnInventario)
                             .addComponent(btnSalida)
@@ -665,13 +798,13 @@ public class Principal extends javax.swing.JFrame {
         jLabel13.setText("Seleccionar un equipo:");
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel14.setText("Seleccionar usuario:");
+        jLabel14.setText("Seleccionar trabajador:");
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel15.setText("Fecha de Asignación:");
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel16.setText("Ubicación:");
+        jLabel16.setText("Área:");
 
         btnAsignarEquipo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAsignarEquipo.setText("Asignar Equipo");
@@ -697,15 +830,18 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        cmbEquipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbEquipoActionPerformed(evt);
+            }
+        });
+
         tblAsignacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Equipo", "Usuario", "Fecha", "Ubicacion"
+                "Equipo", "Usuario", "Fecha", "Área"
             }
         ));
         jScrollPane3.setViewportView(tblAsignacion);
@@ -734,17 +870,17 @@ public class Principal extends javax.swing.JFrame {
                                 .addComponent(btnOrdenAsignacion))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                                 .addGap(54, 54, 54)
-                                .addComponent(txtUbi, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(txtArea, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
-                                .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(37, 37, 37)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cmbUsuario, 0, 158, Short.MAX_VALUE)
-                            .addComponent(cmbEquipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(cmbTrabajador, 0, 158, Short.MAX_VALUE)
+                            .addComponent(cmbEquipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtFechaAsignacion))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41))
@@ -765,13 +901,15 @@ public class Principal extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14)
-                            .addComponent(cmbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cmbTrabajador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel15)
-                        .addGap(27, 27, 27)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel15)
+                            .addComponent(txtFechaAsignacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(25, 25, 25)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel16)
-                            .addComponent(txtUbi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(49, 49, 49)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnAsignarEquipo)
@@ -865,7 +1003,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 860, Short.MAX_VALUE)
+            .addGap(0, 870, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -940,6 +1078,8 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnAsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarActionPerformed
       jTabbedPane1.setSelectedIndex(5);
+      cargarTablaAsignacion();
+      limpiarFormAsignacion();
     }//GEN-LAST:event_btnAsignarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
@@ -948,7 +1088,10 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnAsignarEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarEquipoActionPerformed
-        // TODO add your handling code here:
+        gestionarAsignacion();
+        cargarTablaAsignacion();
+        //limpiarFormAsignacion();
+        
     }//GEN-LAST:event_btnAsignarEquipoActionPerformed
 
     private void btnOrdenAsignacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenAsignacionActionPerformed
@@ -1027,6 +1170,10 @@ public class Principal extends javax.swing.JFrame {
         actualizarTablaTrabajadores();
     }//GEN-LAST:event_btnVerTrabajadoresActionPerformed
 
+    private void cmbEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEquipoActionPerformed
+        //
+    }//GEN-LAST:event_cmbEquipoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1085,7 +1232,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnVolver;
     private javax.swing.JButton btnVolverr;
     private javax.swing.JComboBox<String> cmbEquipo;
-    private javax.swing.JComboBox<String> cmbUsuario;
+    private javax.swing.JComboBox<String> cmbTrabajador;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1121,14 +1269,15 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTable tblEquipos;
     private javax.swing.JTable tblEquipos1;
     private javax.swing.JTable tblTrabajadores;
+    private javax.swing.JTextField txtArea;
     private javax.swing.JTextField txtBuscarTrabajador;
     private javax.swing.JTextField txtCategoria;
     private javax.swing.JTextField txtCod;
     private javax.swing.JTextField txtEstado;
+    private javax.swing.JTextField txtFechaAsignacion;
     private javax.swing.JTextField txtMarca;
     private javax.swing.JTextField txtModelo;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtSerie;
-    private javax.swing.JTextField txtUbi;
     // End of variables declaration//GEN-END:variables
 }

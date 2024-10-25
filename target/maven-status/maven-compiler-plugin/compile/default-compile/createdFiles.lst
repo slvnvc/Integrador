@@ -3,6 +3,7 @@ Vista\Main.class
 Modelo\Encargado.class
 Vista\Principal$20.class
 Vista\Principal$17.class
+Modelo\OrdenAsignacion.class
 Vista\Principal$10.class
 Vista\Principal$4.class
 Vista\Principal$9.class
@@ -10,6 +11,7 @@ Vista\Principal$12.class
 DAO\EquipoDAO.class
 Vista\Principal$7.class
 Modelo\Equipo.class
+Vista\Principal$22.class
 controlador\TrabajadorControlador.class
 DAO\TrabajadorDAO.class
 Vista\Login$1.class
@@ -20,6 +22,7 @@ Vista\Principal$15.class
 Modelo\Trabajador.class
 Conexion\Conectar.class
 Vista\Principal$16.class
+DAO\OrdenAsignacionDAO.class
 Vista\Principal$8.class
 controlador\EquipoControlador.class
 Vista\Principal$18.class
@@ -31,6 +34,7 @@ Vista\Principal$6.class
 Vista\Principal$19.class
 Modelo\OrdenCompra.class
 Vista\Principal$14.class
+controlador\OrdenAsignacionControlador.class
 Vista\Login$2.class
 Vista\Principal$11.class
 Vista\Principal$21.class

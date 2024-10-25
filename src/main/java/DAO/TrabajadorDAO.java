@@ -39,34 +39,12 @@ public class TrabajadorDAO {
         }
     }
 
-//    public List<Equipo> obtenerTodosLosEquipos() throws SQLException {
-//        String query = "SELECT * FROM equipo";
-//        List<Equipo> equipos = new ArrayList<>();
-//        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
-//            while (rs.next()) {
-//                Equipo equipo = new Equipo(
-//                        /*rs.getInt("IdEquipo"),*/
-//                        rs.getInt("id_equipo"),
-//                        rs.getString("Nombre"),
-//                        rs.getString("Marca"),
-//                        rs.getString("Categoria"),
-//                        rs.getString("Modelo"),
-//                        rs.getString("NumeroSerie"),
-//                        rs.getString("CodigoInventario"),
-//                        rs.getString("Estado")
-//                );
-//                equipos.add(equipo);
-//            }
-//        }
-//        return equipos;
-//    }
         public List<Trabajador> obtenerTodosLosTrabajadores() throws SQLException {
         String query = "SELECT * FROM trabajador";
         List<Trabajador> trabajadores = new ArrayList<>();
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 Trabajador trabajador = new Trabajador(
-                        /*rs.getInt("IdEquipo"),*/
                         rs.getInt("ID_trabajador"),
                         rs.getString("Nombre"),
                         rs.getString("Telefono"),
@@ -77,4 +55,19 @@ public class TrabajadorDAO {
         }
         return trabajadores;
     }
+        
+        public int obtenerIdTrabajadorPorNombre(String nombreTrabajador) throws SQLException {
+    String query = "SELECT ID_Trabajador FROM trabajador WHERE Nombre = ?";
+    int idTrabajador = -1;  // Valor por defecto en caso de que no se encuentre
+
+    try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        stmt.setString(1, nombreTrabajador);
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                idTrabajador = rs.getInt("ID_Trabajador");
+            }
+        }
+    }
+    return idTrabajador;
+}
 }

@@ -24,6 +24,13 @@ public class EquipoControlador {
         return equipoDAO.obtenerTodosLosEquipos();
     }
 
+    public List<Equipo> obtenerEquiposDispo() throws SQLException {  
+        return equipoDAO.obtenerEquiposDisponibles();
+    }
+    
+    public int obtenerIdEquipoPorNombre(String nombreEquipo) throws SQLException {
+        return equipoDAO.obtenerIdEquipoPorNombre(nombreEquipo);
+    }
     
     public void eliminarEquipo(int idEquipo) throws SQLException {  
         equipoDAO.eliminarEquipo(idEquipo);

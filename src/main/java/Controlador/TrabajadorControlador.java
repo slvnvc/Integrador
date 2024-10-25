@@ -30,4 +30,9 @@ public class TrabajadorControlador {
     public List<Trabajador> obtenerTrabajadores() throws SQLException {  
         return trabajadorDAO.obtenerTodosLosTrabajadores();
     }
+    
+     public int obtenerIdTrabajadorPorNombre(String nombreTrabajador) throws SQLException {
+        return trabajadorDAO.obtenerIdTrabajadorPorNombre(nombreTrabajador);  
+    }
+    
 }

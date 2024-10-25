@@ -52,7 +52,43 @@ public class EquipoDAO {
         return equipos;
     }
 
+    // Metodo para obtener los equipos con estado 'disponible'
+    public List<Equipo> obtenerEquiposDisponibles() throws SQLException {
+    String query = "SELECT * FROM equipo WHERE LOWER(Estado) = 'disponible'";
+    List<Equipo> equiposDisponibles = new ArrayList<>();
+    try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+        while (rs.next()) {
+            Equipo equipo = new Equipo(
+                    rs.getInt("id_equipo"),
+                    rs.getString("Nombre"),
+                    rs.getString("Marca"),
+                    rs.getString("Categoria"),
+                    rs.getString("Modelo"),
+                    rs.getString("NumeroSerie"),
+                    rs.getString("CodigoInventario"),
+                    rs.getString("Estado")
+            );
+            equiposDisponibles.add(equipo);
+        }
+    }
+    return equiposDisponibles;
+} 
     
+    public int obtenerIdEquipoPorNombre(String nombreEquipo) throws SQLException {
+    String query = "SELECT ID_Equipo FROM equipo WHERE Nombre = ?";
+    int idEquipo = -1;  // por defecto por si no se encuentra
+
+    try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        stmt.setString(1, nombreEquipo);
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                idEquipo = rs.getInt("ID_Equipo");
+            }
+        }
+    }
+    return idEquipo;
+}
+
     public void eliminarEquipo(int idEquipo) throws SQLException {
         String query = "DELETE FROM equipo WHERE id_equipo = ?";
         /*String query = "DELETE FROM equipo WHERE IdEquipo = ?";*/
@@ -102,4 +138,6 @@ public class EquipoDAO {
         }
         return equipo;
     }
+    
+    
 }
