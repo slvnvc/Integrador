@@ -224,6 +224,7 @@ public class Principal extends javax.swing.JFrame {
         OrdenAsignacionControlador controlador = new OrdenAsignacionControlador();
         controlador.agregarOrdenAsignacion(nuevaOrden);
 
+        equipoControlador.actualizarEstadoEquipo(idEquipo, "Asignado"); //se le cambia el estado
         JOptionPane.showMessageDialog(null, "Asignación guardada exitosamente.");
 
         // limpiar al final para que no se borre lo seleccioando
@@ -265,6 +266,7 @@ public class Principal extends javax.swing.JFrame {
     txtFechaAsignacion.setText("");  
     txtArea.setText("");  
 }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -1078,6 +1080,8 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnAsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarActionPerformed
       jTabbedPane1.setSelectedIndex(5);
+      cargarEquiposDisponibles();
+    //gestionarAsignacion(); //para que se actualice el combo
       cargarTablaAsignacion();
       limpiarFormAsignacion();
     }//GEN-LAST:event_btnAsignarActionPerformed
@@ -1088,6 +1092,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnAsignarEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarEquipoActionPerformed
+        //cargarEquiposDisponibles();
         gestionarAsignacion();
         cargarTablaAsignacion();
         //limpiarFormAsignacion();

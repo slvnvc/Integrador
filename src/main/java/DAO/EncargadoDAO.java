@@ -52,7 +52,7 @@ public class EncargadoDAO {
 
         if (rs.next()) {
             encargado = new Encargado();
-            encargado.setIdEncargado(id); // Assuming the ID column is ID_Encargado
+            encargado.setIdEncargado(id); 
             encargado.setNombre(rs.getString("Nombre"));
             encargado.setTelefono(rs.getString("Telefono"));
             encargado.setCorreo(rs.getString("Correo"));

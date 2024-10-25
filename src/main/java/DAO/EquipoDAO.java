@@ -88,6 +88,15 @@ public class EquipoDAO {
     }
     return idEquipo;
 }
+    //actualizar al presionar btn asignar equipo
+    public void actualizarEstadoE(int idEquipo, String nuevoEstado) throws SQLException {
+    String query = "UPDATE equipo SET Estado = ? WHERE ID_Equipo = ?";
+    try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        stmt.setString(1, nuevoEstado);
+        stmt.setInt(2, idEquipo);
+        stmt.executeUpdate();
+    }
+}
 
     public void eliminarEquipo(int idEquipo) throws SQLException {
         String query = "DELETE FROM equipo WHERE id_equipo = ?";

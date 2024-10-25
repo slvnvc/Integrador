@@ -32,6 +32,10 @@ public class EquipoControlador {
         return equipoDAO.obtenerIdEquipoPorNombre(nombreEquipo);
     }
     
+    public void actualizarEstadoEquipo(int idEquipo, String nuevoEstado) throws SQLException {
+        equipoDAO.actualizarEstadoE(idEquipo, nuevoEstado);
+    }
+    
     public void eliminarEquipo(int idEquipo) throws SQLException {  
         equipoDAO.eliminarEquipo(idEquipo);
     }
