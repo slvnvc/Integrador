@@ -5,9 +5,13 @@
 package Vista;
 
 import Controlador.OrdenAsignacionControlador;
+import Controlador.OrdenCompraControlador;
+import Controlador.ProveedorControlador;
 import Controlador.TrabajadorControlador;
 import Modelo.Equipo;
 import Modelo.OrdenAsignacion;
+import Modelo.OrdenCompra;
+import Modelo.Proveedor;
 import Modelo.Trabajador;
 import controlador.EquipoControlador;
 import java.sql.SQLException;
@@ -148,7 +152,7 @@ public class Principal extends javax.swing.JFrame {
         txtSerie.setText("");
         txtEstado.setText("");
     }
-
+//carga de los combo box//
        // cargar los equipos disponibles en el Cmb
     public void cargarEquiposDisponibles() {
         EquipoControlador equipoControlador = new EquipoControlador();
@@ -188,7 +192,82 @@ public class Principal extends javax.swing.JFrame {
            
         }
     }
+    //COMBO BOX
+    private void cargarProveedores() {
+    ProveedorControlador proveedorControlador = new ProveedorControlador();
+    try {
+        List<Proveedor> proveedores = proveedorControlador.obtenerTodosLosProveedores();
+        cmbProveedores.removeAllItems(); // Limpiar el combo antes de llenarlo
+
+        for (Proveedor proveedor : proveedores) {
+            cmbProveedores.addItem(proveedor.getNombre()); // Llenar combo de proveedores
+        }
+        
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al cargar los proveedores.");
+    }
+}
+
+private void cargarProducto() {
+    ProveedorControlador proveedorControlador = new ProveedorControlador();
     
+    // para que provedores no sea nulo y tenga un elemento selecionado por defecto
+    if (cmbProveedores.getSelectedItem() == null) {
+        lblProducto.setText(""); // limpiar lbl si no hay proveedor seleccionado
+        return; 
+    }
+    
+    try {
+        // obtengo el id del proveedor seleccionado
+        String proveedorSeleccionado = cmbProveedores.getSelectedItem().toString();
+        int idProveedor = proveedorControlador.obtenerIdProveedorPorNombre(proveedorSeleccionado);
+
+        //cada provedor provee un tipo de producto 
+        String producto = proveedorControlador.obtenerProductosPorProveedor(idProveedor); 
+
+        // rellena lbl 
+        lblProducto.setText(producto); 
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al cargar el producto.");
+    }
+}
+
+//------------
+    private void limpiarFormularioOC() {
+    txtFechadeOrden.setText("");
+    txtMonto.setText("");
+    cmbProveedores.setSelectedIndex(-1);
+    lblProducto.setText(""); 
+}
+
+private void cargarTablaOrdenCompra() {
+    DefaultTableModel modeloTabla = (DefaultTableModel) tblOrdenC.getModel();
+    modeloTabla.setRowCount(0); // limpio la tbl antes de cargar nuevos datos
+
+    OrdenCompraControlador controlador = new OrdenCompraControlador();
+    ProveedorControlador proveedorControlador = new ProveedorControlador(); // Asegúrate de tener esto
+    try {
+        List<OrdenCompra> ordenes = controlador.obtenerTodasLasOrdenes();
+
+        for (OrdenCompra orden : ordenes) {
+            // obtengo el nombre del proveedor usando su ID
+            String nombreProveedor = proveedorControlador.obtenerProveedorPorId(orden.getIdProveedor());
+
+            Object[] fila = {
+                orden.getFechaOrden(),
+                nombreProveedor,  
+                orden.getNombreProducto(), //modelo
+                orden.getMontoTotal()
+            };
+            modeloTabla.addRow(fila);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al cargar las órdenes de compra desde la base de datos.");
+    }
+}
 
     public void gestionarAsignacion() {
     try {
@@ -309,11 +388,11 @@ public class Principal extends javax.swing.JFrame {
         txtMonto = new javax.swing.JTextField();
         txtFechadeOrden = new javax.swing.JTextField();
         cmbProveedores = new javax.swing.JComboBox<>();
-        cmbProducto = new javax.swing.JComboBox<>();
         btnGuardarOC = new javax.swing.JButton();
         jScrollPane7 = new javax.swing.JScrollPane();
         tblOrdenC = new javax.swing.JTable();
         btnVerOrdenC = new javax.swing.JButton();
+        lblProducto = new javax.swing.JLabel();
         PSalida = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
@@ -648,6 +727,12 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        cmbProveedores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbProveedoresActionPerformed(evt);
+            }
+        });
+
         btnGuardarOC.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnGuardarOC.setText("Guardar Orden de compra");
         btnGuardarOC.addActionListener(new java.awt.event.ActionListener() {
@@ -698,7 +783,7 @@ public class Principal extends javax.swing.JFrame {
                             .addComponent(txtMonto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
                             .addComponent(txtFechadeOrden, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
                             .addComponent(cmbProveedores, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cmbProducto, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(lblProducto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGap(85, 85, 85)
                         .addComponent(btnGuardarOC)))
@@ -711,9 +796,7 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel23)
-                        .addComponent(cmbProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel23)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel19)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -726,7 +809,8 @@ public class Principal extends javax.swing.JFrame {
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel21)
                             .addComponent(cmbProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(40, 40, 40)))
+                        .addGap(18, 18, 18)
+                        .addComponent(lblProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel22)
@@ -1610,6 +1694,12 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompraActionPerformed
        jTabbedPane1.setSelectedIndex(1);
+       
+       cargarProveedores();
+       lblProducto.setText("");
+       //cargarProducto();
+       //limpiarFormularioOC();
+       cargarTablaOrdenCompra();
     }//GEN-LAST:event_btnCompraActionPerformed
 
     private void btnSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalidaActionPerformed
@@ -1740,7 +1830,51 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFechadeOrdenActionPerformed
 
     private void btnGuardarOCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarOCActionPerformed
-        // TODO add your handling code here:
+         try {
+        // verificar que proveedor y producto esten seleccionados
+        if (cmbProveedores.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un proveedor.");
+            return;
+        }
+
+        if (lblProducto.getText().isEmpty()) { 
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un producto.");
+            return;
+        }
+
+        // recopilacion de datos 
+        String fechaOrden = txtFechadeOrden.getText();
+        String montoTotal = txtMonto.getText();
+        String proveedorSeleccionado = cmbProveedores.getSelectedItem().toString();
+        String productoSeleccionado = lblProducto.getText();
+
+        // validaciones
+        if (fechaOrden.isEmpty() || montoTotal.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor complete todos los campos antes de guardar.");
+            return;
+        }
+
+        // obtener id del proveedor
+        ProveedorControlador proveedorControlador = new ProveedorControlador();
+        int idProveedor = proveedorControlador.obtenerIdProveedorPorNombre(proveedorSeleccionado);
+
+        //crear nueva orden en la bd
+        OrdenCompra nuevaOrden = new OrdenCompra(idProveedor, fechaOrden, Double.parseDouble(montoTotal), productoSeleccionado);
+
+        // uso del controlador
+        OrdenCompraControlador controlador = new OrdenCompraControlador();
+        controlador.agregarOrdenCompra(nuevaOrden);
+
+        JOptionPane.showMessageDialog(null, "Orden de compra guardada exitosamente.");
+
+        //cargo la tabla y limpio campos
+        cargarTablaOrdenCompra(); 
+        limpiarFormularioOC();
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al guardar la orden de compra en la base de datos.");
+    }
+
     }//GEN-LAST:event_btnGuardarOCActionPerformed
 
     private void btnGuardarOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarOSActionPerformed
@@ -1795,6 +1929,10 @@ public class Principal extends javax.swing.JFrame {
        jTabbedPane1.setSelectedIndex(0);
         cargarTablaI();
     }//GEN-LAST:event_btnVolverr1ActionPerformed
+
+    private void cmbProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbProveedoresActionPerformed
+        cargarProducto(); //que se carguen los productos cada que se muestre el combo box
+    }//GEN-LAST:event_cmbProveedoresActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1862,7 +2000,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnVolverr;
     private javax.swing.JButton btnVolverr1;
     private javax.swing.JComboBox<String> cmbEquipo;
-    private javax.swing.JComboBox<String> cmbProducto;
     private javax.swing.JComboBox<String> cmbProveedores;
     private javax.swing.JComboBox<String> cmbTrabajador;
     private javax.swing.JLabel jLabel1;
@@ -1931,6 +2068,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jtxtComentarios;
     private javax.swing.JTextArea jtxtMotivo;
+    private javax.swing.JLabel lblProducto;
     private javax.swing.JTable tblAsignacion;
     private javax.swing.JTable tblEquipos;
     private javax.swing.JTable tblEquipos1;

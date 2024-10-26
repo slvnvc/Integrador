@@ -1,6 +1,8 @@
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Conexion\Conectar.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Modelo\Trabajador.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Controlador\TrabajadorControlador.java
+C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\DAO\OrdenCompraDAO.java
+C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Controlador\OrdenCompraControlador.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\DAO\OrdenAsignacionDAO.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\DAO\TrabajadorDAO.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\DAO\EquipoDAO.java
@@ -10,8 +12,10 @@ C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\j
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Vista\Login.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Modelo\Equipo.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Controlador\EquipoControlador.java
+C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Controlador\ProveedorControlador.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Modelo\Encargado.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\DAO\EncargadoDAO.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Modelo\OrdenAsignacion.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Vista\Principal.java
+C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\DAO\ProveedorDAO.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Vista\Main.java

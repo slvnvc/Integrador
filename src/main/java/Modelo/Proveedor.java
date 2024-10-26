@@ -10,15 +10,17 @@ package Modelo;
  */
 public class Proveedor {
      private int idProveedor;
-    private String Nombre;
-    private String Telefono;
-    private String Direccion;
+    private String nombre;
+    private String producto;
+    private String telefono;
+    private String direccion;
 
-    public Proveedor(int idProveedor, String Nombre, String Telefono, String Direccion) {
+    public Proveedor(int idProveedor, String nombre, String producto, String telefono, String direccion) {
         this.idProveedor = idProveedor;
-        this.Nombre = Nombre;
-        this.Telefono = Telefono;
-        this.Direccion = Direccion;
+        this.nombre = nombre;
+        this.producto = producto;
+        this.telefono = telefono;
+        this.direccion = direccion;
     }
 
     public int getIdProveedor() {
@@ -30,28 +32,37 @@ public class Proveedor {
     }
 
     public String getNombre() {
-        return Nombre;
+        return nombre;
     }
 
-    public void setNombre(String Nombre) {
-        this.Nombre = Nombre;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getProducto() {
+        return producto;
+    }
+
+    public void setProducto(String producto) {
+        this.producto = producto;
     }
 
     public String getTelefono() {
-        return Telefono;
+        return telefono;
     }
 
-    public void setTelefono(String Telefono) {
-        this.Telefono = Telefono;
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public String getDireccion() {
-        return Direccion;
+        return direccion;
     }
 
-    public void setDireccion(String Direccion) {
-        this.Direccion = Direccion;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
+
     
     
 }
