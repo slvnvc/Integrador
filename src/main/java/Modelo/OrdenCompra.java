@@ -51,6 +51,6 @@ public class OrdenCompra {
     }
 
     public String getNombreProducto() {
-        return this.producto; // metood para devolver el nombre del producto (String)
+        return this.producto; // para devolver el nombre del producto (String)
     }
 }

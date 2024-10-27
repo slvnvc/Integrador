@@ -14,7 +14,7 @@ public class EquipoDAO {
         }
     
 
-    // Método para insertar un equipo
+    // metodo para insertar un equipo
     public void insertarEquipo(Equipo equipo) throws SQLException {
         String query = "INSERT INTO equipo (Nombre, Marca, Categoria, Modelo, NumeroSerie, CodigoInventario, Estado) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -52,7 +52,7 @@ public class EquipoDAO {
         return equipos;
     }
 
-    // Metodo para obtener los equipos con estado 'disponible'
+    // metodo para obtener los equipos con estado 'disponible'
     public List<Equipo> obtenerEquiposDisponibles() throws SQLException {
     String query = "SELECT * FROM equipo WHERE LOWER(Estado) = 'disponible'";
     List<Equipo> equiposDisponibles = new ArrayList<>();
@@ -123,7 +123,7 @@ public class EquipoDAO {
         }
     }
 
-    // Método para obtener un equipo por su ID
+    // metodo para obtener un equipo por su ID
     public Equipo obtenerEquipoPorId(int idEquipo) throws SQLException {
         String query = "SELECT * FROM equipo WHERE IdEquipo = ?";
         Equipo equipo = null;

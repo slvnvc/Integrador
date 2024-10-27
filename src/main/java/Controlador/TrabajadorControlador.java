@@ -16,7 +16,7 @@ import java.util.List;
 public class TrabajadorControlador {
     private TrabajadorDAO trabajadorDAO;
 
-    // Constructor
+    //Constructor
     public TrabajadorControlador() {
         trabajadorDAO = new TrabajadorDAO();
     }

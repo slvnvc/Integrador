@@ -13,7 +13,7 @@ public class Trabajador {
     private String Nombre;
     private String Telefono;
     private String Correo;
-    private String DNI;//la fk
+    private String DNI;// fk
 
     public Trabajador(int idTrabajador, String Nombre, String Telefono, String Correo, String DNI) {
         this.idTrabajador = idTrabajador;

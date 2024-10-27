@@ -9,15 +9,14 @@ package Modelo;
  * @author Silvana Villanueva
  */
 public class OrdenAsignacion {
-     private int idOrdenAsignacion;
+    private int idOrdenAsignacion;
     private int idEquipo;  // fk
     private int idTrabajador;  //fk
     private String fechaAsignacion;
     private String area;
-    private String nombreTrabajador; // atributo que me dara el nombre en string
-    private String nombreEquipo;      //x2
+    private String nombreTrabajador; 
+    private String nombreEquipo;      
 
-    // constructor completo
     public OrdenAsignacion(int idOrdenAsignacion, int idEquipo, int idTrabajador, String fechaAsignacion, String area, String nombreTrabajador, String nombreEquipo) {
         this.idOrdenAsignacion = idOrdenAsignacion;
         this.idEquipo = idEquipo;
@@ -28,7 +27,7 @@ public class OrdenAsignacion {
         this.nombreEquipo = nombreEquipo;       
     }
 
-    // sin id 
+    // constructor sin id 
     public OrdenAsignacion(int idEquipo, int idTrabajador, String fechaAsignacion, String area) {
         this.idEquipo = idEquipo;
         this.idTrabajador = idTrabajador;

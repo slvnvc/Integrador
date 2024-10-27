@@ -22,8 +22,7 @@ public class Equipo {
         this.codigoInventario = codigoInventario;
         this.estado = estado;
     }
-
-    // Getters,Setters
+    
     public int getIdEquipo() { 
         return idEquipo; 
     }

@@ -4,10 +4,7 @@
  */
 package Modelo;
 
-/**
- *
- * @author ANIBAL
- */
+
 public class Encargado {
     
     private int idEncargado;

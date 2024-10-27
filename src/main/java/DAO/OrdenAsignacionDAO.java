@@ -25,7 +25,7 @@ public class OrdenAsignacionDAO {
         this.connection = Conectar.getConexion();
     }
 
-    // METODO para insertar una nueva oa
+    // metodo para insertar una nueva oa
     public void agregarOrdenAsignacion(OrdenAsignacion ordenAsignacion) throws SQLException {
         String query = "INSERT INTO ordenasignacion (ID_Equipo, ID_Trabajador, FechaAsignacion, Area) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -37,7 +37,7 @@ public class OrdenAsignacionDAO {
         }
     }
 
-    // Metodo para obtener todas las oa
+    // metodo para obtener todas las oa
     public List<OrdenAsignacion> obtenerTodasLasOrdenesA() throws SQLException {
     String query = "SELECT oa.*, t.Nombre AS nombreTrabajador, e.Nombre AS nombreEquipo " + 
                    "FROM ordenasignacion oa " +
@@ -55,7 +55,7 @@ public class OrdenAsignacionDAO {
                 rs.getString("FechaAsignacion"),
                 rs.getString("Area"),
                 rs.getString("nombreTrabajador"), //obtener el nombre del trabajador
-                rs.getString("nombreEquipo")      //x2
+                rs.getString("nombreEquipo")      //obtener el nombre del equipo
             );
             listaOrdenes.add(orden);
         }

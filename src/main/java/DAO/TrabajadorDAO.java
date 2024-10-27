@@ -27,7 +27,7 @@ public class TrabajadorDAO {
         }
     
 
-    // Método para agregar un trabajador
+    // Metodo para agregar un trabajador
     public void agregarTrabajador(Trabajador trabajador) throws SQLException {
         String query = "INSERT INTO trabajador (Nombre, Telefono, Correo, DNI) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -58,7 +58,7 @@ public class TrabajadorDAO {
         
         public int obtenerIdTrabajadorPorNombre(String nombreTrabajador) throws SQLException {
     String query = "SELECT ID_Trabajador FROM trabajador WHERE Nombre = ?";
-    int idTrabajador = -1;  // Valor por defecto en caso de que no se encuentre
+    int idTrabajador = -1;  // valor por defecto por si no se encuentra
 
     try (PreparedStatement stmt = connection.prepareStatement(query)) {
         stmt.setString(1, nombreTrabajador);

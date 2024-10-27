@@ -9,7 +9,7 @@ package Modelo;
  * @author Silvana Villanueva
  */
 public class Proveedor {
-     private int idProveedor;
+    private int idProveedor;
     private String nombre;
     private String producto;
     private String telefono;
