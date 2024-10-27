@@ -8,6 +8,7 @@ import Controlador.OrdenAsignacionControlador;
 import Controlador.OrdenCompraControlador;
 import Controlador.ProveedorControlador;
 import Controlador.TrabajadorControlador;
+import Modelo.Encargado;
 import Modelo.Equipo;
 import Modelo.OrdenAsignacion;
 import Modelo.OrdenCompra;
@@ -29,6 +30,8 @@ public class Principal extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
+    private Encargado encargado;
+    
     public Principal() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -91,7 +94,20 @@ public class Principal extends javax.swing.JFrame {
             }
     }
     
-    
+     //para mencionar el nombre de la persona que inicia sesion
+     public Encargado getEncargado() {
+        return encargado;
+    }
+
+    public void setEncargado(Encargado encargado) {
+        this.encargado = encargado;
+    }
+
+    public void cargarEncargado() {
+        
+        lblSaludo.setText("Te damos la bienvenida \n" + encargado.getNombre());
+
+    }
     
     private void actualizarTabla() {
     try {
@@ -364,7 +380,7 @@ private void cargarTablaOrdenCompra() {
         btnRemision = new javax.swing.JButton();
         btnCS = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblSaludo = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btnNotificaciones = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -531,9 +547,8 @@ private void cargarTablaOrdenCompra() {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logoo.png"))); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel2.setText("Bienvenid@");
+        lblSaludo.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
+        lblSaludo.setForeground(new java.awt.Color(204, 204, 204));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(204, 204, 204));
@@ -562,11 +577,12 @@ private void cargarTablaOrdenCompra() {
                         .addGap(31, 31, 31)
                         .addComponent(btnSalida)
                         .addGap(31, 31, 31)
-                        .addComponent(btnRemision))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(115, 115, 115)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(21, 21, 21)
+                        .addComponent(btnRemision)
+                        .addGap(21, 21, 21))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblSaludo, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnCS)
                     .addComponent(btnNotificaciones))
@@ -586,9 +602,9 @@ private void cargarTablaOrdenCompra() {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(btnNotificaciones))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnNotificaciones)
+                            .addComponent(lblSaludo, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(40, 40, 40)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnInventario)
@@ -2013,7 +2029,6 @@ private void cargarTablaOrdenCompra() {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -2069,6 +2084,7 @@ private void cargarTablaOrdenCompra() {
     private javax.swing.JTextArea jtxtComentarios;
     private javax.swing.JTextArea jtxtMotivo;
     private javax.swing.JLabel lblProducto;
+    private javax.swing.JLabel lblSaludo;
     private javax.swing.JTable tblAsignacion;
     private javax.swing.JTable tblEquipos;
     private javax.swing.JTable tblEquipos1;

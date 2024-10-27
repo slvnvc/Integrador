@@ -145,7 +145,10 @@ public class Login extends javax.swing.JFrame {
           usuario_valido.setIdEncargado(encargado.getIdEncargado());
                           
           Principal princi = new Principal();
-          princi.setVisible(true);
+          
+          princi.setVisible(true); //hacer visible la interfaz
+          princi.setEncargado(usuario_valido); //mandarle el nombre del encargado que incia sesion
+          princi.cargarEncargado(); //metodo para saludar al encargado
           princi.setLocationRelativeTo(null);
           this.dispose();
             }
