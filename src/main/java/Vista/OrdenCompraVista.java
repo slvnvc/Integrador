@@ -26,7 +26,7 @@ public class OrdenCompraVista extends javax.swing.JFrame {
     public void actualizarDatos(OrdenCompra oc) {
         if (oc != null) {
             lblFechadeOrden.setText(oc.getFechaOrden());
-            lblProveedor.setText(""+oc.getProveedor()); // Aquí puedes reemplazar por el nombre del proveedor si tienes la lógica para eso
+            lblProveedor.setText(""+oc.getProveedor()); 
             lblProducto.setText(oc.getProducto());
             lblMontoTotal.setText(""+oc.getMontoTotal());
     }}

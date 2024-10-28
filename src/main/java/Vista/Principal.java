@@ -1957,48 +1957,23 @@ private void cargarTablaOrdenCompra() {
     }//GEN-LAST:event_cmbProveedoresActionPerformed
 
     private void btnVerOrdenCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerOrdenCActionPerformed
-//         // Verificar si hay una fila seleccionada
-//    int filaSeleccionada = tblOrdenC.getSelectedRow(); // Obtiene la fila seleccionada
-//
-//    if (filaSeleccionada == -1) {
-//        // Si no hay fila seleccionada, mostrar mensaje
-//        JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila.");
-//        return; // Salir del método
-//    }
-//
-//    // Obtener los datos de la fila seleccionada
-//    String fechaOrden = tblOrdenC.getValueAt(filaSeleccionada, 0).toString();
-//    String proveedor = tblOrdenC.getValueAt(filaSeleccionada, 1).toString();
-//    String producto = tblOrdenC.getValueAt(filaSeleccionada, 2).toString();
-//    String montoTotal = tblOrdenC.getValueAt(filaSeleccionada, 3).toString();
-//
-//    // Crear el mensaje para mostrar en el JOptionPane
-//    String mensaje = "Orden de compra:\n" +
-//                     "Fecha de Orden: " + fechaOrden + "\n" +
-//                     "Proveedor: " + proveedor + "\n" +
-//                     "Producto: " + producto + "\n" +
-//                     "Monto Total: " + montoTotal;
-//
-//    // Mostrar el mensaje en un JOptionPane
-//    JOptionPane.showMessageDialog(null, mensaje, "Orden de compra", JOptionPane.INFORMATION_MESSAGE);
-//}int filaSeleccionada = tblOrdenC.getSelectedRow();
- int filaSeleccionada = tblOrdenC.getSelectedRow(); // Obtiene la fila seleccionada
+     int filaSeleccionada = tblOrdenC.getSelectedRow(); //fila seleccionada
 
         if (filaSeleccionada == -1) {
-            // Si no hay fila seleccionada, mostrar mensaje
+            // si no hay fila seleccionada, mostrar mensaje
             JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila.");
-            return; // Salir del método
+            return; // salir para que pueda seleccioanr 
         }
 
-        // Obtener los datos de la fila seleccionada
+        // obtener los datos de la fila seleccionada
         String fechaOrden = tblOrdenC.getValueAt(filaSeleccionada, 0).toString();
         String proveedor = tblOrdenC.getValueAt(filaSeleccionada, 1).toString();
         String producto = tblOrdenC.getValueAt(filaSeleccionada, 2).toString();
         String montoTotal = tblOrdenC.getValueAt(filaSeleccionada, 3).toString();
 
-        // Crear una nueva instancia de OrdenCompra con los datos seleccionados
+        // para crear una nueva instancia de OrdenCompra con los datos del contructor
         OrdenCompra ordenCompra = new OrdenCompra(filaSeleccionada, proveedor,fechaOrden, Double.parseDouble(montoTotal), producto);
-        // Crear y mostrar el diálogo
+        // abro pantalla
         OrdenCompraVista ordenCompraVista = new OrdenCompraVista(ordenCompra);
         ordenCompraVista.setVisible(true);
     
