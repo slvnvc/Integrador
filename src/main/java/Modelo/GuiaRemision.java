@@ -12,20 +12,28 @@ public class GuiaRemision {
     private int idGuiaRemision;
     private int idOrdenCompra;
     private int idProveedor;
-    private String fechaOrdenCompra; // Fecha de la orden de compra (para mostrar en la interfaz)
+    private String fechaOrdenCompra; 
     private String nombreProveedor;
     private String fechaRecepcion;
     private String comentarios; 
 
-    
-    // Constructor para insertar una nueva guía de remisión
+    //constructor usado en la vista
+    public GuiaRemision(int idOrdenCompra, String fechaOrdenCompra, String nombreProveedor, String fechaRecepcion, String comentarios) {
+        this.idOrdenCompra = idOrdenCompra;
+        this.fechaOrdenCompra = fechaOrdenCompra;
+        this.nombreProveedor = nombreProveedor;
+        this.fechaRecepcion = fechaRecepcion;
+        this.comentarios = comentarios;
+    }
+
+   // constructor para insertar una nueva guía de remisión en la bd
     public GuiaRemision(int idOrdenCompra, int idProveedor, String fechaRecepcion, String comentarios) {
         this.idOrdenCompra = idOrdenCompra;
         this.idProveedor = idProveedor;
         this.fechaRecepcion = fechaRecepcion;
         this.comentarios = comentarios;
     }
-    // Constructor completo para obtener datos desde la BD con JOIN
+    // constructor completo para obtener datos desde la BD con JOIN
     public GuiaRemision(int idGuiaRemision, int idOrdenCompra, String fechaOrdenCompra, String nombreProveedor, String fechaRecepcion, String comentarios) {
         this.idGuiaRemision = idGuiaRemision;
         this.idOrdenCompra = idOrdenCompra;
@@ -34,6 +42,8 @@ public class GuiaRemision {
         this.fechaRecepcion = fechaRecepcion;
         this.comentarios = comentarios;
     }
+    
+    //constructor vacio para la vista
     public GuiaRemision() {
     }
     public int getIdGuiaRemision() {

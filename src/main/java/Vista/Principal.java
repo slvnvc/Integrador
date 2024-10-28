@@ -527,13 +527,13 @@ private void cargarTablaOrdenCompra() {
     //GUIA REMISION
     public void gestionarGuiaRemision() {
     try {
-        // Verificar que se haya seleccionado una orden de compra
+        //verificar seleccion
         if (cmbOrdenCompra.getSelectedItem() == null) {
             JOptionPane.showMessageDialog(null, "Debe seleccionar una orden de compra.");
             return;
         }
 
-        // Verificar que los campos de fecha de recepción y comentarios no estén vacíos
+        // verificacion de los campos
         String fechaRecepcion = txtFecharecepcion.getText();
         String comentarios = jtxtComentarios.getText();
 
@@ -542,27 +542,27 @@ private void cargarTablaOrdenCompra() {
             return;
         }
 
-        // Obtener ID de la orden de compra seleccionada
+        // obtener ID de la orden de compra seleccionada
         String selectedText = (String) cmbOrdenCompra.getSelectedItem();
         int idOrdenCompra = Integer.parseInt(selectedText.replace("Orden N°: ", "").trim());
 
-        // Obtener ID del proveedor en base a la orden de compra seleccionada
+        // obtenr ID del proveedor en base a la orden de compra seleccionada
         OrdenCompraControlador ordenCompraControlador = new OrdenCompraControlador();
         int idProveedor = ordenCompraControlador.obtenerIdProveedorPorOrden(idOrdenCompra);
 
-        // Crear la nueva guía de remisión con idProveedor incluido
+        // crear la guiaremision con idProveedor incluido
         GuiaRemision nuevaGuia = new GuiaRemision(idOrdenCompra, idProveedor, fechaRecepcion, comentarios);
 
-        // Guardar la guía de remisión en la base de datos
+        // guardar en la base de datos
         GuiaRemisionControlador controlador = new GuiaRemisionControlador();
         controlador.agregarGuiaRemision(nuevaGuia);
 
         JOptionPane.showMessageDialog(null, "Guía de remisión guardada exitosamente.");
 
-        // Actualizar la tabla en la interfaz
+        //actualizar la tabla
         cargarTablaGuiaRemision();
 
-        // Limpiar el formulario después de guardar
+        //limpiar campos
         limpiarFormularioGuiaRemision();
 
     } catch (SQLException e) {
@@ -2195,7 +2195,29 @@ private void cargarTablaOrdenCompra() {
     }//GEN-LAST:event_btnGuardarGuiaRActionPerformed
 
     private void btnVerGuiaRemisionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerGuiaRemisionActionPerformed
-        // TODO add your handling code here:
+        int filaSeleccionada = tblGuiaRemision.getSelectedRow(); // Fila seleccionada
+
+    if (filaSeleccionada == -1) {
+        // Si no hay fila seleccionada, mostrar mensaje
+        JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila.");
+        return; // Salir para que pueda seleccionar
+    }
+
+    // Obtener los datos de la fila seleccionada
+    //int idGuia = Integer.parseInt(tblGuiaRemision.getValueAt(filaSeleccionada, 0).toString());
+    int idOrdenCompra = Integer.parseInt(tblGuiaRemision.getValueAt(filaSeleccionada, 0).toString());
+    String fechaOrdenCompra = tblGuiaRemision.getValueAt(filaSeleccionada, 1).toString();
+    String nombreProveedor = tblGuiaRemision.getValueAt(filaSeleccionada, 2).toString();
+    String fechaRecepcion = tblGuiaRemision.getValueAt(filaSeleccionada, 3).toString();
+    String comentarios = tblGuiaRemision.getValueAt(filaSeleccionada, 4).toString();
+
+    // Crear una nueva instancia de GuiaRemision con los datos del constructor
+    GuiaRemision guiaRemision = new GuiaRemision(idOrdenCompra, fechaOrdenCompra, nombreProveedor, fechaRecepcion, comentarios);
+
+    // Abrir pantalla de visualización de guía de remisión
+    GuiaRemisionVista guiaRemisionVista = new GuiaRemisionVista(guiaRemision);
+    guiaRemisionVista.setVisible(true);
+    guiaRemisionVista.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnVerGuiaRemisionActionPerformed
 
     private void btnNotificacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificacionesActionPerformed

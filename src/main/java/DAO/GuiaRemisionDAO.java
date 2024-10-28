@@ -22,10 +22,10 @@ public class GuiaRemisionDAO {
     private Connection connection;
 
     public GuiaRemisionDAO() {
-        this.connection = Conectar.getConexion(); // Inicializa la conexión
+        this.connection = Conectar.getConexion(); //se inicia la conexion
     }
 
-    // Método para insertar una nueva guía de remisión
+    // metodo para insertar una nueva guía de remisión
    public void agregarGuiaRemision(GuiaRemision guia) throws SQLException {
     String query = "INSERT INTO guiaremision (ID_OrdenCompra, ID_Proveedor, FechaRecepcion, Comentarios) VALUES (?, ?, ?, ?)";
     try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -37,7 +37,7 @@ public class GuiaRemisionDAO {
     }
     }
 
-    // Método para obtener todas las guías de remisión con información adicional (JOIN)
+    // metodo para obtener todas las guías de remisión con información adicional (JOIN)
     public List<GuiaRemision> obtenerTodasLasGuiasRemision() throws SQLException {
         List<GuiaRemision> guias = new ArrayList<>();
         String query = "SELECT g.ID_Guia, g.ID_OrdenCompra, oc.FechaOrden AS FechaOrdenCompra, p.Nombre AS NombreProveedor, " +
