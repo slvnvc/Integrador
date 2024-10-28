@@ -137,7 +137,7 @@ public class Principal extends javax.swing.JFrame {
     }
     
     private void actualizarTablaTrabajadores() {
-    try {
+    try { //crear instancia de trabjador controlador
         TrabajadorControlador trabajadorControlador = new TrabajadorControlador();
         List<Trabajador> listaTrabajadores = trabajadorControlador.obtenerTrabajadores();
         
