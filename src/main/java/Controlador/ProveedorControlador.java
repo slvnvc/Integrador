@@ -50,5 +50,19 @@ public class ProveedorControlador {
     public String obtenerNombreProveedorPorEquipo(int idEquipo)throws SQLException {
     return proveedorDAO.obtenerNombreProveedorPorEquipo(idEquipo);
     }
-    
+    // categoria 
+    // Método para obtener las categorías únicas (productos)
+    public List<String> obtenerCategorias() throws SQLException {
+        return proveedorDAO.obtenerCategorias();
+    }
+
+    // Método para obtener el nombre del proveedor por categoría
+    public String obtenerProveedorPorCategoria(String categoria) throws SQLException {
+        return proveedorDAO.obtenerProveedorPorCategoria(categoria);
+    }
+
+    // Método para obtener el ID del proveedor por categoría
+    public int obtenerIdProveedorPorCategoria(String categoria) throws SQLException {
+        return proveedorDAO.obtenerIdProveedorPorCategoria(categoria);
+    }
 }

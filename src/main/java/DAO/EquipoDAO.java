@@ -16,7 +16,7 @@ public class EquipoDAO {
 
     // metodo para insertar un equipo
     public void insertarEquipo(Equipo equipo) throws SQLException {
-        String query = "INSERT INTO equipo (Nombre, Marca, Categoria, Modelo, NumeroSerie, CodigoInventario, Estado) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO equipo (Nombre, Marca, Categoria, Modelo, NumeroSerie, CodigoInventario, Estado, ID_Proveedor) VALUES (?, ?, ?, ?, ?, ?, ?,?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, equipo.getNombre());
             stmt.setString(2, equipo.getMarca());
@@ -25,32 +25,60 @@ public class EquipoDAO {
             stmt.setString(5, equipo.getNumeroSerie());
             stmt.setString(6, equipo.getCodigoInventario());
             stmt.setString(7, equipo.getEstado());
+            stmt.setInt(8, equipo.getIdProveedor());
             stmt.executeUpdate();
         }
     }
 
     
-    public List<Equipo> obtenerTodosLosEquipos() throws SQLException {
-        String query = "SELECT * FROM equipo";
-        List<Equipo> equipos = new ArrayList<>();
-        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
-            while (rs.next()) {
-                Equipo equipo = new Equipo(
-                        /*rs.getInt("IdEquipo"),*/
-                        rs.getInt("id_equipo"),
-                        rs.getString("Nombre"),
-                        rs.getString("Marca"),
-                        rs.getString("Categoria"),
-                        rs.getString("Modelo"),
-                        rs.getString("NumeroSerie"),
-                        rs.getString("CodigoInventario"),
-                        rs.getString("Estado")
-                );
-                equipos.add(equipo);
-            }
+//    public List<Equipo> obtenerTodosLosEquipos() throws SQLException {
+//        String query = "SELECT * FROM equipo";
+//        List<Equipo> equipos = new ArrayList<>();
+//        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+//            while (rs.next()) {
+//                Equipo equipo = new Equipo(
+//                        /*rs.getInt("IdEquipo"),*/
+//                        rs.getInt("id_equipo"),
+//                        rs.getString("Nombre"),
+//                        rs.getString("Marca"),
+//                        rs.getString("Categoria"),
+//                        rs.getString("Modelo"),
+//                        rs.getString("NumeroSerie"),
+//                        rs.getString("CodigoInventario"),
+//                        rs.getString("Estado")
+//                );
+//                equipos.add(equipo);
+//            }
+//        }
+//        return equipos;
+//    }
+    public List<Equipo> obtenerTodosLosEquipos() throws SQLException { 
+    String query = "SELECT e.*, p.nombre AS proveedor_nombre " +
+                   "FROM equipo e " +
+                   "JOIN proveedor p ON e.ID_Proveedor = p.ID_Proveedor";
+    
+    List<Equipo> equipos = new ArrayList<>();
+    try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+        while (rs.next()) {
+            Equipo equipo = new Equipo(
+                rs.getInt("id_equipo"),
+                rs.getString("Nombre"),
+                rs.getString("Marca"),
+                rs.getString("Categoria"),
+                rs.getString("Modelo"),
+                rs.getString("NumeroSerie"),
+                rs.getString("CodigoInventario"),
+                rs.getString("Estado")
+            );
+
+            // Asigna el nombre del proveedor
+            equipo.setNombreProveedor(rs.getString("proveedor_nombre"));
+            
+            equipos.add(equipo);
         }
-        return equipos;
     }
+    return equipos;
+}
 
     // metodo para obtener los equipos con estado 'disponible'
     public List<Equipo> obtenerEquiposDisponibles() throws SQLException {
@@ -169,6 +197,32 @@ public class EquipoDAO {
     }
     return equiposDisponibles;
     }
+    public List<Equipo> obtenerEquiposConProveedor() throws SQLException {
+    List<Equipo> listaEquipos = new ArrayList<>();
+    String query = "SELECT e.*, p.nombre AS proveedor_nombre " +
+                   "FROM equipo e " +
+                   "JOIN proveedor p ON e.ID_Proveedor = p.ID_Proveedor";
     
+    try (PreparedStatement stmt = connection.prepareStatement(query);
+         ResultSet rs = stmt.executeQuery()) {
+        while (rs.next()) {
+            Equipo equipo = new Equipo(
+                rs.getInt("ID_Equipo"),
+                rs.getString("Nombre"),
+                rs.getString("Marca"),
+                rs.getString("Categoria"),
+                rs.getString("Modelo"),
+                rs.getString("NumeroSerie"),
+                rs.getString("CodigoInventario"),
+                rs.getString("Estado"),
+                rs.getInt("ID_Proveedor")
+            );
+            equipo.setNombreProveedor(rs.getString("proveedor_nombre")); // Agrega el nombre del proveedor
+            listaEquipos.add(equipo);
+        }
+    }
+    return listaEquipos;
+}
+
     
 }

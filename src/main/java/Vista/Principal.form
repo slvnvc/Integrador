@@ -1398,30 +1398,39 @@
                                               <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                                               <Component id="btnRegistrarEquipo" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <Group type="102" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="jLabel5" alignment="0" min="-2" pref="37" max="-2" attributes="0"/>
-                                                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                                      <Component id="jLabel6" alignment="1" min="-2" pref="57" max="-2" attributes="0"/>
-                                                      <Component id="jLabel9" alignment="1" min="-2" pref="56" max="-2" attributes="0"/>
-                                                      <Component id="jLabel10" alignment="1" min="-2" pref="56" max="-2" attributes="0"/>
-                                                      <Component id="jLabel11" alignment="1" min="-2" pref="56" max="-2" attributes="0"/>
-                                                      <Component id="jLabel7" alignment="1" min="-2" pref="56" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Group type="103" groupAlignment="1" attributes="0">
+                                                  <Group type="102" attributes="0">
+                                                      <Group type="103" groupAlignment="0" attributes="0">
+                                                          <Component id="jLabel5" alignment="0" min="-2" pref="37" max="-2" attributes="0"/>
+                                                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                                              <Component id="jLabel6" alignment="1" min="-2" pref="57" max="-2" attributes="0"/>
+                                                              <Component id="jLabel9" alignment="1" min="-2" pref="56" max="-2" attributes="0"/>
+                                                              <Component id="jLabel10" alignment="1" min="-2" pref="56" max="-2" attributes="0"/>
+                                                              <Component id="jLabel11" alignment="1" min="-2" pref="56" max="-2" attributes="0"/>
+                                                              <Component id="jLabel7" alignment="1" min="-2" pref="56" max="-2" attributes="0"/>
+                                                          </Group>
+                                                          <Group type="102" alignment="0" attributes="0">
+                                                              <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+                                                              <Component id="jLabel8" min="-2" pref="77" max="-2" attributes="0"/>
+                                                          </Group>
+                                                      </Group>
+                                                      <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                                                   </Group>
-                                                  <Group type="102" alignment="0" attributes="0">
-                                                      <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-                                                      <Component id="jLabel8" min="-2" pref="77" max="-2" attributes="0"/>
+                                                  <Group type="102" alignment="1" attributes="0">
+                                                      <Component id="jLabel25" min="-2" pref="82" max="-2" attributes="0"/>
+                                                      <EmptySpace type="separate" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
-                                              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="txtCategoria" min="-2" pref="117" max="-2" attributes="0"/>
-                                                  <Component id="txtMarca" min="-2" pref="117" max="-2" attributes="0"/>
-                                                  <Component id="txtCod" min="-2" pref="117" max="-2" attributes="0"/>
-                                                  <Component id="txtModelo" min="-2" pref="117" max="-2" attributes="0"/>
-                                                  <Component id="txtSerie" min="-2" pref="117" max="-2" attributes="0"/>
-                                                  <Component id="txtEstado" min="-2" pref="117" max="-2" attributes="0"/>
-                                                  <Component id="txtNombre" min="-2" pref="117" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                  <Component id="lblProveedorR" max="32767" attributes="0"/>
+                                                  <Component id="txtMarca" pref="117" max="32767" attributes="0"/>
+                                                  <Component id="txtCod" pref="117" max="32767" attributes="0"/>
+                                                  <Component id="txtModelo" pref="117" max="32767" attributes="0"/>
+                                                  <Component id="txtSerie" pref="117" max="32767" attributes="0"/>
+                                                  <Component id="txtEstado" pref="117" max="32767" attributes="0"/>
+                                                  <Component id="txtNombre" pref="117" max="32767" attributes="0"/>
+                                                  <Component id="cmbCategoria" alignment="0" max="32767" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -1442,7 +1451,7 @@
                               <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="txtCod" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1460,7 +1469,7 @@
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="txtCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="cmbCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
@@ -1472,10 +1481,15 @@
                                           <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="txtSerie" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="txtEstado" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Component id="lblProveedorR" min="-2" pref="17" max="-2" attributes="0"/>
+                                          <Component id="jLabel25" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Component id="jScrollPane2" min="-2" pref="285" max="-2" attributes="0"/>
@@ -1567,11 +1581,6 @@
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtMarcaActionPerformed"/>
                       </Events>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="txtCategoria">
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCategoriaActionPerformed"/>
-                      </Events>
-                    </Component>
                     <Component class="javax.swing.JTextField" name="txtNombre">
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNombreActionPerformed"/>
@@ -1610,7 +1619,7 @@
                         <Component class="javax.swing.JTable" name="tblEquipos1">
                           <Properties>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                              <Table columnCount="7" rowCount="4">
+                              <Table columnCount="8" rowCount="4">
                                 <Column editable="true" title="Codigo" type="java.lang.Object"/>
                                 <Column editable="true" title="Nombre" type="java.lang.Object"/>
                                 <Column editable="true" title="Marca" type="java.lang.Object"/>
@@ -1618,10 +1627,16 @@
                                 <Column editable="true" title="Modelo" type="java.lang.Object"/>
                                 <Column editable="true" title="Serie" type="java.lang.Object"/>
                                 <Column editable="true" title="Estado" type="java.lang.Object"/>
+                                <Column editable="true" title="Proveedor" type="java.lang.Object"/>
                               </Table>
                             </Property>
                             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                               <TableColumnModel selectionModel="0">
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
                                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                                   <Title/>
                                   <Editor/>
@@ -1673,6 +1688,29 @@
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnVolverrActionPerformed"/>
                       </Events>
+                    </Component>
+                    <Component class="javax.swing.JComboBox" name="cmbCategoria">
+                      <Properties>
+                        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                          <StringArray count="0"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbCategoriaActionPerformed"/>
+                      </Events>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                      </AuxValues>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="lblProveedorR">
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabel25">
+                      <Properties>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Segoe UI" size="14" style="0"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Proveedor:"/>
+                      </Properties>
                     </Component>
                   </SubComponents>
                 </Container>

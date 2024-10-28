@@ -144,4 +144,44 @@ public class ProveedorDAO {
     return nombreProveedor; 
 }
 
+    // metodo para obtener las categorías (productos) únicas
+    public List<String> obtenerCategorias() throws SQLException {
+        List<String> categorias = new ArrayList<>();
+        String query = "SELECT DISTINCT producto FROM proveedor";
+        try (PreparedStatement stmt = connection.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                categorias.add(rs.getString("producto"));
+            }
+        }
+        return categorias;
+    }
+
+    // metodo para obtener el nombre del proveedor basado en la categoría seleccionada
+    public String obtenerProveedorPorCategoria(String categoria) throws SQLException {
+        String proveedor = null;
+        String query = "SELECT nombre FROM proveedor WHERE producto = ? LIMIT 1";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, categoria);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                proveedor = rs.getString("nombre");
+            }
+        }
+        return proveedor;
+    }
+
+     // metodo para obtener el ID del proveedor seguh la categoria seleccionada
+    public int obtenerIdProveedorPorCategoria(String categoria) throws SQLException {
+        int idProveedor = -1;
+        String query = "SELECT id_proveedor FROM proveedor WHERE producto = ? LIMIT 1";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, categoria);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                idProveedor = rs.getInt("id_proveedor");
+            }
+        }
+        return idProveedor;
+    }
 }

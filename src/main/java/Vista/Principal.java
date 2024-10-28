@@ -46,31 +46,30 @@ public class Principal extends javax.swing.JFrame {
     }
     
     private void cargarTabla() {
-        //carga la tabla previamente en el panel registrar
     try {
         EquipoControlador equipoControlador = new EquipoControlador();
-        List<Equipo> listaEquipos = equipoControlador.obtenerEquipos();
+        List<Equipo> listaEquipos = equipoControlador.obtenerEquiposConProveedor(); // Cambia a obtenerEquiposConProveedor
         
         DefaultTableModel modeloTabla = (DefaultTableModel) tblEquipos1.getModel();
         modeloTabla.setRowCount(0); // Limpiar tabla
 
         for (Equipo equipo : listaEquipos) {
             Object[] fila = {
-                
                 equipo.getCodigoInventario(),
                 equipo.getNombre(),
                 equipo.getMarca(),
                 equipo.getCategoria(),
                 equipo.getModelo(),
                 equipo.getNumeroSerie(),
-                equipo.getEstado()
+                equipo.getEstado(),
+                equipo.getNombreProveedor() // Agrega el nombre del proveedor
             };
             modeloTabla.addRow(fila); // Agregar fila
         }
-        } catch (SQLException ex) {
+    } catch (SQLException ex) {
         ex.printStackTrace();
-            }
     }
+}
     
      private void cargarTablaI() {
         //carga la tabla previamente en el panel registrar
@@ -131,7 +130,8 @@ public class Principal extends javax.swing.JFrame {
                 equipo.getCategoria(),
                 equipo.getModelo(),
                 equipo.getNumeroSerie(),
-                equipo.getEstado()
+                equipo.getEstado(),
+                equipo.getNombreProveedor()
             };
             modeloTabla.addRow(fila); // Agregar fila
         }
@@ -165,13 +165,14 @@ public class Principal extends javax.swing.JFrame {
     }
     
     private void limpiarFormulario() {
-        txtCod.setText("");
+         txtCod.setText("");
         txtNombre.setText("");
         txtMarca.setText("");
-        txtCategoria.setText("");
+        cmbCategoria.setSelectedIndex(-1);  
         txtModelo.setText("");
         txtSerie.setText("");
         txtEstado.setText("");
+        lblProveedor.setText("");
     }
 //carga de los combo box//
        // cargar los equipos disponibles en el Cmb
@@ -289,7 +290,24 @@ public class Principal extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Error al cargar las órdenes de compra.");
     }
 }
+    public void cargarCategorias() {
+    ProveedorControlador proveedorControlador = new ProveedorControlador();
+    
+    try {
+        // Obtener la lista de categorías desde el controlador
+        List<String> categorias = proveedorControlador.obtenerCategorias();
+        
+        cmbCategoria.removeAllItems();  // Limpiar cmbCategoria
 
+        // Llenar cmbCategoria con las categorías
+        for (String categoria : categorias) {
+            cmbCategoria.addItem(categoria);
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al cargar las categorías.");
+    }
+}
 
 //----
 private void cargarProducto() {
@@ -700,7 +718,6 @@ private void cargarTablaOrdenCompra() {
         jLabel11 = new javax.swing.JLabel();
         txtCod = new javax.swing.JTextField();
         txtMarca = new javax.swing.JTextField();
-        txtCategoria = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         txtModelo = new javax.swing.JTextField();
         txtSerie = new javax.swing.JTextField();
@@ -709,6 +726,9 @@ private void cargarTablaOrdenCompra() {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblEquipos1 = new javax.swing.JTable();
         btnVolverr = new javax.swing.JButton();
+        cmbCategoria = new javax.swing.JComboBox<>();
+        lblProveedorR = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
         PAsignar = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -1482,12 +1502,6 @@ private void cargarTablaOrdenCompra() {
             }
         });
 
-        txtCategoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCategoriaActionPerformed(evt);
-            }
-        });
-
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNombreActionPerformed(evt);
@@ -1521,13 +1535,13 @@ private void cargarTablaOrdenCompra() {
 
         tblEquipos1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Codigo", "Nombre", "Marca", "Categoria", "Modelo", "Serie", "Estado"
+                "Codigo", "Nombre", "Marca", "Categoria", "Modelo", "Serie", "Estado", "Proveedor"
             }
         ));
         jScrollPane2.setViewportView(tblEquipos1);
@@ -1538,6 +1552,15 @@ private void cargarTablaOrdenCompra() {
                 btnVolverrActionPerformed(evt);
             }
         });
+
+        cmbCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbCategoriaActionPerformed(evt);
+            }
+        });
+
+        jLabel25.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel25.setText("Proveedor:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -1559,26 +1582,32 @@ private void cargarTablaOrdenCompra() {
                                 .addGap(32, 32, 32)
                                 .addComponent(btnRegistrarEquipo))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(1, 1, 1)
-                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(23, 23, 23)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addGap(1, 1, 1)
+                                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(23, 23, 23))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lblProveedorR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtMarca, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                                    .addComponent(txtCod, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                                    .addComponent(txtModelo, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                                    .addComponent(txtSerie, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                                    .addComponent(txtEstado, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                                    .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                                    .addComponent(cmbCategoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(52, 52, 52))))
@@ -1592,7 +1621,7 @@ private void cargarTablaOrdenCompra() {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
                             .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1607,7 +1636,7 @@ private void cargarTablaOrdenCompra() {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
-                            .addComponent(txtCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cmbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
@@ -1616,10 +1645,14 @@ private void cargarTablaOrdenCompra() {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
                             .addComponent(txtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
-                            .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblProveedorR, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel25)))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -2028,7 +2061,10 @@ private void cargarTablaOrdenCompra() {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
       jTabbedPane1.setSelectedIndex(4);
+       cargarCategorias();
+      cmbCategoria.setSelectedIndex(-1); 
       cargarTabla();
+      limpiarFormulario();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnAsignarEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarEquipoActionPerformed
@@ -2065,10 +2101,6 @@ private void cargarTablaOrdenCompra() {
         //Marca
     }//GEN-LAST:event_txtMarcaActionPerformed
 
-    private void txtCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCategoriaActionPerformed
-        //Categoria 
-    }//GEN-LAST:event_txtCategoriaActionPerformed
-
     private void txtModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtModeloActionPerformed
         //Modelo
     }//GEN-LAST:event_txtModeloActionPerformed
@@ -2082,32 +2114,46 @@ private void cargarTablaOrdenCompra() {
     }//GEN-LAST:event_txtEstadoActionPerformed
 
     private void btnRegistrarEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarEquipoActionPerformed
-        //Boton del Registrar EQUIPO 
-    // Crear un objeto de la clase Equipo con los datos del formulario
-    String nombre = txtNombre.getText();
-    String marca = txtMarca.getText();
-    String categoria = txtCategoria.getText();
-    String modelo = txtModelo.getText();
-    String numeroSerie = txtSerie.getText();
-    String codigoInventario = txtCod.getText();
-    String estado = txtEstado.getText();
+   // Botón para registrar EQUIPO
+// Validación de campos vacíos antes de continuar
+if (txtNombre.getText().isEmpty() || 
+    txtMarca.getText().isEmpty() || 
+    cmbCategoria.getSelectedItem() == null ||
+    txtModelo.getText().isEmpty() || 
+    txtSerie.getText().isEmpty() || 
+    txtCod.getText().isEmpty() || 
+    txtEstado.getText().isEmpty()) {
+    
+    JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos antes de registrar el equipo.");
+    return; // Detiene el proceso si algún campo está vacío
+}
 
-    Equipo nuevoEquipo = new Equipo(0, nombre, marca, categoria, modelo, numeroSerie, codigoInventario, estado);
+// Crear un objeto de la clase Equipo con los datos del formulario
+String nombre = txtNombre.getText();
+String marca = txtMarca.getText();
+String categoria = (String) cmbCategoria.getSelectedItem();
+String modelo = txtModelo.getText();
+String numeroSerie = txtSerie.getText();
+String codigoInventario = txtCod.getText();
+String estado = txtEstado.getText();
 
-    try {
-        // Enviar los datos al controlador para registrarlos en la BD
-        EquipoControlador equipoControlador = new EquipoControlador();
-        equipoControlador.agregarEquipo(nuevoEquipo);
+try {
+    ProveedorControlador proveedorControlador = new ProveedorControlador();
+    int idProveedor = proveedorControlador.obtenerIdProveedorPorCategoria(categoria);
 
-        // Actualizar la tabla después de insertar el equipo
-        actualizarTabla();
-        
-        // Limpiar campos después de registrar el equipo
-        limpiarFormulario();
-        
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-    }
+    Equipo nuevoEquipo = new Equipo(0, nombre, marca, categoria, modelo, numeroSerie, codigoInventario, estado, idProveedor);
+
+    EquipoControlador equipoControlador = new EquipoControlador();
+    equipoControlador.agregarEquipo(nuevoEquipo);
+
+    actualizarTabla();
+    limpiarFormulario();
+    JOptionPane.showMessageDialog(this, "Equipo registrado exitosamente.");
+} catch (SQLException ex) {
+    ex.printStackTrace();
+    JOptionPane.showMessageDialog(this, "Error al registrar el equipo.");
+}
+
     }//GEN-LAST:event_btnRegistrarEquipoActionPerformed
 
     private void btnVerTrabajadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerTrabajadoresActionPerformed
@@ -2319,6 +2365,23 @@ private void cargarTablaOrdenCompra() {
         lblProveedor.setText("");
     }
     }//GEN-LAST:event_cmbOrdenCompraActionPerformed
+
+    private void cmbCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCategoriaActionPerformed
+        String categoriaSeleccionada = (String) cmbCategoria.getSelectedItem();
+
+    try {
+        // Llamar al controlador para obtener el nombre del proveedor
+        ProveedorControlador proveedorControlador = new ProveedorControlador();
+        String proveedor = proveedorControlador.obtenerProveedorPorCategoria(categoriaSeleccionada);
+
+        // Mostrar el nombre del proveedor en el JLabel
+        lblProveedorR.setText(proveedor != null ? proveedor : "");//sin proveedor
+
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al obtener el proveedor para la categoría seleccionada.");
+    }
+    }//GEN-LAST:event_cmbCategoriaActionPerformed
     
 
     /**
@@ -2387,6 +2450,7 @@ private void cargarTablaOrdenCompra() {
     private javax.swing.JButton btnVolver;
     private javax.swing.JButton btnVolverr;
     private javax.swing.JButton btnVolverr1;
+    private javax.swing.JComboBox<String> cmbCategoria;
     private javax.swing.JComboBox<String> cmbEquipo;
     private javax.swing.JComboBox<String> cmbEquiposD;
     private javax.swing.JComboBox<String> cmbNombres;
@@ -2409,6 +2473,7 @@ private void cargarTablaOrdenCompra() {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel29;
@@ -2461,6 +2526,7 @@ private void cargarTablaOrdenCompra() {
     private javax.swing.JLabel lblDestino;
     private javax.swing.JLabel lblFechaOC;
     private javax.swing.JLabel lblProveedor;
+    private javax.swing.JLabel lblProveedorR;
     private javax.swing.JLabel lblSaludo;
     private javax.swing.JTable tblAsignacion;
     private javax.swing.JTable tblEquipos;
@@ -2471,7 +2537,6 @@ private void cargarTablaOrdenCompra() {
     private javax.swing.JTable tblTrabajadores;
     private javax.swing.JTextField txtArea;
     private javax.swing.JTextField txtBuscarTrabajador;
-    private javax.swing.JTextField txtCategoria;
     private javax.swing.JTextField txtCod;
     private javax.swing.JTextField txtEstado;
     private javax.swing.JTextField txtFechaAsignacion;

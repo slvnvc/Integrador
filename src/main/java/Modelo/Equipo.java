@@ -11,7 +11,7 @@ public class Equipo {
     private String codigoInventario;
     private String estado;
     private int idProveedor;
-
+    private String nombreProveedor; 
     //Constructor
     public Equipo(int idEquipo, String nombre, String marca, String categoria, String modelo, String numeroSerie, String codigoInventario, String estado) {
         this.idEquipo = idEquipo;
@@ -35,7 +35,20 @@ public class Equipo {
     this.estado = estado;
     this.idProveedor = idProveedor;
 }
-
+    //COMPLETO CON STRING
+    public Equipo(int idEquipo, String nombre, String marca, String categoria, String modelo, String numeroSerie, String codigoInventario, String estado, int idProveedor, String nombreProveedor) {
+        this.idEquipo = idEquipo;
+        this.nombre = nombre;
+        this.marca = marca;
+        this.categoria = categoria;
+        this.modelo = modelo;
+        this.numeroSerie = numeroSerie;
+        this.codigoInventario = codigoInventario;
+        this.estado = estado;
+        this.idProveedor = idProveedor;
+        this.nombreProveedor = nombreProveedor;
+    }
+    
     public int getIdEquipo() { 
         return idEquipo; 
     }
@@ -91,4 +104,23 @@ public class Equipo {
     public void setEstado(String estado) { 
         this.estado = estado; 
     }
+
+    public int getIdProveedor() {
+        return idProveedor;
+    }
+
+    public void setIdProveedor(int idProveedor) {
+        this.idProveedor = idProveedor;
+    }
+
+    public String getNombreProveedor() {
+        return nombreProveedor;
+    }
+
+    public void setNombreProveedor(String nombreProveedor) {
+        this.nombreProveedor = nombreProveedor;
+    }
+
+    
+    
 }
