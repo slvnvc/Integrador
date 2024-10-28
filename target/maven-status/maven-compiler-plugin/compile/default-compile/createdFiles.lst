@@ -42,6 +42,7 @@ Vista\Principal$1.class
 Modelo\Encargado.class
 Vista\GuiaRemisionVista$1.class
 Modelo\OrdenAsignacion.class
+Vista\OrdenAsignacionVista.class
 Vista\Principal$4.class
 Vista\Principal$12.class
 controlador\OrdenSalidaControlador.class
@@ -51,6 +52,7 @@ DAO\OrdenCompraDAO.class
 Vista\Principal$7.class
 Vista\Principal$32.class
 Vista\Principal$38.class
+Vista\OrdenAsignacionVista$1.class
 DAO\OrdenSalidaDAO.class
 Vista\Principal$22.class
 controlador\TrabajadorControlador.class
@@ -72,5 +74,6 @@ Vista\Principal$19.class
 Vista\Principal$24.class
 Modelo\OrdenCompra.class
 controlador\GuiaRemisionControlador.class
+Vista\OrdenAsignacionVista$2.class
 Vista\GuiaRemisionVista$2.class
 Vista\Principal$21.class

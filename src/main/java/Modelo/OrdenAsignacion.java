@@ -35,6 +35,17 @@ public class OrdenAsignacion {
         this.area = area;
     }
 
+    public OrdenAsignacion(int idOrdenAsignacion, String fechaAsignacion, String area, String nombreTrabajador, String nombreEquipo) {
+        this.idOrdenAsignacion = idOrdenAsignacion;
+        this.fechaAsignacion = fechaAsignacion;
+        this.area = area;
+        this.nombreTrabajador = nombreTrabajador;
+        this.nombreEquipo = nombreEquipo;
+    }
+    
+    public OrdenAsignacion() {
+    }
+    
     public String getNombreTrabajador() {
         return nombreTrabajador;
     }
