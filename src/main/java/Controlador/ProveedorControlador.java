@@ -46,4 +46,8 @@ public class ProveedorControlador {
      public List<String> obtenerNombresEquiposPorProveedor(int idProveedor) throws SQLException {
         return proveedorDAO.obtenerNombresEquiposPorProveedor(idProveedor);
     }
+
+    public String obtenerNombreProveedorPorEquipo(int idEquipo)throws SQLException {
+    return proveedorDAO.obtenerNombreProveedorPorEquipo(idEquipo);
+    }
 }

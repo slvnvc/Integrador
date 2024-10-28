@@ -147,6 +147,28 @@ public class EquipoDAO {
         }
         return equipo;
     }
+
+    public List<Equipo> obtenerEquiposDefectuosos() throws SQLException {
+        String query = "SELECT * FROM equipo WHERE LOWER(Estado) = 'Defectuoso'";
+    List<Equipo> equiposDisponibles = new ArrayList<>();
+    try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+        while (rs.next()) {
+            Equipo equipo = new Equipo(
+                    rs.getInt("id_equipo"),
+                    rs.getString("Nombre"),
+                    rs.getString("Marca"),
+                    rs.getString("Categoria"),
+                    rs.getString("Modelo"),
+                    rs.getString("NumeroSerie"),
+                    rs.getString("CodigoInventario"),
+                    rs.getString("Estado"),
+                    rs.getInt("ID_Proveedor") //ID_Proveedor
+            );
+            equiposDisponibles.add(equipo);
+        }
+    }
+    return equiposDisponibles;
+    }
     
     
 }

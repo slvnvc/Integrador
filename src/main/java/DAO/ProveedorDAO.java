@@ -124,7 +124,24 @@ public class ProveedorDAO {
         }
     }
 }
+    //
+    public String obtenerNombreProveedorPorEquipo(int idEquipo) throws SQLException {
+    String nombreProveedor = null;
+    String query = "SELECT p.Nombre " +
+                   "FROM proveedor p " +
+                   "JOIN equipo e ON p.ID_Proveedor = e.ID_Proveedor " +
+                   "WHERE e.ID_Equipo = ?";
 
+    try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        stmt.setInt(1, idEquipo); 
+        ResultSet rs = stmt.executeQuery();
 
+        // si encuentra un resultado, obtiene el nombre del proveedor
+        if (rs.next()) {
+            nombreProveedor = rs.getString("Nombre");
+        }
+    }
+    return nombreProveedor; 
+}
 
 }

@@ -49,4 +49,8 @@ public class EquipoControlador {
     public Equipo obtenerEquipoPorId(int idEquipo) throws SQLException {  
         return equipoDAO.obtenerEquipoPorId(idEquipo);
     }
+
+    public List<Equipo> obtenerEquiposDefectuosos() throws SQLException {
+        return equipoDAO.obtenerEquiposDefectuosos();    
+    }
 }

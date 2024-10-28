@@ -8,10 +8,12 @@ import Controlador.OrdenAsignacionControlador;
 import Controlador.OrdenCompraControlador;
 import Controlador.ProveedorControlador;
 import Controlador.TrabajadorControlador;
+import Controlador.OrdenSalidaControlador;
 import Modelo.Encargado;
 import Modelo.Equipo;
 import Modelo.OrdenAsignacion;
 import Modelo.OrdenCompra;
+import Modelo.OrdenSalida;
 import Modelo.Proveedor;
 import Modelo.Trabajador;
 import controlador.EquipoControlador;
@@ -190,6 +192,21 @@ public class Principal extends javax.swing.JFrame {
         }
     }
     
+    public void cargarEquiposDefectuosos() {
+        EquipoControlador equipoControlador = new EquipoControlador();
+        try {
+        // Obtener la lista de equipos disponibles desde el controlador
+        List<Equipo> equiposDefectuosos = equipoControlador.obtenerEquiposDefectuosos();
+        cmbEquiposD.removeAllItems();  // limpio cmb
+        //lleno cmb con los NOMBRES de los equipos disponibles
+        for (Equipo equipo : equiposDefectuosos) {
+            cmbEquiposD.addItem(equipo.getNombre());
+        }
+    } catch (SQLException ex) {
+            ex.printStackTrace();
+           
+        }
+    }
     //cargar trabjadores en el combo
     public void cargarTrabajadores() {
         TrabajadorControlador trabajadorControlador = new TrabajadorControlador();
@@ -393,7 +410,102 @@ private void cargarTablaOrdenCompra() {
     txtFechaAsignacion.setText("");  
     txtArea.setText("");  
 }
+//orden salida
+public void gestionarDevolucion() {
+    try {
+        // Verificación de selección de equipo defectuoso
+        if (cmbEquiposD.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un equipo defectuoso.");
+            return;
+        }
 
+        EquipoControlador equipoControlador = new EquipoControlador();
+        ProveedorControlador proveedorControlador = new ProveedorControlador();
+
+        // Obtener el id del equipo defectuoso seleccionado
+        int idEquipo = equipoControlador.obtenerIdEquipoPorNombre(cmbEquiposD.getSelectedItem().toString());
+
+        // Obtener el nombre del proveedor asociado al equipo defectuoso y llenar lblDestino
+        String nombreProveedor = proveedorControlador.obtenerNombreProveedorPorEquipo(idEquipo);
+        lblDestino.setText(nombreProveedor);
+
+        // Verificar que los campos de fecha y motivo no estén vacíos
+        String fechaSalida = txtFechaSalida.getText();
+        String motivo = jtxtMotivo.getText();
+
+        if (fechaSalida.isEmpty() || motivo.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor complete los campos de fecha de salida y motivo.");
+            return;
+        }
+
+        // Crear la orden de salida y guardarla usando el controlador
+        OrdenSalida nuevaOrden = new OrdenSalida(idEquipo, fechaSalida, motivo);
+        OrdenSalidaControlador ordenSalidaControlador = new OrdenSalidaControlador();
+        ordenSalidaControlador.agregarOrdenSalida(nuevaOrden);
+
+        // Cambiar el estado del equipo a "En devolución"
+        equipoControlador.actualizarEstadoEquipo(idEquipo, "En devolución");
+        
+        JOptionPane.showMessageDialog(null, "Orden de salida guardada exitosamente.");
+
+        // Limpiar el formulario
+        limpiarFormOS();
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al guardar la orden de salida en la base de datos.");
+    }
+}
+private void actualizarDestino() {
+    if (cmbEquiposD.getSelectedItem() != null) {
+        try {
+            EquipoControlador equipoControlador = new EquipoControlador();
+            ProveedorControlador proveedorControlador = new ProveedorControlador();
+            
+            // Obtener el id del equipo seleccionado
+            int idEquipo = equipoControlador.obtenerIdEquipoPorNombre(cmbEquiposD.getSelectedItem().toString());
+            
+            // Obtener el nombre del proveedor asociado y actualizar lblDestino
+            String nombreProveedor = proveedorControlador.obtenerNombreProveedorPorEquipo(idEquipo);
+            lblDestino.setText(nombreProveedor);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al cargar el proveedor destino.");
+        }
+    } else {
+        lblDestino.setText("");
+    }
+}
+private void cargarTablaOrdenSalida() {
+    DefaultTableModel modeloTabla = (DefaultTableModel) tblOrdenSalida.getModel();
+    modeloTabla.setRowCount(0); // Limpiar la tabla antes de llenarla
+
+    OrdenSalidaControlador controlador = new OrdenSalidaControlador();
+    try {
+        List<OrdenSalida> ordenesSalida = controlador.obtenerTodasLasOrdenesSalida();
+
+        for (OrdenSalida orden : ordenesSalida) {
+            Object[] fila = {
+                orden.getNombreEquipo(),      // Método en OrdenSalida para obtener el nombre del equipo
+                orden.getNombreProveedor(),   // Método en OrdenSalida para obtener el nombre del proveedor (destinatario)
+                orden.getFechaSalida(),       // Fecha de salida
+                orden.getMotivo()             // Motivo de la salida
+            };
+            modeloTabla.addRow(fila);
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al cargar las órdenes de salida.");
+    }
+}
+
+private void limpiarFormOS() {
+    cmbEquiposD.setSelectedIndex(-1);  
+    lblDestino.setText("");  
+    txtFechaSalida.setText("");  
+    jtxtMotivo.setText("");  
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -445,20 +557,19 @@ private void cargarTablaOrdenCompra() {
         jPanel6 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
-        jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
-        jLabel28 = new javax.swing.JLabel();
         btnGuardarOS = new javax.swing.JButton();
-        txtArea1 = new javax.swing.JTextField();
-        txtEquipo1 = new javax.swing.JTextField();
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         txtFechaSalida = new javax.swing.JTextField();
-        txtIDOrdenAsignacion = new javax.swing.JTextField();
-        txtTrabajador1 = new javax.swing.JTextField();
         jScrollPane5 = new javax.swing.JScrollPane();
         jtxtMotivo = new javax.swing.JTextArea();
+        cmbEquiposD = new javax.swing.JComboBox<>();
+        lblDestino = new javax.swing.JLabel();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        tblOrdenSalida = new javax.swing.JTable();
+        btnVerOrdenS = new javax.swing.JButton();
         PRemision = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jLabel31 = new javax.swing.JLabel();
@@ -900,35 +1011,17 @@ private void cargarTablaOrdenCompra() {
         jLabel24.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel24.setText("Orden de salida");
 
-        jLabel25.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel25.setText("N° Orden de Asignación:");
-
         jLabel26.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel26.setText("Equipo:");
 
         jLabel27.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel27.setText("Trabajador:");
-
-        jLabel28.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel28.setText("Área:");
+        jLabel27.setText("Destinatario:");
 
         btnGuardarOS.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnGuardarOS.setText("Guardar Orden de salida");
         btnGuardarOS.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarOSActionPerformed(evt);
-            }
-        });
-
-        txtArea1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtArea1ActionPerformed(evt);
-            }
-        });
-
-        txtEquipo1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEquipo1ActionPerformed(evt);
             }
         });
 
@@ -944,21 +1037,31 @@ private void cargarTablaOrdenCompra() {
             }
         });
 
-        txtIDOrdenAsignacion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIDOrdenAsignacionActionPerformed(evt);
-            }
-        });
-
-        txtTrabajador1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTrabajador1ActionPerformed(evt);
-            }
-        });
-
         jtxtMotivo.setColumns(20);
         jtxtMotivo.setRows(5);
         jScrollPane5.setViewportView(jtxtMotivo);
+
+        cmbEquiposD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbEquiposDActionPerformed(evt);
+            }
+        });
+
+        tblOrdenSalida.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Equipo", "Destinatario", "Fecha Salida:", "Motivo:"
+            }
+        ));
+        jScrollPane10.setViewportView(tblOrdenSalida);
+
+        btnVerOrdenS.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnVerOrdenS.setText("Ver Orden Salida");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -974,75 +1077,77 @@ private void cargarTablaOrdenCompra() {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel25)
-                            .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(79, 79, 79)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(txtEquipo1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
-                                    .addComponent(txtIDOrdenAsignacion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
-                                    .addComponent(txtTrabajador1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE))
-                                .addGap(57, 57, 57)
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(59, 59, 59)
+                                    .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(13, 13, 13)
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtFechaSalida, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtArea1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(69, Short.MAX_VALUE))
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
+                                        .addGap(99, 99, 99)
+                                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(cmbEquiposD, javax.swing.GroupLayout.Alignment.LEADING, 0, 130, Short.MAX_VALUE)
+                                            .addComponent(lblDestino, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
+                                        .addGap(7, 7, 7)
+                                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtFechaSalida, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(139, 139, 139)
+                .addComponent(btnVerOrdenS, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(114, 114, 114))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 339, Short.MAX_VALUE)
                 .addComponent(btnGuardarOS)
                 .addGap(311, 311, 311))
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addGap(460, 460, 460)
+                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(42, Short.MAX_VALUE)))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel24)
+                    .addComponent(btnVerOrdenS))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel24)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(jLabel25)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel26))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel28)
-                                    .addComponent(txtArea1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel30)
-                                    .addComponent(txtFechaSalida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(40, 40, 40))
+                        .addComponent(jLabel26)
+                        .addGap(67, 67, 67))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(txtIDOrdenAsignacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cmbEquiposD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(txtEquipo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel27)
-                            .addComponent(txtTrabajador1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(lblDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel30)
+                    .addComponent(txtFechaSalida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
                         .addComponent(jLabel29)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                         .addComponent(btnGuardarOS)
                         .addGap(51, 51, 51))))
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addGap(84, 84, 84)
+                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(95, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout PSalidaLayout = new javax.swing.GroupLayout(PSalida);
@@ -1460,6 +1565,12 @@ private void cargarTablaOrdenCompra() {
             }
         });
 
+        cmbTrabajador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbTrabajadorActionPerformed(evt);
+            }
+        });
+
         tblAsignacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -1758,6 +1869,10 @@ private void cargarTablaOrdenCompra() {
 
     private void btnSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalidaActionPerformed
        jTabbedPane1.setSelectedIndex(2);
+       cargarEquiposDefectuosos();
+    //gestionarAsignacion(); //para que se actualice el combo
+      cargarTablaOrdenSalida();
+      limpiarFormOS();
     }//GEN-LAST:event_btnSalidaActionPerformed
 
     private void btnRemisionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemisionActionPerformed
@@ -1932,28 +2047,14 @@ private void cargarTablaOrdenCompra() {
     }//GEN-LAST:event_btnGuardarOCActionPerformed
 
     private void btnGuardarOSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarOSActionPerformed
-        // TODO add your handling code here:
+        gestionarDevolucion();
+        cargarTablaOrdenSalida();
+        
     }//GEN-LAST:event_btnGuardarOSActionPerformed
-
-    private void txtArea1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtArea1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtArea1ActionPerformed
-
-    private void txtEquipo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEquipo1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEquipo1ActionPerformed
 
     private void txtFechaSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaSalidaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFechaSalidaActionPerformed
-
-    private void txtIDOrdenAsignacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDOrdenAsignacionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtIDOrdenAsignacionActionPerformed
-
-    private void txtTrabajador1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTrabajador1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTrabajador1ActionPerformed
 
     private void txtProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProveedorActionPerformed
         // TODO add your handling code here:
@@ -2011,6 +2112,15 @@ private void cargarTablaOrdenCompra() {
         ordenCompraVista.setVisible(true);
     
     }//GEN-LAST:event_btnVerOrdenCActionPerformed
+
+    private void cmbEquiposDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEquiposDActionPerformed
+       actualizarDestino();
+       //cargarEquiposDefectuosos();
+    }//GEN-LAST:event_cmbEquiposDActionPerformed
+
+    private void cmbTrabajadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTrabajadorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbTrabajadorActionPerformed
     
 
     /**
@@ -2074,11 +2184,13 @@ private void cargarTablaOrdenCompra() {
     private javax.swing.JButton btnVerGuiaRemision;
     private javax.swing.JButton btnVerOrdenAsignacion;
     private javax.swing.JButton btnVerOrdenC;
+    private javax.swing.JButton btnVerOrdenS;
     private javax.swing.JButton btnVerTrabajadores;
     private javax.swing.JButton btnVolver;
     private javax.swing.JButton btnVolverr;
     private javax.swing.JButton btnVolverr1;
     private javax.swing.JComboBox<String> cmbEquipo;
+    private javax.swing.JComboBox<String> cmbEquiposD;
     private javax.swing.JComboBox<String> cmbNombres;
     private javax.swing.JComboBox<String> cmbProveedores;
     private javax.swing.JComboBox<String> cmbTrabajador;
@@ -2098,10 +2210,8 @@ private void cargarTablaOrdenCompra() {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
@@ -2128,6 +2238,7 @@ private void cargarTablaOrdenCompra() {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -2147,25 +2258,24 @@ private void cargarTablaOrdenCompra() {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jtxtComentarios;
     private javax.swing.JTextArea jtxtMotivo;
+    private javax.swing.JLabel lblDestino;
     private javax.swing.JLabel lblSaludo;
     private javax.swing.JTable tblAsignacion;
     private javax.swing.JTable tblEquipos;
     private javax.swing.JTable tblEquipos1;
     private javax.swing.JTable tblGuiaRemision;
     private javax.swing.JTable tblOrdenC;
+    private javax.swing.JTable tblOrdenSalida;
     private javax.swing.JTable tblTrabajadores;
     private javax.swing.JTextField txtArea;
-    private javax.swing.JTextField txtArea1;
     private javax.swing.JTextField txtBuscarTrabajador;
     private javax.swing.JTextField txtCategoria;
     private javax.swing.JTextField txtCod;
-    private javax.swing.JTextField txtEquipo1;
     private javax.swing.JTextField txtEstado;
     private javax.swing.JTextField txtFechaAsignacion;
     private javax.swing.JTextField txtFechaSalida;
     private javax.swing.JTextField txtFechadeOrden;
     private javax.swing.JTextField txtFecharecepcion;
-    private javax.swing.JTextField txtIDOrdenAsignacion;
     private javax.swing.JTextField txtMarca;
     private javax.swing.JTextField txtModelo;
     private javax.swing.JTextField txtMonto;
@@ -2173,6 +2283,5 @@ private void cargarTablaOrdenCompra() {
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtProveedor;
     private javax.swing.JTextField txtSerie;
-    private javax.swing.JTextField txtTrabajador1;
     // End of variables declaration//GEN-END:variables
 }

@@ -10,6 +10,7 @@ public class Equipo {
     private String numeroSerie;
     private String codigoInventario;
     private String estado;
+    private int idProveedor;
 
     //Constructor
     public Equipo(int idEquipo, String nombre, String marca, String categoria, String modelo, String numeroSerie, String codigoInventario, String estado) {
@@ -22,7 +23,19 @@ public class Equipo {
         this.codigoInventario = codigoInventario;
         this.estado = estado;
     }
-    
+    public Equipo(int idEquipo, String nombre, String marca, String categoria, String modelo, 
+              String numeroSerie, String codigoInventario, String estado, int idProveedor) {
+    this.idEquipo = idEquipo;
+    this.nombre = nombre;
+    this.marca = marca;
+    this.categoria = categoria;
+    this.modelo = modelo;
+    this.numeroSerie = numeroSerie;
+    this.codigoInventario = codigoInventario;
+    this.estado = estado;
+    this.idProveedor = idProveedor;
+}
+
     public int getIdEquipo() { 
         return idEquipo; 
     }
