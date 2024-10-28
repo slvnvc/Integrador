@@ -51,12 +51,12 @@
                   </Group>
                   <EmptySpace min="-2" pref="103" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="lblProveedor" alignment="0" max="32767" attributes="0"/>
+                      <Component id="lblDestinatario" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lblProducto" alignment="0" min="-2" pref="144" max="-2" attributes="0"/>
-                              <Component id="lblFechadeOrden" alignment="0" min="-2" pref="152" max="-2" attributes="0"/>
-                              <Component id="lblMontoTotal" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
+                              <Component id="lblFechaSalida" alignment="0" min="-2" pref="144" max="-2" attributes="0"/>
+                              <Component id="lblEquipo" alignment="0" min="-2" pref="152" max="-2" attributes="0"/>
+                              <Component id="lblMotivo" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="36" max="32767" attributes="0"/>
                       </Group>
@@ -92,16 +92,16 @@
                           <Component id="jLabel41" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="lblFechadeOrden" min="-2" pref="24" max="-2" attributes="0"/>
+                          <Component id="lblEquipo" min="-2" pref="24" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
-                                  <Component id="lblProveedor" min="-2" pref="24" max="-2" attributes="0"/>
+                                  <Component id="lblDestinatario" min="-2" pref="24" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                                  <Component id="lblProducto" min="-2" pref="24" max="-2" attributes="0"/>
+                                  <Component id="lblFechaSalida" min="-2" pref="24" max="-2" attributes="0"/>
                                   <EmptySpace min="39" pref="39" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="lblMontoTotal" alignment="1" min="-2" pref="24" max="-2" attributes="0"/>
+                              <Component id="lblMotivo" alignment="1" min="-2" pref="24" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -121,7 +121,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="b3" green="54" red="33" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Proveedor:"/>
+            <Property name="text" type="java.lang.String" value="Destinatario:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel40">
@@ -132,7 +132,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="b3" green="54" red="33" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Producto:"/>
+            <Property name="text" type="java.lang.String" value="Fecha Salida:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel41">
@@ -143,7 +143,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="b3" green="54" red="33" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Monto total:"/>
+            <Property name="text" type="java.lang.String" value="Motivo:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel43">
@@ -154,16 +154,16 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="b3" green="54" red="33" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Fecha de Orden:"/>
+            <Property name="text" type="java.lang.String" value="Equipo:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblFechadeOrden">
+        <Component class="javax.swing.JLabel" name="lblEquipo">
         </Component>
-        <Component class="javax.swing.JLabel" name="lblProveedor">
+        <Component class="javax.swing.JLabel" name="lblDestinatario">
         </Component>
-        <Component class="javax.swing.JLabel" name="lblProducto">
+        <Component class="javax.swing.JLabel" name="lblFechaSalida">
         </Component>
-        <Component class="javax.swing.JLabel" name="lblMontoTotal">
+        <Component class="javax.swing.JLabel" name="lblMotivo">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
@@ -173,7 +173,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="b3" green="54" red="33" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Orden compra"/>
+            <Property name="text" type="java.lang.String" value="Orden Salida"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnCerrar">

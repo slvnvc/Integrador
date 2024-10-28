@@ -1055,13 +1055,18 @@ private void limpiarFormOS() {
                 {null, null, null, null}
             },
             new String [] {
-                "Equipo", "Destinatario", "Fecha Salida:", "Motivo:"
+                "Equipo", "Destinatario", "Fecha Salida", "Motivo"
             }
         ));
         jScrollPane10.setViewportView(tblOrdenSalida);
 
         btnVerOrdenS.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnVerOrdenS.setText("Ver Orden Salida");
+        btnVerOrdenS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerOrdenSActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -1106,8 +1111,8 @@ private void limpiarFormOS() {
             .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel6Layout.createSequentialGroup()
                     .addGap(460, 460, 460)
-                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(42, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(21, Short.MAX_VALUE)))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2110,6 +2115,7 @@ private void limpiarFormOS() {
         // abro pantalla
         OrdenCompraVista ordenCompraVista = new OrdenCompraVista(ordenCompra);
         ordenCompraVista.setVisible(true);
+        ordenCompraVista.setLocationRelativeTo(null);
     
     }//GEN-LAST:event_btnVerOrdenCActionPerformed
 
@@ -2121,6 +2127,30 @@ private void limpiarFormOS() {
     private void cmbTrabajadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTrabajadorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbTrabajadorActionPerformed
+
+    private void btnVerOrdenSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerOrdenSActionPerformed
+        int filaSeleccionada = tblOrdenSalida.getSelectedRow(); //fila seleccionada
+
+        if (filaSeleccionada == -1) {
+            // si no hay fila seleccionada, mostrar mensaje
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila.");
+            return; // salir para que pueda seleccioanr 
+        }
+
+        // obtener los datos de la fila seleccionada
+        String equipo = tblOrdenSalida.getValueAt(filaSeleccionada, 0).toString();
+        String destinatario = tblOrdenSalida.getValueAt(filaSeleccionada, 1).toString();
+        String fechasalida = tblOrdenSalida.getValueAt(filaSeleccionada, 2).toString();
+        String motivo = tblOrdenSalida.getValueAt(filaSeleccionada, 3).toString();
+
+        // para crear una nueva instancia de ordensalida con los datos del contructor
+        OrdenSalida ordensalida = new OrdenSalida(filaSeleccionada, filaSeleccionada, equipo, destinatario, fechasalida, motivo);
+        // abro pantalla
+        OrdenSalidaVista ordenSalidaVista = new OrdenSalidaVista(ordensalida);
+        ordenSalidaVista.setVisible(true);
+        ordenSalidaVista.setLocationRelativeTo(null);
+    
+    }//GEN-LAST:event_btnVerOrdenSActionPerformed
     
 
     /**

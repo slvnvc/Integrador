@@ -36,6 +36,9 @@ public class OrdenSalida {
         this.fechaSalida = fechaSalida;
         this.motivo = motivo;
     }
+
+    public OrdenSalida() {
+    }
     // Getters y setters para los atributos
     public String getNombreEquipo() {
         return nombreEquipo;
