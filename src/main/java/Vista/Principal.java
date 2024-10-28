@@ -225,13 +225,44 @@ public class Principal extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Error al cargar los proveedores.");
     }
 }
+    private void cargarNombresEquipos() {
+    ProveedorControlador proveedorControlador = new ProveedorControlador();
+    
+    // Verifica si hay un proveedor seleccionado en cmbProveedores
+    if (cmbProveedores.getSelectedItem() == null) {
+        cmbNombres.removeAllItems(); // Limpiar cmbNombres si no hay proveedor seleccionado
+        return;
+    }
 
+    try {
+        // Obtén el nombre del proveedor seleccionado y su ID
+        String proveedorSeleccionado = cmbProveedores.getSelectedItem().toString();
+        int idProveedor = proveedorControlador.obtenerIdProveedorPorNombre(proveedorSeleccionado);
+
+        // Obtén la lista de nombres de equipos para el proveedor seleccionado
+        List<String> nombresEquipos = proveedorControlador.obtenerNombresEquiposPorProveedor(idProveedor);
+
+        // Limpia el ComboBox de nombres antes de añadir nuevos elementos
+        cmbNombres.removeAllItems();
+
+        // Rellena el ComboBox cmbNombres con los nombres de equipos
+        for (String nombre : nombresEquipos) {
+            cmbNombres.addItem(nombre);
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al cargar los nombres de equipos.");
+    }
+}
+
+//----
 private void cargarProducto() {
     ProveedorControlador proveedorControlador = new ProveedorControlador();
     
     // para que provedores no sea nulo y tenga un elemento selecionado por defecto
     if (cmbProveedores.getSelectedItem() == null) {
-        lblProducto.setText(""); // limpiar lbl si no hay proveedor seleccionado
+        cmbNombres.setSelectedIndex(-1); // limpiar lbl si no hay proveedor seleccionado
         return; 
     }
     
@@ -244,7 +275,7 @@ private void cargarProducto() {
         String producto = proveedorControlador.obtenerProductosPorProveedor(idProveedor); 
 
         // rellena lbl 
-        lblProducto.setText(producto); 
+        //lblProducto.setText(producto); 
     } catch (SQLException e) {
         e.printStackTrace();
         JOptionPane.showMessageDialog(null, "Error al cargar el producto.");
@@ -256,7 +287,7 @@ private void cargarProducto() {
     txtFechadeOrden.setText("");
     txtMonto.setText("");
     cmbProveedores.setSelectedIndex(-1);
-    lblProducto.setText(""); 
+    cmbNombres.setSelectedIndex(-1); 
 }
 
 private void cargarTablaOrdenCompra() {
@@ -409,7 +440,7 @@ private void cargarTablaOrdenCompra() {
         jScrollPane7 = new javax.swing.JScrollPane();
         tblOrdenC = new javax.swing.JTable();
         btnVerOrdenC = new javax.swing.JButton();
-        lblProducto = new javax.swing.JLabel();
+        cmbNombres = new javax.swing.JComboBox<>();
         PSalida = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
@@ -794,6 +825,9 @@ private void cargarTablaOrdenCompra() {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(85, 85, 85)
+                        .addComponent(btnGuardarOC))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -801,14 +835,11 @@ private void cargarTablaOrdenCompra() {
                             .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(66, 66, 66)
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtMonto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
-                            .addComponent(txtFechadeOrden, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
-                            .addComponent(cmbProveedores, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblProducto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(85, 85, 85)
-                        .addComponent(btnGuardarOC)))
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cmbNombres, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtMonto, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                            .addComponent(txtFechadeOrden, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                            .addComponent(cmbProveedores, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47))
@@ -818,7 +849,9 @@ private void cargarTablaOrdenCompra() {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel23)
+                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel23)
+                        .addComponent(cmbNombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel19)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -831,9 +864,8 @@ private void cargarTablaOrdenCompra() {
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel21)
                             .addComponent(cmbProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(lblProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                        .addGap(40, 40, 40)))
+                .addGap(16, 16, 16)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel22)
                     .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1718,7 +1750,7 @@ private void cargarTablaOrdenCompra() {
        jTabbedPane1.setSelectedIndex(1);
        
        cargarProveedores();
-       lblProducto.setText("");
+       cmbNombres.setSelectedIndex(-1);//
        //cargarProducto();
        //limpiarFormularioOC();
        cargarTablaOrdenCompra();
@@ -1859,7 +1891,7 @@ private void cargarTablaOrdenCompra() {
             return;
         }
 
-        if (lblProducto.getText().isEmpty()) { 
+        if (cmbNombres.getSelectedItem() == null) { 
             JOptionPane.showMessageDialog(null, "Debe seleccionar un producto.");
             return;
         }
@@ -1868,7 +1900,7 @@ private void cargarTablaOrdenCompra() {
         String fechaOrden = txtFechadeOrden.getText();
         String montoTotal = txtMonto.getText();
         String proveedorSeleccionado = cmbProveedores.getSelectedItem().toString();
-        String productoSeleccionado = lblProducto.getText();
+        String productoSeleccionado = cmbNombres.getSelectedItem().toString();
 
         // validaciones
         if (fechaOrden.isEmpty() || montoTotal.isEmpty()) {
@@ -1953,7 +1985,8 @@ private void cargarTablaOrdenCompra() {
     }//GEN-LAST:event_btnVolverr1ActionPerformed
 
     private void cmbProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbProveedoresActionPerformed
-        cargarProducto(); //que se carguen los productos cada que se muestre el combo box
+        //cargarProducto(); //que se carguen los productos cada que se muestre el combo box
+        cargarNombresEquipos();
     }//GEN-LAST:event_cmbProveedoresActionPerformed
 
     private void btnVerOrdenCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerOrdenCActionPerformed
@@ -2046,6 +2079,7 @@ private void cargarTablaOrdenCompra() {
     private javax.swing.JButton btnVolverr;
     private javax.swing.JButton btnVolverr1;
     private javax.swing.JComboBox<String> cmbEquipo;
+    private javax.swing.JComboBox<String> cmbNombres;
     private javax.swing.JComboBox<String> cmbProveedores;
     private javax.swing.JComboBox<String> cmbTrabajador;
     private javax.swing.JLabel jLabel1;
@@ -2113,7 +2147,6 @@ private void cargarTablaOrdenCompra() {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jtxtComentarios;
     private javax.swing.JTextArea jtxtMotivo;
-    private javax.swing.JLabel lblProducto;
     private javax.swing.JLabel lblSaludo;
     private javax.swing.JTable tblAsignacion;
     private javax.swing.JTable tblEquipos;

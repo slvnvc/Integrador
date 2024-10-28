@@ -67,6 +67,23 @@ public class ProveedorDAO {
     return null; //si no se enuentra devuelvo null
 }
 
+//nuevo
+    public List<String> obtenerNombresEquiposPorProveedor(int idProveedor) throws SQLException {
+    String query = "SELECT equipo.Nombre FROM equipo " +
+                   "JOIN proveedor ON equipo.ID_Proveedor = proveedor.ID_Proveedor " +
+                   "WHERE equipo.ID_Proveedor = ?";
+    List<String> nombresEquipos = new ArrayList<>();
+
+    try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        stmt.setInt(1, idProveedor);
+        ResultSet rs = stmt.executeQuery();
+        
+        while (rs.next()) {
+            nombresEquipos.add(rs.getString("Nombre"));
+        }
+    }
+    return nombresEquipos; // devuelve la lista con los nombres de los equipos
+}
 
 
     // metoddo para obtener el ID del proveedor por nombre
