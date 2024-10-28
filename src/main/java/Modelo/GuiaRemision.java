@@ -11,20 +11,20 @@ package Modelo;
 public class GuiaRemision {
     private int idGuiaRemision;
     private int idOrdenCompra;
+    private int idProveedor;
     private String fechaOrdenCompra; // Fecha de la orden de compra (para mostrar en la interfaz)
     private String nombreProveedor;
     private String fechaRecepcion;
     private String comentarios; 
 
-    public GuiaRemision() {
-    }
+    
     // Constructor para insertar una nueva guía de remisión
-    public GuiaRemision(int idOrdenCompra, String fechaRecepcion, String comentarios) {
+    public GuiaRemision(int idOrdenCompra, int idProveedor, String fechaRecepcion, String comentarios) {
         this.idOrdenCompra = idOrdenCompra;
+        this.idProveedor = idProveedor;
         this.fechaRecepcion = fechaRecepcion;
         this.comentarios = comentarios;
     }
-
     // Constructor completo para obtener datos desde la BD con JOIN
     public GuiaRemision(int idGuiaRemision, int idOrdenCompra, String fechaOrdenCompra, String nombreProveedor, String fechaRecepcion, String comentarios) {
         this.idGuiaRemision = idGuiaRemision;
@@ -34,7 +34,8 @@ public class GuiaRemision {
         this.fechaRecepcion = fechaRecepcion;
         this.comentarios = comentarios;
     }
-
+    public GuiaRemision() {
+    }
     public int getIdGuiaRemision() {
         return idGuiaRemision;
     }
@@ -83,4 +84,12 @@ public class GuiaRemision {
         this.comentarios = comentarios;
     }
 
+    public int getIdProveedor() {
+        return idProveedor;
+    }
+
+    public void setIdProveedor(int idProveedor) {
+        this.idProveedor = idProveedor;
+    }
+    
 }

@@ -91,5 +91,19 @@ public class OrdenCompraDAO {
     return null; // Retorna null si no se encuentra la orden
     }
 
+    public int obtenerIdProveedorPorOrden(int idOrdenCompra) throws SQLException {
+    String query = "SELECT ID_Proveedor FROM ordencompra WHERE ID_OrdenCompra = ?";
+    try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        stmt.setInt(1, idOrdenCompra);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("ID_Proveedor");
+        } else {
+            throw new SQLException("Proveedor no encontrado para la orden de compra seleccionada.");
+        }
+    }
+}
 
+
+    
 }

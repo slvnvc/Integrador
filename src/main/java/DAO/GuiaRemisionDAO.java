@@ -26,14 +26,15 @@ public class GuiaRemisionDAO {
     }
 
     // Método para insertar una nueva guía de remisión
-    public void agregarGuiaRemision(GuiaRemision guia) throws SQLException {
-        String query = "INSERT INTO guiaremision (ID_OrdenCompra, FechaRecepcion, Comentarios) VALUES (?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, guia.getIdOrdenCompra());
-            stmt.setString(2, guia.getFechaRecepcion());
-            stmt.setString(3, guia.getComentarios());
-            stmt.executeUpdate();
-        }
+   public void agregarGuiaRemision(GuiaRemision guia) throws SQLException {
+    String query = "INSERT INTO guiaremision (ID_OrdenCompra, ID_Proveedor, FechaRecepcion, Comentarios) VALUES (?, ?, ?, ?)";
+    try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        stmt.setInt(1, guia.getIdOrdenCompra());
+        stmt.setInt(2, guia.getIdProveedor()); // Incluye el ID del proveedor
+        stmt.setString(3, guia.getFechaRecepcion());
+        stmt.setString(4, guia.getComentarios());
+        stmt.executeUpdate();
+    }
     }
 
     // Método para obtener todas las guías de remisión con información adicional (JOIN)

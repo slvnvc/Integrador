@@ -546,8 +546,12 @@ private void cargarTablaOrdenCompra() {
         String selectedText = (String) cmbOrdenCompra.getSelectedItem();
         int idOrdenCompra = Integer.parseInt(selectedText.replace("Orden N°: ", "").trim());
 
-        // Crear la nueva guía de remisión
-        GuiaRemision nuevaGuia = new GuiaRemision(idOrdenCompra, fechaRecepcion, comentarios);
+        // Obtener ID del proveedor en base a la orden de compra seleccionada
+        OrdenCompraControlador ordenCompraControlador = new OrdenCompraControlador();
+        int idProveedor = ordenCompraControlador.obtenerIdProveedorPorOrden(idOrdenCompra);
+
+        // Crear la nueva guía de remisión con idProveedor incluido
+        GuiaRemision nuevaGuia = new GuiaRemision(idOrdenCompra, idProveedor, fechaRecepcion, comentarios);
 
         // Guardar la guía de remisión en la base de datos
         GuiaRemisionControlador controlador = new GuiaRemisionControlador();
@@ -566,6 +570,7 @@ private void cargarTablaOrdenCompra() {
         JOptionPane.showMessageDialog(null, "Error al guardar la guía de remisión en la base de datos.");
     }
 }
+
     private void cargarTablaGuiaRemision() {
     DefaultTableModel modeloTabla = (DefaultTableModel) tblGuiaRemision.getModel();
     modeloTabla.setRowCount(0); // Limpiar la tabla antes de llenarla
