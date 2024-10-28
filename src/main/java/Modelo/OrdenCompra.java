@@ -25,7 +25,12 @@ public class OrdenCompra {
         this.producto = producto;
         this.proveedor = proveedor;
     }
-
+    //para llamadas mas sencillas
+    public OrdenCompra(int idOrdenCompra, String fechaOrden, int idProveedor) {
+        this.idOrdenCompra = idOrdenCompra;
+        this.fechaOrden = fechaOrden;
+        this.idProveedor = idProveedor;
+    }
     public OrdenCompra() {
     }
 

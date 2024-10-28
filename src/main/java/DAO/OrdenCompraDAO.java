@@ -53,4 +53,43 @@ public class OrdenCompraDAO {
         }
         return ordenes;
     }
+
+    public List<OrdenCompra> obtenerOrdenesCompraBasicas() throws SQLException {
+    List<OrdenCompra> ordenes = new ArrayList<>();
+    String query = "SELECT ID_OrdenCompra, ID_Proveedor, FechaOrden FROM ordencompra";
+
+    try (PreparedStatement stmt = connection.prepareStatement(query);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+            OrdenCompra orden = new OrdenCompra(
+                rs.getInt("ID_OrdenCompra"),  // ID de la orden de compra
+                rs.getString("FechaOrden"),   // Fecha de la orden
+                rs.getInt("ID_Proveedor")     // ID del proveedor
+            );
+            ordenes.add(orden);
+        }
+    }
+    return ordenes;
+}
+
+    public OrdenCompra obtenerDetallesOrdenCompra(int idOrdenCompra) throws SQLException {
+    String query = "SELECT ID_OrdenCompra, FechaOrden, ID_Proveedor FROM ordencompra WHERE ID_OrdenCompra = ?";
+    
+    try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        stmt.setInt(1, idOrdenCompra);
+        ResultSet rs = stmt.executeQuery();
+        
+        if (rs.next()) {
+            int idProveedor = rs.getInt("ID_Proveedor");
+            String fechaOrden = rs.getString("FechaOrden");
+            
+            // Crear y devolver el objeto OrdenCompra con los datos obtenidos
+            return new OrdenCompra(idOrdenCompra, fechaOrden, idProveedor);
+        }
+    }
+    return null; // Retorna null si no se encuentra la orden
+    }
+
+
 }

@@ -28,4 +28,12 @@ public class OrdenCompraControlador {
     public List<OrdenCompra> obtenerTodasLasOrdenes() throws SQLException {
         return ordenCompraDAO.obtenerTodasLasOrdenes();
     }
+    //3 atributos
+    public List<OrdenCompra> obtenerOrdenesCompraBasicas() throws SQLException {
+        return ordenCompraDAO.obtenerOrdenesCompraBasicas();
+    }
+    public OrdenCompra obtenerDetallesOrdenCompra(int idOrdenCompra) throws SQLException {
+        return ordenCompraDAO.obtenerDetallesOrdenCompra(idOrdenCompra);
+}
+
 }

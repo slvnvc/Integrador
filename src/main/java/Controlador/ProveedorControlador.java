@@ -50,4 +50,5 @@ public class ProveedorControlador {
     public String obtenerNombreProveedorPorEquipo(int idEquipo)throws SQLException {
     return proveedorDAO.obtenerNombreProveedorPorEquipo(idEquipo);
     }
+    
 }
