@@ -4,6 +4,7 @@ C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\j
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Controlador\OrdenCompraControlador.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\DAO\EquipoDAO.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Controlador\OrdenAsignacionControlador.java
+C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Controlador\GuiaRemisionControlador.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\DAO\OrdenSalidaDAO.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Modelo\Equipo.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Modelo\OrdenSalida.java
@@ -23,4 +24,6 @@ C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\j
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Controlador\EquipoControlador.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\DAO\EncargadoDAO.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Vista\OrdenSalidaVista.java
+C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\DAO\GuiaRemisionDAO.java
+C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Modelo\GuiaRemision.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Vista\Principal.java

@@ -9,6 +9,7 @@ import Controlador.OrdenCompraControlador;
 import Controlador.ProveedorControlador;
 import Controlador.TrabajadorControlador;
 import Controlador.OrdenSalidaControlador;
+import Controlador.GuiaRemisionControlador;
 import Modelo.Encargado;
 import Modelo.Equipo;
 import Modelo.OrdenAsignacion;
@@ -16,6 +17,7 @@ import Modelo.OrdenCompra;
 import Modelo.OrdenSalida;
 import Modelo.Proveedor;
 import Modelo.Trabajador;
+import Modelo.GuiaRemision;
 import controlador.EquipoControlador;
 import java.sql.SQLException;
 import java.util.List;
@@ -349,7 +351,7 @@ private void cargarTablaOrdenCompra() {
         JOptionPane.showMessageDialog(null, "Error al cargar las órdenes de compra desde la base de datos.");
     }
 }
-
+    //ORDEN ASIGNACION
     public void gestionarAsignacion() {
     try {
         // verificacion seleccion de trabajdor y equipo
@@ -426,8 +428,8 @@ private void cargarTablaOrdenCompra() {
     txtFechaAsignacion.setText("");  
     txtArea.setText("");  
 }
-//orden salida
-public void gestionarDevolucion() {
+    //ORDEN SALIDA
+    public void gestionarDevolucion() {
     try {
         // Verificación de selección de equipo defectuoso
         if (cmbEquiposD.getSelectedItem() == null) {
@@ -471,7 +473,7 @@ public void gestionarDevolucion() {
         JOptionPane.showMessageDialog(null, "Error al guardar la orden de salida en la base de datos.");
     }
 }
-private void actualizarDestino() {
+    private void actualizarDestino() {
     if (cmbEquiposD.getSelectedItem() != null) {
         try {
             EquipoControlador equipoControlador = new EquipoControlador();
@@ -492,7 +494,7 @@ private void actualizarDestino() {
         lblDestino.setText("");
     }
 }
-private void cargarTablaOrdenSalida() {
+    private void cargarTablaOrdenSalida() {
     DefaultTableModel modeloTabla = (DefaultTableModel) tblOrdenSalida.getModel();
     modeloTabla.setRowCount(0); // Limpiar la tabla antes de llenarla
 
@@ -502,10 +504,10 @@ private void cargarTablaOrdenSalida() {
 
         for (OrdenSalida orden : ordenesSalida) {
             Object[] fila = {
-                orden.getNombreEquipo(),      // Método en OrdenSalida para obtener el nombre del equipo
-                orden.getNombreProveedor(),   // Método en OrdenSalida para obtener el nombre del proveedor (destinatario)
-                orden.getFechaSalida(),       // Fecha de salida
-                orden.getMotivo()             // Motivo de la salida
+                orden.getNombreEquipo(),      
+                orden.getNombreProveedor(),   
+                orden.getFechaSalida(),       
+                orden.getMotivo()             
             };
             modeloTabla.addRow(fila);
         }
@@ -516,12 +518,87 @@ private void cargarTablaOrdenSalida() {
     }
 }
 
-private void limpiarFormOS() {
+    private void limpiarFormOS() {
     cmbEquiposD.setSelectedIndex(-1);  
     lblDestino.setText("");  
     txtFechaSalida.setText("");  
     jtxtMotivo.setText("");  
 }
+    //GUIA REMISION
+    public void gestionarGuiaRemision() {
+    try {
+        // Verificar que se haya seleccionado una orden de compra
+        if (cmbOrdenCompra.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una orden de compra.");
+            return;
+        }
+
+        // Verificar que los campos de fecha de recepción y comentarios no estén vacíos
+        String fechaRecepcion = txtFecharecepcion.getText();
+        String comentarios = jtxtComentarios.getText();
+
+        if (fechaRecepcion.isEmpty() || comentarios.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor complete todos los campos antes de guardar la guía de remisión.");
+            return;
+        }
+
+        // Obtener ID de la orden de compra seleccionada
+        String selectedText = (String) cmbOrdenCompra.getSelectedItem();
+        int idOrdenCompra = Integer.parseInt(selectedText.replace("Orden N°: ", "").trim());
+
+        // Crear la nueva guía de remisión
+        GuiaRemision nuevaGuia = new GuiaRemision(idOrdenCompra, fechaRecepcion, comentarios);
+
+        // Guardar la guía de remisión en la base de datos
+        GuiaRemisionControlador controlador = new GuiaRemisionControlador();
+        controlador.agregarGuiaRemision(nuevaGuia);
+
+        JOptionPane.showMessageDialog(null, "Guía de remisión guardada exitosamente.");
+
+        // Actualizar la tabla en la interfaz
+        cargarTablaGuiaRemision();
+
+        // Limpiar el formulario después de guardar
+        limpiarFormularioGuiaRemision();
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al guardar la guía de remisión en la base de datos.");
+    }
+}
+    private void cargarTablaGuiaRemision() {
+    DefaultTableModel modeloTabla = (DefaultTableModel) tblGuiaRemision.getModel();
+    modeloTabla.setRowCount(0); // Limpiar la tabla antes de llenarla
+
+    GuiaRemisionControlador controlador = new GuiaRemisionControlador();
+    try {
+        List<GuiaRemision> guias = controlador.obtenerTodasLasGuiasRemision();
+
+        for (GuiaRemision guia : guias) {
+            Object[] fila = {
+                guia.getIdOrdenCompra(),       
+                guia.getFechaOrdenCompra(),    
+                guia.getNombreProveedor(),    
+                guia.getFechaRecepcion(),      
+                guia.getComentarios()          
+            };
+            modeloTabla.addRow(fila);
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al cargar las guías de remisión.");
+    }
+}
+    private void limpiarFormularioGuiaRemision() {
+    cmbOrdenCompra.setSelectedIndex(-1); 
+    lblFechaOC.setText("");             
+    lblProveedor.setText("");            
+    txtFecharecepcion.setText("");       
+    jtxtComentarios.setText("");          
+}
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -1221,13 +1298,13 @@ private void limpiarFormOS() {
 
         tblGuiaRemision.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Proveedor", "Monto total", "Fecha Recepción", "Comentarios"
+                "N° Orden Compra", "Fecha Orden de compra", "Proveedor", "Fecha de recepción", "Comentarios"
             }
         ));
         jScrollPane8.setViewportView(tblGuiaRemision);
@@ -1293,12 +1370,12 @@ private void limpiarFormOS() {
                         .addGap(89, 89, 89)))
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                        .addGap(122, 122, 122)
                         .addComponent(btnVerGuiaRemision)
-                        .addGap(127, 127, 127))))
+                        .addGap(139, 139, 139))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(17, 17, 17))))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1325,9 +1402,9 @@ private void limpiarFormOS() {
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel9Layout.createSequentialGroup()
                                 .addComponent(btnVerGuiaRemision)
-                                .addGap(32, 32, 32)
+                                .addGap(28, 28, 28)
                                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(58, 58, 58))
+                                .addGap(62, 62, 62))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel9Layout.createSequentialGroup()
                                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel9Layout.createSequentialGroup()
@@ -1920,7 +1997,8 @@ private void limpiarFormOS() {
         jTabbedPane1.setSelectedIndex(3);
         cargarOrdenesCompra();
         cmbOrdenCompra.setSelectedIndex(-1);
-        
+        cargarTablaGuiaRemision(); //sale el mensaje error
+        limpiarFormularioGuiaRemision();
         //cargar tbal
         //limpiar
     }//GEN-LAST:event_btnRemisionActionPerformed
@@ -2107,7 +2185,8 @@ private void limpiarFormOS() {
     }//GEN-LAST:event_txtFecharecepcionActionPerformed
 
     private void btnGuardarGuiaRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarGuiaRActionPerformed
-        // TODO add your handling code here:
+        gestionarGuiaRemision();
+        cargarTablaGuiaRemision();
     }//GEN-LAST:event_btnGuardarGuiaRActionPerformed
 
     private void btnVerGuiaRemisionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerGuiaRemisionActionPerformed

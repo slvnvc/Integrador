@@ -26,6 +26,7 @@ Vista\Principal$18.class
 Modelo\OrdenSalida.class
 Modelo\Proveedor.class
 Vista\Principal$23.class
+DAO\GuiaRemisionDAO.class
 DAO\EncargadoDAO.class
 Vista\Principal$29.class
 controlador\OrdenCompraControlador.class
@@ -62,9 +63,11 @@ Vista\Principal$28.class
 Vista\OrdenCompraVista.class
 Vista\OrdenCompraVista$2.class
 Vista\Principal$3.class
+Modelo\GuiaRemision.class
 Vista\Principal$13.class
 Vista\Principal$6.class
 Vista\Principal$19.class
 Vista\Principal$24.class
 Modelo\OrdenCompra.class
+controlador\GuiaRemisionControlador.class
 Vista\Principal$21.class
