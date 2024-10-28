@@ -14,6 +14,28 @@ public class OrdenCompra {
     private String fechaOrden;
     private double montoTotal;
     private String producto; // atributo para almacenar el nombre del producto
+    private String proveedor;
+    
+    //nuevo
+    public OrdenCompra(int idOrdenCompra, String proveedor,String fechaOrden, double montoTotal, String producto ) {
+        this.idOrdenCompra = idOrdenCompra;
+        //this.idProveedor = idProveedor;
+        this.fechaOrden = fechaOrden;
+        this.montoTotal = montoTotal;
+        this.producto = producto;
+        this.proveedor = proveedor;
+    }
+
+    public OrdenCompra() {
+    }
+
+    public String getProveedor() {
+        return proveedor;
+    }
+
+//    public void setProveedor(String proveedor) {
+//        this.proveedor = proveedor;
+//    }
 
     public OrdenCompra(int idOrdenCompra, int idProveedor, String fechaOrden, double montoTotal, String producto) {
         this.idOrdenCompra = idOrdenCompra;
@@ -52,5 +74,8 @@ public class OrdenCompra {
 
     public String getNombreProducto() {
         return this.producto; // para devolver el nombre del producto (String)
+    }
+    public String getNombreProveedor() {
+        return this.proveedor; // para devolver el nombre del producto (String)
     }
 }

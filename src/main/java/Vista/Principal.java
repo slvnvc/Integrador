@@ -20,6 +20,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+
 /**
  *
  * @author Silvana Villanueva
@@ -772,6 +773,11 @@ private void cargarTablaOrdenCompra() {
 
         btnVerOrdenC.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnVerOrdenC.setText("Ver orden de compra");
+        btnVerOrdenC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerOrdenCActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -1949,6 +1955,55 @@ private void cargarTablaOrdenCompra() {
     private void cmbProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbProveedoresActionPerformed
         cargarProducto(); //que se carguen los productos cada que se muestre el combo box
     }//GEN-LAST:event_cmbProveedoresActionPerformed
+
+    private void btnVerOrdenCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerOrdenCActionPerformed
+//         // Verificar si hay una fila seleccionada
+//    int filaSeleccionada = tblOrdenC.getSelectedRow(); // Obtiene la fila seleccionada
+//
+//    if (filaSeleccionada == -1) {
+//        // Si no hay fila seleccionada, mostrar mensaje
+//        JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila.");
+//        return; // Salir del método
+//    }
+//
+//    // Obtener los datos de la fila seleccionada
+//    String fechaOrden = tblOrdenC.getValueAt(filaSeleccionada, 0).toString();
+//    String proveedor = tblOrdenC.getValueAt(filaSeleccionada, 1).toString();
+//    String producto = tblOrdenC.getValueAt(filaSeleccionada, 2).toString();
+//    String montoTotal = tblOrdenC.getValueAt(filaSeleccionada, 3).toString();
+//
+//    // Crear el mensaje para mostrar en el JOptionPane
+//    String mensaje = "Orden de compra:\n" +
+//                     "Fecha de Orden: " + fechaOrden + "\n" +
+//                     "Proveedor: " + proveedor + "\n" +
+//                     "Producto: " + producto + "\n" +
+//                     "Monto Total: " + montoTotal;
+//
+//    // Mostrar el mensaje en un JOptionPane
+//    JOptionPane.showMessageDialog(null, mensaje, "Orden de compra", JOptionPane.INFORMATION_MESSAGE);
+//}int filaSeleccionada = tblOrdenC.getSelectedRow();
+ int filaSeleccionada = tblOrdenC.getSelectedRow(); // Obtiene la fila seleccionada
+
+        if (filaSeleccionada == -1) {
+            // Si no hay fila seleccionada, mostrar mensaje
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila.");
+            return; // Salir del método
+        }
+
+        // Obtener los datos de la fila seleccionada
+        String fechaOrden = tblOrdenC.getValueAt(filaSeleccionada, 0).toString();
+        String proveedor = tblOrdenC.getValueAt(filaSeleccionada, 1).toString();
+        String producto = tblOrdenC.getValueAt(filaSeleccionada, 2).toString();
+        String montoTotal = tblOrdenC.getValueAt(filaSeleccionada, 3).toString();
+
+        // Crear una nueva instancia de OrdenCompra con los datos seleccionados
+        OrdenCompra ordenCompra = new OrdenCompra(filaSeleccionada, proveedor,fechaOrden, Double.parseDouble(montoTotal), producto);
+        // Crear y mostrar el diálogo
+        OrdenCompraVista ordenCompraVista = new OrdenCompraVista(ordenCompra);
+        ordenCompraVista.setVisible(true);
+    
+    }//GEN-LAST:event_btnVerOrdenCActionPerformed
+    
 
     /**
      * @param args the command line arguments

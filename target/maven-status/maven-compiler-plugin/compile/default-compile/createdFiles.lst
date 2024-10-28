@@ -3,6 +3,7 @@ Vista\Main.class
 Vista\Principal$20.class
 Vista\Principal$17.class
 Vista\Principal$30.class
+Vista\Principal$40.class
 Vista\Principal$10.class
 Vista\Principal$9.class
 Vista\Principal$37.class
@@ -26,6 +27,7 @@ DAO\EncargadoDAO.class
 Vista\Principal$29.class
 controlador\OrdenCompraControlador.class
 Vista\Principal$14.class
+Vista\OrdenCompraVista$1.class
 Vista\Principal$34.class
 Vista\Principal$31.class
 controlador\OrdenAsignacionControlador.class
@@ -52,6 +54,8 @@ Vista\Principal$25.class
 Vista\Principal$36.class
 Vista\Principal$16.class
 Vista\Principal$28.class
+Vista\OrdenCompraVista.class
+Vista\OrdenCompraVista$2.class
 Vista\Principal$3.class
 Vista\Principal$13.class
 Vista\Principal$39.class
