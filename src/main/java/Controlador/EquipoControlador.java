@@ -56,4 +56,6 @@ public class EquipoControlador {
     public List<Equipo> obtenerEquiposConProveedor() throws SQLException {
     return equipoDAO.obtenerEquiposConProveedor();
 }
+    
+
 }

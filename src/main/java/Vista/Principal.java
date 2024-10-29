@@ -141,28 +141,28 @@ public class Principal extends javax.swing.JFrame {
     }
     
     private void actualizarTablaTrabajadores() {
-    try { //crear instancia de trabjador controlador
+    try {
         TrabajadorControlador trabajadorControlador = new TrabajadorControlador();
         List<Trabajador> listaTrabajadores = trabajadorControlador.obtenerTrabajadores();
-        
+
         DefaultTableModel modeloTabla = (DefaultTableModel) tblTrabajadores.getModel();
-        modeloTabla.setRowCount(0); // Limpiar tabla
+        modeloTabla.setRowCount(0); // Limpiar la tabla
 
         for (Trabajador trabajador : listaTrabajadores) {
             Object[] fila = {
-                
                 trabajador.getNombre(),
                 trabajador.getDNI(),
                 trabajador.getTelefono(),
-                trabajador.getCorreo()
-                
+                trabajador.getCorreo(),
+                trabajador.getEquipos() //para equipos asignados
             };
             modeloTabla.addRow(fila); // Agregar fila
         }
-        } catch (SQLException ex) {
+    } catch (SQLException ex) {
         ex.printStackTrace();
-            }
     }
+}
+
     
     private void limpiarFormulario() {
          txtCod.setText("");
@@ -752,8 +752,8 @@ private void cargarTablaOrdenCompra() {
         jScrollPane4 = new javax.swing.JScrollPane();
         tblTrabajadores = new javax.swing.JTable();
         jLabel18 = new javax.swing.JLabel();
-        btnBuscarTrabajador = new javax.swing.JButton();
         txtBuscarTrabajador = new javax.swing.JTextField();
+        btnBuscarEquipo = new javax.swing.JButton();
         PNotificaciones = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
@@ -1840,13 +1840,13 @@ private void cargarTablaOrdenCompra() {
 
         tblTrabajadores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Nombre", "DNI", "Telefono", "Correo"
+                "Nombre", "DNI", "Telefono", "Correo", "Equipo/s"
             }
         ));
         jScrollPane4.setViewportView(tblTrabajadores);
@@ -1854,7 +1854,12 @@ private void cargarTablaOrdenCompra() {
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel18.setText("Trabajadores:");
 
-        btnBuscarTrabajador.setText("Buscar");
+        btnBuscarEquipo.setText("Buscar equipo");
+        btnBuscarEquipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarEquipoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -1870,9 +1875,9 @@ private void cargarTablaOrdenCompra() {
                         .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(250, 250, 250)
                         .addComponent(txtBuscarTrabajador)
-                        .addGap(50, 50, 50)
-                        .addComponent(btnBuscarTrabajador)
-                        .addGap(60, 60, 60))))
+                        .addGap(32, 32, 32)
+                        .addComponent(btnBuscarEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnVolverr1)
@@ -1881,11 +1886,11 @@ private void cargarTablaOrdenCompra() {
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(27, Short.MAX_VALUE)
+                .addContainerGap(25, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
-                    .addComponent(btnBuscarTrabajador)
-                    .addComponent(txtBuscarTrabajador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtBuscarTrabajador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscarEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -2049,13 +2054,18 @@ private void cargarTablaOrdenCompra() {
     }//GEN-LAST:event_btnRemisionActionPerformed
 
     private void btnCSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCSActionPerformed
-       
-//        this.dispose();
-//        Login lg= new Login();
-//        
-//        lg.setVisible(true);
-//        lg.setLocationRelativeTo(null);
-        
+        // cerrar la ventana actual
+        this.dispose();
+
+        // crear una instancia de la ventana de login
+        Login lg = new Login();
+
+        // hacer la ventana de login visible
+        lg.setVisible(true);
+
+        // centrar la ventana de login
+        lg.setLocationRelativeTo(null);
+
     }//GEN-LAST:event_btnCSActionPerformed
 
     private void btnAsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarActionPerformed
@@ -2410,6 +2420,37 @@ try {
         JOptionPane.showMessageDialog(null, "Error al obtener el proveedor para la categoría seleccionada.");
     }
     }//GEN-LAST:event_cmbCategoriaActionPerformed
+
+    private void btnBuscarEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarEquipoActionPerformed
+        String nombreEquipo = txtBuscarTrabajador.getText().trim();
+
+    if (nombreEquipo.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingrese el nombre de un equipo para buscar.");
+        return;
+    }
+
+    try {
+        TrabajadorControlador trabajadorControlador = new TrabajadorControlador();
+        List<Trabajador> listaTrabajadores = trabajadorControlador.buscarTrabajadoresPorEquipo(nombreEquipo);
+
+        DefaultTableModel modeloTabla = (DefaultTableModel) tblTrabajadores.getModel();
+        modeloTabla.setRowCount(0); // Limpiar la tabla
+
+        for (Trabajador trabajador : listaTrabajadores) {
+            Object[] fila = {
+                trabajador.getNombre(),
+                trabajador.getDNI(),
+                trabajador.getTelefono(),
+                trabajador.getCorreo(),
+                trabajador.getEquipos() // Nombre del equipo asignado
+            };
+            modeloTabla.addRow(fila); // Agregar fila a la tabla
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al buscar trabajadores por equipo.");
+    }
+    }//GEN-LAST:event_btnBuscarEquipoActionPerformed
     
 
     /**
@@ -2458,7 +2499,7 @@ try {
     private javax.swing.JPanel PVerTrabajadores;
     private javax.swing.JButton btnAsignar;
     private javax.swing.JButton btnAsignarEquipo;
-    private javax.swing.JButton btnBuscarTrabajador;
+    private javax.swing.JButton btnBuscarEquipo;
     private javax.swing.JButton btnCS;
     private javax.swing.JButton btnCompra;
     private javax.swing.JButton btnGuardarGuiaR;

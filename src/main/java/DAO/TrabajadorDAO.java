@@ -39,23 +39,61 @@ public class TrabajadorDAO {
         }
     }
 
-        public List<Trabajador> obtenerTodosLosTrabajadores() throws SQLException {
-        String query = "SELECT * FROM trabajador";
+        public List<Trabajador> obtenerTrabajadoresConEquipos() throws SQLException {
+    String query = "SELECT t.ID_Trabajador, t.Nombre, t.Telefono, t.Correo, t.DNI, " +
+                   "GROUP_CONCAT(e.Nombre SEPARATOR ', ') AS Equipos " +
+                   "FROM trabajador t " +
+                   "LEFT JOIN ordenasignacion oa ON t.ID_Trabajador = oa.ID_Trabajador " +
+                   "LEFT JOIN equipo e ON oa.ID_Equipo = e.ID_Equipo " +
+                   "GROUP BY t.ID_Trabajador";
+                   
         List<Trabajador> trabajadores = new ArrayList<>();
+    
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+        while (rs.next()) {
+            Trabajador trabajador = new Trabajador(
+                rs.getInt("ID_Trabajador"),
+                rs.getString("Nombre"),
+                rs.getString("Telefono"),
+                rs.getString("Correo"),
+                rs.getString("DNI"),
+                rs.getString("Equipos") // Nueva columna para equipos concatenados
+            );
+            trabajadores.add(trabajador);
+        }
+    }
+    return trabajadores;
+}
+
+       public List<Trabajador> buscarTrabajadoresPorEquipo(String nombreEquipo) throws SQLException {
+    String query = "SELECT t.ID_Trabajador, t.Nombre, t.DNI, t.Telefono, t.Correo, " +
+                   "e.Nombre AS Equipo " +
+                   "FROM trabajador t " +
+                   "JOIN ordenasignacion oa ON t.ID_Trabajador = oa.ID_Trabajador " +
+                   "JOIN equipo e ON oa.ID_Equipo = e.ID_Equipo " +
+                   "WHERE e.Nombre LIKE ?";
+                   
+    List<Trabajador> trabajadores = new ArrayList<>();
+    
+    try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        stmt.setString(1, "%" + nombreEquipo + "%"); // Búsqueda parcial del equipo
+        try (ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 Trabajador trabajador = new Trabajador(
-                        rs.getInt("ID_trabajador"),
-                        rs.getString("Nombre"),
-                        rs.getString("Telefono"),
-                        rs.getString("Correo"),
-                        rs.getString("DNI"));
+                    rs.getInt("ID_Trabajador"),
+                    rs.getString("Nombre"),
+                    rs.getString("DNI"),
+                    rs.getString("Telefono"),
+                    rs.getString("Correo"),
+                    rs.getString("Equipo") // Nombre del equipo asignado
+                );
                 trabajadores.add(trabajador);
             }
         }
-        return trabajadores;
     }
-        
+    return trabajadores;
+}
+
         public int obtenerIdTrabajadorPorNombre(String nombreTrabajador) throws SQLException {
     String query = "SELECT ID_Trabajador FROM trabajador WHERE Nombre = ?";
     int idTrabajador = -1;  // valor por defecto por si no se encuentra
@@ -70,4 +108,7 @@ public class TrabajadorDAO {
     }
     return idTrabajador;
 }
+
+    
+    
 }

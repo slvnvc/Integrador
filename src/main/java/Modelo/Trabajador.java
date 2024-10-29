@@ -14,6 +14,7 @@ public class Trabajador {
     private String Telefono;
     private String Correo;
     private String DNI;// fk
+    private String equipos;
 
     public Trabajador(int idTrabajador, String Nombre, String Telefono, String Correo, String DNI) {
         this.idTrabajador = idTrabajador;
@@ -23,6 +24,23 @@ public class Trabajador {
         this.DNI = DNI;
     }
 
+    public Trabajador(int idTrabajador, String Nombre, String Telefono, String Correo, String DNI, String equipos) {
+        this.idTrabajador = idTrabajador;
+        this.Nombre = Nombre;
+        this.Telefono = Telefono;
+        this.Correo = Correo;
+        this.DNI = DNI;
+        this.equipos = equipos;
+    }
+
+    public String getEquipos() {
+        return equipos;
+    }
+
+    public void setEquipos(String equipos) {
+        this.equipos = equipos;
+    }
+    
     public String getDNI() {
         return DNI;
     }
