@@ -22,7 +22,7 @@ public class NotificacionDAO {
     public NotificacionDAO() {
         this.connection = Conectar.getConexion();
     }
-
+    
     // metodo para obtener notificaciones por id de orden de salida
     public static ArrayList<Notificacion> getNotificacionesPorOrdenSalida(int idOrdenSalida) {
         ArrayList<Notificacion> notificaciones = new ArrayList<>();
@@ -66,6 +66,6 @@ public class NotificacionDAO {
             System.out.println("Notificación agregada exitosamente.");
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }
+}
     }
 }
