@@ -8,12 +8,12 @@ package Modelo;
  *
  * @author Silvana Villanueva
  */
-public class Trabajador {
+    public class Trabajador {
     private int idTrabajador;
     private String Nombre;
     private String Telefono;
     private String Correo;
-    private String DNI;// fk
+    private String DNI;
     private String equipos;
 
     public Trabajador(int idTrabajador, String Nombre, String Telefono, String Correo, String DNI) {

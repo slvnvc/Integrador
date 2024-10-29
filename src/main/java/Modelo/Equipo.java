@@ -12,6 +12,7 @@ public class Equipo {
     private String estado;
     private int idProveedor;
     private String nombreProveedor; 
+    
     //Constructor
     public Equipo(int idEquipo, String nombre, String marca, String categoria, String modelo, String numeroSerie, String codigoInventario, String estado) {
         this.idEquipo = idEquipo;
