@@ -13,7 +13,6 @@ public class EquipoDAO {
         this.connection = Conectar.getConexion();  
         }
     
-
     // metodo para insertar un equipo
     public void insertarEquipo(Equipo equipo) throws SQLException {
         String query = "INSERT INTO equipo (Nombre, Marca, Categoria, Modelo, NumeroSerie, CodigoInventario, Estado, ID_Proveedor) VALUES (?, ?, ?, ?, ?, ?, ?,?)";
@@ -30,28 +29,6 @@ public class EquipoDAO {
         }
     }
 
-    
-//    public List<Equipo> obtenerTodosLosEquipos() throws SQLException {
-//        String query = "SELECT * FROM equipo";
-//        List<Equipo> equipos = new ArrayList<>();
-//        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
-//            while (rs.next()) {
-//                Equipo equipo = new Equipo(
-//                        /*rs.getInt("IdEquipo"),*/
-//                        rs.getInt("id_equipo"),
-//                        rs.getString("Nombre"),
-//                        rs.getString("Marca"),
-//                        rs.getString("Categoria"),
-//                        rs.getString("Modelo"),
-//                        rs.getString("NumeroSerie"),
-//                        rs.getString("CodigoInventario"),
-//                        rs.getString("Estado")
-//                );
-//                equipos.add(equipo);
-//            }
-//        }
-//        return equipos;
-//    }
     public List<Equipo> obtenerTodosLosEquipos() throws SQLException { 
     String query = "SELECT e.*, p.nombre AS proveedor_nombre " +
                    "FROM equipo e " +

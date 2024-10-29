@@ -31,7 +31,6 @@ Vista\Principal$23.class
 DAO\GuiaRemisionDAO.class
 DAO\EncargadoDAO.class
 Vista\Principal$29.class
-controlador\NotificacionControlador.class
 controlador\OrdenCompraControlador.class
 Vista\Principal$14.class
 Vista\OrdenCompraVista$1.class

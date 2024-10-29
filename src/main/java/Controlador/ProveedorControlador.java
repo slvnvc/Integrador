@@ -14,6 +14,7 @@ import java.util.List;
  * @author Silvana Villanueva
  */
 public class ProveedorControlador {
+    
     private ProveedorDAO proveedorDAO;
 
     public ProveedorControlador() {

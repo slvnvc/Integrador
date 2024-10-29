@@ -63,9 +63,9 @@ public class OrdenCompraDAO {
 
         while (rs.next()) {
             OrdenCompra orden = new OrdenCompra(
-                rs.getInt("ID_OrdenCompra"),  // ID de la orden de compra
-                rs.getString("FechaOrden"),   // Fecha de la orden
-                rs.getInt("ID_Proveedor")     // ID del proveedor
+                rs.getInt("ID_OrdenCompra"),   
+                rs.getString("FechaOrden"),    
+                rs.getInt("ID_Proveedor")      
             );
             ordenes.add(orden);
         }
@@ -84,11 +84,10 @@ public class OrdenCompraDAO {
             int idProveedor = rs.getInt("ID_Proveedor");
             String fechaOrden = rs.getString("FechaOrden");
             
-            // Crear y devolver el objeto OrdenCompra con los datos obtenidos
             return new OrdenCompra(idOrdenCompra, fechaOrden, idProveedor);
         }
     }
-    return null; // Retorna null si no se encuentra la orden
+    return null; // retorna null si no se encuentra la orden
     }
 
     public int obtenerIdProveedorPorOrden(int idOrdenCompra) throws SQLException {

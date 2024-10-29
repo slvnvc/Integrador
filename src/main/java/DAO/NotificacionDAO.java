@@ -23,38 +23,49 @@ public class NotificacionDAO {
         this.connection = Conectar.getConexion();
     }
 
-    public void agregarNotificacion(int idOrdenSalida, String mensajeNotificacion) {
-        String sql = "INSERT INTO notificacion (ID_OrdenSalida, Mensaje) VALUES (?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, idOrdenSalida);
-            stmt.setString(2, mensajeNotificacion);
-            stmt.executeUpdate();
-            System.out.println("Notificación agregada exitosamente.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public ArrayList<Notificacion> getNotificaciones(int idOrdenSalida) throws SQLException {
+    // metodo para obtener notificaciones por id de orden de salida
+    public static ArrayList<Notificacion> getNotificacionesPorOrdenSalida(int idOrdenSalida) {
         ArrayList<Notificacion> notificaciones = new ArrayList<>();
-        String sql = "SELECT * FROM notificacion WHERE ID_OrdenSalida = ?";
+        Connection con = Conectar.getConexion();
+        String sql = """
+                     SELECT ID_Notificacion, ID_OrdenSalida, Nombre, Mensaje
+                     FROM notificacion
+                     WHERE ID_OrdenSalida = ?
+                     """;
 
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, idOrdenSalida);
-            ResultSet rs = ps.executeQuery();
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setInt(1, idOrdenSalida);
+            ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Notificacion notificacion = new Notificacion(
-                    rs.getInt("ID_OrdenSalida"),
-                    rs.getString("Mensaje"),
-                    rs.getString("Fecha")
+                    rs.getInt("ID_OrdenSalida"),   
+                    rs.getString("Nombre"),        
+                    rs.getString("Mensaje")        
                 );
+                notificacion.setIdNotificacion(rs.getInt("ID_Notificacion")); // establece el id de noti 
                 notificaciones.add(notificacion);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
+
         return notificaciones;
+    }
+
+    // metodo para agregar una nueva notificación
+    public static void addNotificacion(Notificacion notificacion) {
+        Connection con = Conectar.getConexion();
+        String sql = "INSERT INTO notificacion (ID_OrdenSalida, Nombre, Mensaje) VALUES (?, ?, ?)";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, notificacion.getIdOrdenSalida());
+            ps.setString(2, notificacion.getNombre());
+            ps.setString(3, notificacion.getMensaje());
+            ps.executeUpdate();
+            System.out.println("Notificación agregada exitosamente.");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 }

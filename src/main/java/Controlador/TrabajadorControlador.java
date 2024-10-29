@@ -14,25 +14,23 @@ import java.util.List;
  * @author Silvana Villanueva
  */
 public class TrabajadorControlador {
+    
     private TrabajadorDAO trabajadorDAO;
 
-    //Constructor
     public TrabajadorControlador() {
         trabajadorDAO = new TrabajadorDAO();
     }
 
-    
     public void agregarTrabajador(Trabajador trabajador) throws SQLException {
         trabajadorDAO.agregarTrabajador(trabajador);
     }
 
-    
     public List<Trabajador> obtenerTrabajadores() throws SQLException {  
         return trabajadorDAO.obtenerTrabajadoresConEquipos();
     }
     
     public List<Trabajador> buscarTrabajadoresPorEquipo(String nombreEquipo) throws SQLException {
-    return trabajadorDAO.buscarTrabajadoresPorEquipo(nombreEquipo);
+        return trabajadorDAO.buscarTrabajadoresPorEquipo(nombreEquipo);
 }
 
 

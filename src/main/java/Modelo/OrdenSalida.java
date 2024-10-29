@@ -16,7 +16,7 @@ public class OrdenSalida {
     private String fechaSalida;
     private String motivo;
 
-    // Constructor completo con nombre de equipo y proveedor
+    // constructor completo con nombre de equipo y proveedor
     public OrdenSalida(int idOrdenSalida, int idEquipo, String nombreEquipo, String nombreProveedor, String fechaSalida, String motivo) {
         this.idOrdenSalida = idOrdenSalida;
         this.idEquipo = idEquipo;
@@ -36,7 +36,7 @@ public class OrdenSalida {
         this.fechaSalida = fechaSalida;
         this.motivo = motivo;
     }
-
+    
     public OrdenSalida() {
     }
     // Getters y setters para los atributos
@@ -70,5 +70,14 @@ public class OrdenSalida {
     public void setIdEquipo(int idEquipo) {
         this.idEquipo = idEquipo;
     }
+
+    public void setNombreEquipo(String nombreEquipo) {
+        this.nombreEquipo = nombreEquipo;
+    }
+
+    public void setNombreProveedor(String nombreProveedor) {
+        this.nombreProveedor = nombreProveedor;
+    }
+    
 }
 

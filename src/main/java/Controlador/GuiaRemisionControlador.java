@@ -8,13 +8,10 @@ import DAO.GuiaRemisionDAO;
 import Modelo.GuiaRemision;
 import java.sql.SQLException;
 import java.util.List;
-/**
- *
- * @author Silvana Villanueva
- */
+
 public class GuiaRemisionControlador {
     
-     private GuiaRemisionDAO guiaRemisionDAO;
+    private GuiaRemisionDAO guiaRemisionDAO;
 
     public GuiaRemisionControlador() {
         this.guiaRemisionDAO = new GuiaRemisionDAO();

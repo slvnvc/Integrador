@@ -9,19 +9,21 @@ package Modelo;
  * @author Silvana Villanueva
  */
 public class Notificacion {
-    private int idNotificacion; // ID de la notificación
-    private int idOrdenSalida; // ID de la orden de salida relacionada
-    private String mensaje; // Mensaje de la notificación
-    private String fecha; // Fecha de creación de la notificación
+    private int idNotificacion; 
+    private int idOrdenSalida; 
+    private String nombre; 
+    private String mensaje; 
 
-    // Constructor
-    public Notificacion(int idOrdenSalida, String mensaje, String fecha) {
+    public Notificacion(int idOrdenSalida, String nombre, String mensaje) {
         this.idOrdenSalida = idOrdenSalida;
+        this.nombre = nombre;
         this.mensaje = mensaje;
-        this.fecha = fecha;
+        
     }
 
-    // Getters y Setters
+    public Notificacion() {
+    }
+
     public int getIdNotificacion() {
         return idNotificacion;
     }
@@ -46,13 +48,15 @@ public class Notificacion {
         this.mensaje = mensaje;
     }
 
-    public String getFecha() {
-        return fecha;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
+
+    
 }
 
 

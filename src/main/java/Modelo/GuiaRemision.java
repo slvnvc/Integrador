@@ -33,6 +33,7 @@ public class GuiaRemision {
         this.fechaRecepcion = fechaRecepcion;
         this.comentarios = comentarios;
     }
+    
     // constructor completo para obtener datos desde la BD con JOIN
     public GuiaRemision(int idGuiaRemision, int idOrdenCompra, String fechaOrdenCompra, String nombreProveedor, String fechaRecepcion, String comentarios) {
         this.idGuiaRemision = idGuiaRemision;

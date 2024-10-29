@@ -10,7 +10,6 @@ import Controlador.ProveedorControlador;
 import Controlador.TrabajadorControlador;
 import Controlador.OrdenSalidaControlador;
 import Controlador.GuiaRemisionControlador;
-import Controlador.NotificacionControlador;
 import DAO.NotificacionDAO;
 import Modelo.Encargado;
 import Modelo.Equipo;
@@ -452,25 +451,10 @@ private void cargarTablaOrdenCompra() {
 }
     
 
-//    public void mostrarNoti() throws SQLException{
-//        NotificacionControlador notificacionControlador = new NotificacionControlador();
-//        OrdenSalida nuevaOrden = new OrdenSalida(idEquipo, fechaSalida, motivo);
-//        
-//        ArrayList<Notificacion> notificaciones = notificacionControlador.obtenerNotificaciones(nuevaOrden.getIdOrdenSalida());
-//                
-//        String text = "";
-//        
-//        for (Notificacion notificacion : notificaciones) {
-//            text +=  notificacion.getMensaje()+ "\n\n";
-//        }
-//        
-//        txtNotificaciones.setText(text);
-//        System.out.println(text);
-//    }
     //ORDEN SALIDA
     public void gestionarDevolucion() {
     try {
-        // Verificación de selección de equipo defectuoso
+        // verificación de selección de equipo defectuoso
         if (cmbEquiposD.getSelectedItem() == null) {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un equipo defectuoso.");
             return;
@@ -479,14 +463,15 @@ private void cargarTablaOrdenCompra() {
         EquipoControlador equipoControlador = new EquipoControlador();
         ProveedorControlador proveedorControlador = new ProveedorControlador();
 
-        // Obtener el id del equipo defectuoso seleccionado
-        int idEquipo = equipoControlador.obtenerIdEquipoPorNombre(cmbEquiposD.getSelectedItem().toString());
+        // obtener el id y el nombre del equipo defectuoso seleccionado
+        String nombreEquipo = cmbEquiposD.getSelectedItem().toString();
+        int idEquipo = equipoControlador.obtenerIdEquipoPorNombre(nombreEquipo);
 
-        // Obtener el nombre del proveedor asociado al equipo defectuoso y llenar lblDestino
+        // obtener el nombre del proveedor asociado al equipo defectuoso
         String nombreProveedor = proveedorControlador.obtenerNombreProveedorPorEquipo(idEquipo);
         lblDestino.setText(nombreProveedor);
 
-        // Verificar que los campos de fecha y motivo no estén vacíos
+        // verificar que los campos de fecha y motivo no estén vacíos
         String fechaSalida = txtFechaSalida.getText();
         String motivo = jtxtMotivo.getText();
 
@@ -495,43 +480,60 @@ private void cargarTablaOrdenCompra() {
             return;
         }
 
-        // Crear la orden de salida y guardarla usando el controlador
         OrdenSalida nuevaOrden = new OrdenSalida(idEquipo, fechaSalida, motivo);
+        nuevaOrden.setNombreEquipo(nombreEquipo); // nombre del equipo
+        nuevaOrden.setNombreProveedor(nombreProveedor); // nombre del proveedor
+        
         OrdenSalidaControlador ordenSalidaControlador = new OrdenSalidaControlador();
         ordenSalidaControlador.agregarOrdenSalida(nuevaOrden);
 
-        // Crear notificación de salida
-        //NotificacionControlador notificacionControlador = new NotificacionControlador();
-       // notificacionControlador.crearNotificacionSalida(nuevaOrden.getIdOrdenSalida(), cmbEquiposD.getSelectedItem().toString(), motivo, fechaSalida);
-
-//        ArrayList<Notificacion> notificaciones = notificacionControlador.obtenerNotificaciones(nuevaOrden.getIdOrdenSalida());
-//                
-//        String text = "";
-//        
-//        for (Notificacion notificacion : notificaciones) {
-//            text +=  notificacion.getMensaje()+ "\n\n";
-//        }
-//        
-//        txtNotificaciones.setText(text);
-        // Cambiar el estado del equipo a "En devolución"
+        // cambiar el estado del equipo 
         equipoControlador.actualizarEstadoEquipo(idEquipo, "En devolución");
+        
+        // crear la notificación para la salida del equipo
+        Notificacion notificacion = new Notificacion();
+        
+        // asignamos los valores para la notificación usando los valores de nuevaOrden
+        notificacion.setIdOrdenSalida(nuevaOrden.getIdOrdenSalida());
+        notificacion.setNombre(nombreEquipo + " en devolución");
+        notificacion.setMensaje("El equipo " + nombreEquipo + " está siendo enviado con su proveedor: " 
+                                + nombreProveedor + " por el siguiente motivo: " + motivo);
+        
+        // guardar la noti en la bd
+        NotificacionDAO.addNotificacion(notificacion);
+        
+        // obtener todas las notificaciones asociadas a esta orden de salida
+        ArrayList<Notificacion> notificaciones = NotificacionDAO.getNotificacionesPorOrdenSalida(nuevaOrden.getIdOrdenSalida());
 
+        // cosntruir el texto de notificaciones para mostrarlo en el jtxt
+        StringBuilder textoNotificaciones = new StringBuilder();
+        
+        for (Notificacion noti : notificaciones) {
+            textoNotificaciones.append(noti.getNombre()).append("\n").append(noti.getMensaje()).append("\n\n");
+        }
+
+        // asignar el texto
+        txtNotificaciones.setText(textoNotificaciones.toString());
+        //System.out.println(textoNotificaciones.toString());
+        
         JOptionPane.showMessageDialog(null, "Orden de salida guardada exitosamente.");
 
-        // Limpiar el formulario
         limpiarFormOS();
+        
     } catch (SQLException e) {
         e.printStackTrace();
         JOptionPane.showMessageDialog(null, "Error al guardar la orden de salida en la base de datos.");
     }
 }
+
+
     private void actualizarDestino() {
     if (cmbEquiposD.getSelectedItem() != null) {
         try {
             EquipoControlador equipoControlador = new EquipoControlador();
             ProveedorControlador proveedorControlador = new ProveedorControlador();
             
-            // Obtener el id del equipo seleccionado
+            // obtener el id del equipo seleccionado
             int idEquipo = equipoControlador.obtenerIdEquipoPorNombre(cmbEquiposD.getSelectedItem().toString());
             
             // Obtener el nombre del proveedor asociado y actualizar lblDestino
@@ -1994,6 +1996,7 @@ private void cargarTablaOrdenCompra() {
         jLabel17.setText("Notificaciones");
 
         txtNotificaciones.setColumns(20);
+        txtNotificaciones.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtNotificaciones.setRows(5);
         jScrollPane9.setViewportView(txtNotificaciones);
 
@@ -2012,8 +2015,8 @@ private void cargarTablaOrdenCompra() {
                                 .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addGap(59, 59, 59)
-                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 653, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(122, Short.MAX_VALUE))
+                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 701, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(74, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

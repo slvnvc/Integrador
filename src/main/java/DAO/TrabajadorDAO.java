@@ -26,8 +26,7 @@ public class TrabajadorDAO {
         this.connection = Conectar.getConexion();  
         }
     
-
-    // Metodo para agregar un trabajador
+   // metodo para agregar un trabajador
     public void agregarTrabajador(Trabajador trabajador) throws SQLException {
         String query = "INSERT INTO trabajador (Nombre, Telefono, Correo, DNI) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -39,7 +38,7 @@ public class TrabajadorDAO {
         }
     }
 
-        public List<Trabajador> obtenerTrabajadoresConEquipos() throws SQLException {
+    public List<Trabajador> obtenerTrabajadoresConEquipos() throws SQLException {
     String query = "SELECT t.ID_Trabajador, t.Nombre, t.Telefono, t.Correo, t.DNI, " +
                    "GROUP_CONCAT(e.Nombre SEPARATOR ', ') AS Equipos " +
                    "FROM trabajador t " +
@@ -57,7 +56,7 @@ public class TrabajadorDAO {
                 rs.getString("Telefono"),
                 rs.getString("Correo"),
                 rs.getString("DNI"),
-                rs.getString("Equipos") // Nueva columna para equipos concatenados
+                rs.getString("Equipos") //  columna para equipos asignados
             );
             trabajadores.add(trabajador);
         }
@@ -76,7 +75,7 @@ public class TrabajadorDAO {
     List<Trabajador> trabajadores = new ArrayList<>();
     
     try (PreparedStatement stmt = connection.prepareStatement(query)) {
-        stmt.setString(1, "%" + nombreEquipo + "%"); // Búsqueda parcial del equipo
+        stmt.setString(1, "%" + nombreEquipo + "%"); // para la busqueda parcial del equipo
         try (ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 Trabajador trabajador = new Trabajador(
@@ -85,7 +84,7 @@ public class TrabajadorDAO {
                     rs.getString("DNI"),
                     rs.getString("Telefono"),
                     rs.getString("Correo"),
-                    rs.getString("Equipo") // Nombre del equipo asignado
+                    rs.getString("Equipo")  
                 );
                 trabajadores.add(trabajador);
             }

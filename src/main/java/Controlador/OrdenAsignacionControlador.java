@@ -9,11 +9,8 @@ import Modelo.OrdenAsignacion;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- *
- * @author Silvana Villanueva
- */
 public class OrdenAsignacionControlador {
+    
     private OrdenAsignacionDAO ordenAsignacionDAO;
 
     public OrdenAsignacionControlador() {

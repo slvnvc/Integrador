@@ -16,6 +16,7 @@ import java.sql.SQLException;
  * @author Silvana Villanueva
  */
 public class EncargadoDAO {
+    
     public static Encargado login(String Correo, String Contra) {
         Connection con = Conectar.getConexion();
         String sql = "SELECT * FROM encargado WHERE Correo = ? AND Contra = ?";
