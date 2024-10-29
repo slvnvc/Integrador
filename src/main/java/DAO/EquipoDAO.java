@@ -224,6 +224,33 @@ public class EquipoDAO {
     return listaEquipos;
 }
     
+    public List<Equipo> buscarEquipos(String criterio) throws SQLException {
+    String query = "SELECT * FROM equipo WHERE Nombre LIKE ? OR Estado LIKE ?";
+    List<Equipo> equipos = new ArrayList<>();
+    
+    try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        String searchPattern = "%" + criterio + "%";
+        stmt.setString(1, searchPattern);
+        stmt.setString(2, searchPattern);
+        
+        try (ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Equipo equipo = new Equipo(
+                    rs.getInt("ID_Equipo"),
+                    rs.getString("Nombre"),
+                    rs.getString("Marca"),
+                    rs.getString("Categoria"),
+                    rs.getString("Modelo"),
+                    rs.getString("NumeroSerie"),
+                    rs.getString("CodigoInventario"),
+                    rs.getString("Estado")
+                );
+                equipos.add(equipo);
+            }
+        }
+    }
+    return equipos;
+}
 
     
 }

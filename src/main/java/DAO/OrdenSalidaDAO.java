@@ -29,10 +29,10 @@ public class OrdenSalidaDAO {
         String query = "INSERT INTO ordensalida (ID_Equipo, FechaSalida, Motivo) VALUES (?, ?, ?)";
         
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, ordenSalida.getIdEquipo());  // Establece el ID del equipo
-            stmt.setString(2, ordenSalida.getFechaSalida());  // Establece la fecha de salida
-            stmt.setString(3, ordenSalida.getMotivo());  // Establece el motivo de la salida
-            stmt.executeUpdate();  // Ejecuta la inserción en la base de datos
+            stmt.setInt(1, ordenSalida.getIdEquipo()); 
+            stmt.setString(2, ordenSalida.getFechaSalida());  
+            stmt.setString(3, ordenSalida.getMotivo());  
+            stmt.executeUpdate();  
         }
     }
 
@@ -81,5 +81,19 @@ public class OrdenSalidaDAO {
     }
     return ordenesSalida;
 }
+
+    public boolean existeOrdenSalida(int idOrdenSalida) {
+        String sql = "SELECT COUNT(*) FROM ordensalida WHERE ID_OrdenSalida = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, idOrdenSalida);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;  // Retorna true si existe la orden de salida
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();  // Manejo de errores
+        }
+        return false;  // Retorna false si no existe
+    }
 
 }

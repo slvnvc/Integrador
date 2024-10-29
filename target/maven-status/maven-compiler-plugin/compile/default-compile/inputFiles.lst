@@ -1,6 +1,7 @@
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Conexion\Conectar.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Controlador\TrabajadorControlador.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\DAO\OrdenCompraDAO.java
+C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\DAO\NotificacionDAO.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Controlador\OrdenCompraControlador.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\DAO\EquipoDAO.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Controlador\OrdenAsignacionControlador.java
@@ -20,6 +21,7 @@ C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\j
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\DAO\OrdenAsignacionDAO.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\DAO\TrabajadorDAO.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Vista\OrdenAsignacionVista.java
+C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Modelo\Notificacion.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Modelo\OrdenCompra.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Modelo\Proveedor.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Vista\Login.java
@@ -28,4 +30,5 @@ C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\j
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Vista\OrdenSalidaVista.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\DAO\GuiaRemisionDAO.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Modelo\GuiaRemision.java
+C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Controlador\NotificacionControlador.java
 C:\Users\Silvana Villanueva\Documents\NetBeansProjects\InventarioTech\src\main\java\Vista\Principal.java
