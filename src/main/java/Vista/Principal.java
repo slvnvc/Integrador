@@ -168,12 +168,12 @@ public class Principal extends javax.swing.JFrame {
 
     
     private void limpiarFormulario() {
-         txtCod.setText("");
+        // cambios txtCod.setText("");
         txtNombre.setText("");
         txtMarca.setText("");
         cmbCategoria.setSelectedIndex(-1);  
         txtModelo.setText("");
-        txtSerie.setText("");
+     // cambioss   txtSerie.setText("");
         txtEstado.setText("");
         lblProveedor.setText("");
     }
@@ -748,18 +748,14 @@ private void cargarTablaOrdenCompra() {
         jPanel2 = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        txtCod = new javax.swing.JTextField();
         txtMarca = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         txtModelo = new javax.swing.JTextField();
-        txtSerie = new javax.swing.JTextField();
         txtEstado = new javax.swing.JTextField();
         btnRegistrarEquipo = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -1535,9 +1531,6 @@ private void cargarTablaOrdenCompra() {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setText("Registrar un nuevo equipo");
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel5.setText("Cod:");
-
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("Nombre:");
 
@@ -1550,17 +1543,8 @@ private void cargarTablaOrdenCompra() {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel9.setText("Modelo:");
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel10.setText("Serie:");
-
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel11.setText("Estado:");
-
-        txtCod.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCodActionPerformed(evt);
-            }
-        });
 
         txtMarca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1577,12 +1561,6 @@ private void cargarTablaOrdenCompra() {
         txtModelo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtModeloActionPerformed(evt);
-            }
-        });
-
-        txtSerie.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSerieActionPerformed(evt);
             }
         });
 
@@ -1643,7 +1621,6 @@ private void cargarTablaOrdenCompra() {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1654,7 +1631,6 @@ private void cargarTablaOrdenCompra() {
                                 .addGap(23, 23, 23)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtMarca, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
-                                    .addComponent(txtCod, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
                                     .addComponent(txtModelo, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
                                     .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
                                     .addComponent(cmbCategoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -1662,13 +1638,9 @@ private void cargarTablaOrdenCompra() {
                                 .addGap(1, 1, 1)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(44, 44, 44)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtSerie, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
-                                            .addComponent(txtEstado, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)))
+                                        .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                         .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
@@ -1692,11 +1664,7 @@ private void cargarTablaOrdenCompra() {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addGap(26, 26, 26)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1713,26 +1681,21 @@ private void cargarTablaOrdenCompra() {
                             .addComponent(jLabel9)
                             .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
-                            .addComponent(txtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11)
                             .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel25)
-                            .addComponent(lblProveedorR, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(82, 82, 82))
+                            .addComponent(lblProveedorR, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnRegistrarEquipo)
-                            .addComponent(btnVolverr))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(btnVolverr))))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout PRegistrarLayout = new javax.swing.GroupLayout(PRegistrar);
@@ -2208,10 +2171,6 @@ private void cargarTablaOrdenCompra() {
         cargarTablaI();
     }//GEN-LAST:event_btnVolverrActionPerformed
 
-    private void txtCodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodActionPerformed
-        //Codigo
-    }//GEN-LAST:event_txtCodActionPerformed
-
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
         //Nombre
     }//GEN-LAST:event_txtNombreActionPerformed
@@ -2224,10 +2183,6 @@ private void cargarTablaOrdenCompra() {
         //Modelo
     }//GEN-LAST:event_txtModeloActionPerformed
 
-    private void txtSerieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSerieActionPerformed
-        //Serie
-    }//GEN-LAST:event_txtSerieActionPerformed
-
     private void txtEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEstadoActionPerformed
         //Estado
     }//GEN-LAST:event_txtEstadoActionPerformed
@@ -2239,8 +2194,8 @@ if (txtNombre.getText().isEmpty() ||
     txtMarca.getText().isEmpty() || 
     cmbCategoria.getSelectedItem() == null ||
     txtModelo.getText().isEmpty() || 
-    txtSerie.getText().isEmpty() || 
-    txtCod.getText().isEmpty() || 
+    //txtSerie.getText().isEmpty() || cambioss
+    //txtCod.getText().isEmpty() || cambioss
     txtEstado.getText().isEmpty()) {
     
     JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos antes de registrar el equipo.");
@@ -2252,15 +2207,17 @@ String nombre = txtNombre.getText();
 String marca = txtMarca.getText();
 String categoria = (String) cmbCategoria.getSelectedItem();
 String modelo = txtModelo.getText();
-String numeroSerie = txtSerie.getText();
-String codigoInventario = txtCod.getText();
+//String numeroSerie = txtSerie.getText(); cambioss
+//String numeroSerie;
+//String codigoInventario ;
+//String codigoInventario = txtCod.getText(); cambioss
 String estado = txtEstado.getText();
 
 try {
     ProveedorControlador proveedorControlador = new ProveedorControlador();
     int idProveedor = proveedorControlador.obtenerIdProveedorPorCategoria(categoria);
 
-    Equipo nuevoEquipo = new Equipo(0, nombre, marca, categoria, modelo, numeroSerie, codigoInventario, estado, idProveedor);
+    Equipo nuevoEquipo = new Equipo(0, nombre, marca, categoria, modelo, estado, idProveedor);
 
     EquipoControlador equipoControlador = new EquipoControlador();
     equipoControlador.agregarEquipo(nuevoEquipo);
@@ -2654,7 +2611,6 @@ try {
     private javax.swing.JComboBox<String> cmbProveedores;
     private javax.swing.JComboBox<String> cmbTrabajador;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -2683,7 +2639,6 @@ try {
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -2733,7 +2688,6 @@ try {
     private javax.swing.JTextField txtArea;
     private javax.swing.JTextField txtBuscarEquipo;
     private javax.swing.JTextField txtBuscarTrabajador;
-    private javax.swing.JTextField txtCod;
     private javax.swing.JTextField txtEstado;
     private javax.swing.JTextField txtFechaAsignacion;
     private javax.swing.JTextField txtFechaSalida;
@@ -2744,6 +2698,5 @@ try {
     private javax.swing.JTextField txtMonto;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextArea txtNotificaciones;
-    private javax.swing.JTextField txtSerie;
     // End of variables declaration//GEN-END:variables
 }
