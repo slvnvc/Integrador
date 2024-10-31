@@ -6,6 +6,7 @@ package Controlador;
 
 import DAO.OrdenCompraDAO;
 import Modelo.OrdenCompra;
+import Modelo.ProductoOrden;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -25,10 +26,10 @@ public class OrdenCompraControlador {
         ordenCompraDAO.agregarOrdenCompra(ordenCompra);
     }
 
-    // metodo para obtener todas las órdenes de compra
-    public List<OrdenCompra> obtenerTodasLasOrdenes() throws SQLException {
-        return ordenCompraDAO.obtenerTodasLasOrdenes();
-    }
+//    // metodo para obtener todas las órdenes de compra
+//    public List<OrdenCompra> obtenerTodasLasOrdenes() throws SQLException {
+//        return ordenCompraDAO.obtenerTodasLasOrdenes();
+//    }
     //3 atributos
     public List<OrdenCompra> obtenerOrdenesCompraBasicas() throws SQLException {
         return ordenCompraDAO.obtenerOrdenesCompraBasicas();
@@ -39,4 +40,10 @@ public class OrdenCompraControlador {
     public int obtenerIdProveedorPorOrden(int idOrdenCompra) throws SQLException {
         return ordenCompraDAO.obtenerIdProveedorPorOrden(idOrdenCompra);
     }
+    
+    public List<ProductoOrden> obtenerProductosPorOrden(int idOrdenCompra) throws SQLException {
+        return ordenCompraDAO.obtenerProductosPorOrden(idOrdenCompra);
+    
+}
+
 }

@@ -9,6 +9,7 @@ Vista\Principal$10.class
 Vista\Principal$9.class
 Vista\Principal$37.class
 Vista\Principal$27.class
+Vista\Principal$43.class
 DAO\ProveedorDAO.class
 Vista\Principal$33.class
 Modelo\Equipo.class
@@ -48,6 +49,7 @@ Vista\OrdenAsignacionVista.class
 Vista\Principal$4.class
 Vista\Principal$12.class
 controlador\OrdenSalidaControlador.class
+Modelo\ProductoOrden.class
 DAO\EquipoDAO.class
 DAO\NotificacionDAO.class
 controlador\ProveedorControlador.class
@@ -58,6 +60,7 @@ Vista\Principal$38.class
 Vista\OrdenAsignacionVista$1.class
 DAO\OrdenSalidaDAO.class
 Vista\Principal$22.class
+Vista\Principal$42.class
 controlador\TrabajadorControlador.class
 Vista\Login$1.class
 Vista\Principal$15.class
@@ -66,9 +69,9 @@ Modelo\Trabajador.class
 Vista\Principal$25.class
 Vista\Principal$36.class
 Vista\Principal$16.class
+Vista\Principal$44.class
 Vista\Principal$28.class
 Vista\OrdenCompraVista.class
-Vista\OrdenCompraVista$2.class
 Vista\Principal$3.class
 Modelo\GuiaRemision.class
 Vista\Principal$13.class
@@ -79,5 +82,6 @@ Vista\Principal$24.class
 Modelo\OrdenCompra.class
 controlador\GuiaRemisionControlador.class
 Vista\OrdenAsignacionVista$2.class
+Vista\Principal$41.class
 Vista\GuiaRemisionVista$2.class
 Vista\Principal$21.class

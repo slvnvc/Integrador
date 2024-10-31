@@ -15,16 +15,16 @@ public class EquipoDAO {
     
     // metodo para insertar un equipo
     public void insertarEquipo(Equipo equipo) throws SQLException {
-        String query = "INSERT INTO equipo (Nombre, Marca, Categoria, Modelo, NumeroSerie, CodigoInventario, Estado, ID_Proveedor) VALUES (?, ?, ?, ?, ?, ?, ?,?)";
+        String query = "INSERT INTO equipo (Nombre, Marca, Categoria, NumeroSerie, CodigoInventario, Estado, ID_Proveedor) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, equipo.getNombre());
             stmt.setString(2, equipo.getMarca());
             stmt.setString(3, equipo.getCategoria());
-            stmt.setString(4, equipo.getModelo());
-            stmt.setString(5, equipo.getNumeroSerie());
-            stmt.setString(6, equipo.getCodigoInventario());
-            stmt.setString(7, equipo.getEstado());
-            stmt.setInt(8, equipo.getIdProveedor());
+            //stmt.setString(4, equipo.getModelo());
+            stmt.setString(4, equipo.getNumeroSerie());
+            stmt.setString(5, equipo.getCodigoInventario());
+            stmt.setString(6, equipo.getEstado());
+            stmt.setInt(7, equipo.getIdProveedor());
             stmt.executeUpdate();
         }
     }
@@ -42,7 +42,7 @@ public class EquipoDAO {
                 rs.getString("Nombre"),
                 rs.getString("Marca"),
                 rs.getString("Categoria"),
-                rs.getString("Modelo"),
+                //rs.getString("Modelo"),
                 rs.getString("NumeroSerie"),
                 rs.getString("CodigoInventario"),
                 rs.getString("Estado")
@@ -68,7 +68,7 @@ public class EquipoDAO {
                     rs.getString("Nombre"),
                     rs.getString("Marca"),
                     rs.getString("Categoria"),
-                    rs.getString("Modelo"),
+                    //rs.getString("Modelo"),
                     rs.getString("NumeroSerie"),
                     rs.getString("CodigoInventario"),
                     rs.getString("Estado")
@@ -114,16 +114,16 @@ public class EquipoDAO {
 
     
     public void actualizarEquipo(Equipo equipo) throws SQLException {
-        String query = "UPDATE equipo SET Nombre = ?, Marca = ?, Categoria = ?, Modelo = ?, NumeroSerie = ?, CodigoInventario = ?, Estado = ? WHERE IdEquipo = ?";
+        String query = "UPDATE equipo SET Nombre = ?, Marca = ?, Categoria = ?, NumeroSerie = ?, CodigoInventario = ?, Estado = ? WHERE IdEquipo = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, equipo.getNombre());
             stmt.setString(2, equipo.getMarca());
             stmt.setString(3, equipo.getCategoria());
-            stmt.setString(4, equipo.getModelo());
-            stmt.setString(5, equipo.getNumeroSerie());
-            stmt.setString(6, equipo.getCodigoInventario());
-            stmt.setString(7, equipo.getEstado());
-            stmt.setInt(8, equipo.getIdEquipo());
+            //stmt.setString(4, equipo.getModelo());
+            stmt.setString(4, equipo.getNumeroSerie());
+            stmt.setString(5, equipo.getCodigoInventario());
+            stmt.setString(6, equipo.getEstado());
+            stmt.setInt(7, equipo.getIdEquipo());
             stmt.executeUpdate();
         }
     }
@@ -142,7 +142,7 @@ public class EquipoDAO {
                             rs.getString("Nombre"),
                             rs.getString("Marca"),
                             rs.getString("Categoria"),
-                            rs.getString("Modelo"),
+                            //rs.getString("Modelo"),
                             rs.getString("NumeroSerie"),
                             rs.getString("CodigoInventario"),
                             rs.getString("Estado")
@@ -163,7 +163,7 @@ public class EquipoDAO {
                     rs.getString("Nombre"),
                     rs.getString("Marca"),
                     rs.getString("Categoria"),
-                    rs.getString("Modelo"),
+                    //rs.getString("Modelo"),
                     rs.getString("NumeroSerie"),
                     rs.getString("CodigoInventario"),
                     rs.getString("Estado"),
@@ -188,7 +188,7 @@ public class EquipoDAO {
                 rs.getString("Nombre"),
                 rs.getString("Marca"),
                 rs.getString("Categoria"),
-                rs.getString("Modelo"),
+                //rs.getString("Modelo"),
                 rs.getString("NumeroSerie"),
                 rs.getString("CodigoInventario"),
                 rs.getString("Estado"),
@@ -217,7 +217,7 @@ public class EquipoDAO {
                     rs.getString("Nombre"),
                     rs.getString("Marca"),
                     rs.getString("Categoria"),
-                    rs.getString("Modelo"),
+                    //rs.getString("Modelo"),
                     rs.getString("NumeroSerie"),
                     rs.getString("CodigoInventario"),
                     rs.getString("Estado")

@@ -6,10 +6,12 @@ package DAO;
 
 import Conexion.Conectar;
 import Modelo.OrdenCompra;
+import Modelo.ProductoOrden;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -23,37 +25,53 @@ public class OrdenCompraDAO {
         this.connection = Conectar.getConexion();
     }
 
-    // metodo para insertar una orden de compra
-    public void agregarOrdenCompra(OrdenCompra ordenCompra) throws SQLException {
-        String query = "INSERT INTO ordencompra (ID_Proveedor, FechaOrden, MontoTotal, Producto) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, ordenCompra.getIdProveedor());
-            stmt.setString(2, ordenCompra.getFechaOrden());
-            stmt.setDouble(3, ordenCompra.getMontoTotal());
-            stmt.setString(4, ordenCompra.getProducto());
-            stmt.executeUpdate();
-        }
-    }
+  public void agregarOrdenCompra(OrdenCompra ordenCompra) throws SQLException {
+    // Insertar la orden de compra
+    String sqlOrden = "INSERT INTO ordencompra (FechaOrden, ID_Proveedor) VALUES (?, ?)";
+    try (PreparedStatement pstmtOrden = connection.prepareStatement(sqlOrden, Statement.RETURN_GENERATED_KEYS)) {
+        pstmtOrden.setString(1, ordenCompra.getFechaOrden());
+        pstmtOrden.setInt(2, ordenCompra.getIdProveedor());
+        pstmtOrden.executeUpdate();
 
-    // metodo para obtener todas las órdenes de compra
-    public List<OrdenCompra> obtenerTodasLasOrdenes() throws SQLException {
-        String query = "SELECT * FROM ordencompra";
-        List<OrdenCompra> ordenes = new ArrayList<>();
-        try (PreparedStatement stmt = connection.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                OrdenCompra orden = new OrdenCompra(
-                        rs.getInt("ID_OrdenCompra"),
-                        rs.getInt("ID_Proveedor"),
-                        rs.getString("FechaOrden"),
-                        rs.getDouble("MontoTotal"),
-                        rs.getString("Producto")
-                );
-                ordenes.add(orden);
+        // Obtener el ID generado de la orden
+        ResultSet generatedKeys = pstmtOrden.getGeneratedKeys();
+        if (generatedKeys.next()) {
+            int idOrdenGenerado = generatedKeys.getInt(1);
+
+            // Insertar los productos de esta orden
+            String sqlProducto = "INSERT INTO productosorden (ID_OrdenCompra, Producto, Cantidad) VALUES (?, ?, ?)";
+            try (PreparedStatement pstmtProducto = connection.prepareStatement(sqlProducto)) {
+                for (ProductoOrden producto : ordenCompra.getProductos()) {
+                    pstmtProducto.setInt(1, idOrdenGenerado); // ID de la orden generada
+                    pstmtProducto.setString(2, producto.getNombreProducto());
+                    pstmtProducto.setInt(3, producto.getCantidad());
+                    pstmtProducto.executeUpdate();
+                }
             }
         }
-        return ordenes;
     }
+}
 
+    
+//    // metodo para obtener todas las órdenes de compra
+//    public List<OrdenCompra> obtenerTodasLasOrdenes() throws SQLException {
+//        String query = "SELECT * FROM ordencompra";
+//        List<OrdenCompra> ordenes = new ArrayList<>();
+//        try (PreparedStatement stmt = connection.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
+//            while (rs.next()) {
+//                OrdenCompra orden = new OrdenCompra(
+//                        rs.getInt("ID_OrdenCompra"),
+//                        rs.getInt("ID_Proveedor"),
+//                        rs.getString("FechaOrden"),
+//                        rs.getDouble("MontoTotal"),
+//                        rs.getString("Producto")
+//                );
+//                ordenes.add(orden);
+//            }
+//        }
+//        return ordenes;
+//    }
+//
     public List<OrdenCompra> obtenerOrdenesCompraBasicas() throws SQLException {
     List<OrdenCompra> ordenes = new ArrayList<>();
     String query = "SELECT ID_OrdenCompra, ID_Proveedor, FechaOrden FROM ordencompra";
@@ -72,7 +90,7 @@ public class OrdenCompraDAO {
     }
     return ordenes;
 }
-
+//
     public OrdenCompra obtenerDetallesOrdenCompra(int idOrdenCompra) throws SQLException {
     String query = "SELECT ID_OrdenCompra, FechaOrden, ID_Proveedor FROM ordencompra WHERE ID_OrdenCompra = ?";
     
@@ -103,6 +121,28 @@ public class OrdenCompraDAO {
     }
 }
 
+ public List<ProductoOrden> obtenerProductosPorOrden(int idOrdenCompra) throws SQLException {
+    List<ProductoOrden> productos = new ArrayList<>();
+    String query = "SELECT po.Producto, po.Cantidad " +
+                   "FROM productosorden po " +
+                   "WHERE po.ID_OrdenCompra = ?"; // Cambia esto por el nombre real de tu tabla
+
+    try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        stmt.setInt(1, idOrdenCompra);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            String producto = rs.getString("Producto");
+            int cantidad = rs.getInt("Cantidad");
+            productos.add(new ProductoOrden(producto, cantidad)); // Asegúrate de que ProductoOrden acepte estos parámetros
+        }
+    }
+    return productos;
+}
+ 
+
+}
+
 
     
-}
+

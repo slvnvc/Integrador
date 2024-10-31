@@ -7,7 +7,7 @@ public class Equipo {
     private String nombre;
     private String marca;
     private String categoria;
-    private String modelo;
+    //private String modelo;
     private String numeroSerie;
     private String codigoInventario;
     private String estado;
@@ -15,36 +15,36 @@ public class Equipo {
     private String nombreProveedor; 
 
     // Constructor
-    public Equipo(int idEquipo, String nombre, String marca, String categoria, String modelo, String numeroSerie, String codigoInventario, String estado) {
+    public Equipo(int idEquipo, String nombre, String marca, String categoria, String numeroSerie, String codigoInventario, String estado) {
         this.idEquipo = idEquipo;
         this.nombre = nombre;
         this.marca = marca;
         this.categoria = categoria;
-        this.modelo = modelo;
+        //this.modelo = modelo;
         setNumeroSerie(); // Genera número de serie automáticamente
         setCodigoInventario(); // Genera código de inventario automáticamente
         this.estado = estado;
     }
 
-    public Equipo(int idEquipo, String nombre, String marca, String categoria, String modelo, 
+    public Equipo(int idEquipo, String nombre, String marca, String categoria,  
                   String numeroSerie, String codigoInventario, String estado, int idProveedor) {
         this.idEquipo = idEquipo;
         this.nombre = nombre;
         this.marca = marca;
         this.categoria = categoria;
-        this.modelo = modelo;
+        //this.modelo = modelo;
         setNumeroSerie(); // Genera número de serie automáticamente
         setCodigoInventario(); // Genera código de inventario automáticamente
         this.estado = estado;
         this.idProveedor = idProveedor;
     }
 
-    public Equipo(int idEquipo, String nombre, String marca, String categoria, String modelo, String numeroSerie, String codigoInventario, String estado, int idProveedor, String nombreProveedor) {
+    public Equipo(int idEquipo, String nombre, String marca, String categoria, String numeroSerie, String codigoInventario, String estado, int idProveedor, String nombreProveedor) {
         this.idEquipo = idEquipo;
         this.nombre = nombre;
         this.marca = marca;
         this.categoria = categoria;
-        this.modelo = modelo;
+        //this.modelo = modelo;
         setNumeroSerie(); // Genera número de serie automáticamente
         setCodigoInventario(); // Genera código de inventario automáticamente
         this.estado = estado;
@@ -52,18 +52,29 @@ public class Equipo {
         this.nombreProveedor = nombreProveedor;
     }
     //cambioss
-    public Equipo(int idEquipo, String nombre, String marca, String categoria, String modelo, String estado, int idProveedor) {
+    public Equipo(int idEquipo, String nombre, String marca, String categoria,  String estado, int idProveedor) {
     this.idEquipo = idEquipo;
     this.nombre = nombre;
     this.marca = marca;
     this.categoria = categoria;
-    this.modelo = modelo;
+    //this.modelo = modelo;
     setNumeroSerie(); // Genera número de serie automáticamente
     setCodigoInventario(); // Genera código de inventario automáticamente
     this.estado = estado;
     this.idProveedor = idProveedor;
 }
-
+//    //nuevo
+//    public Equipo(int idEquipo, String nombre, String marca, String categoria, String estado, int idProveedor) {
+//        this.idEquipo = idEquipo;
+//        this.nombre = nombre;
+//        this.marca = marca;
+//        this.categoria = categoria;
+//        this.estado = estado;
+//        this.idProveedor = idProveedor;
+//
+//        setNumeroSerie(); // Genera número de serie automáticamente
+//        setCodigoInventario(); // Genera código de inventario automáticamente
+//    }
     private void setCodigoInventario() {
         if (nombre != null && !nombre.isEmpty()) {
             char inicial = nombre.toUpperCase().charAt(0);
@@ -94,8 +105,8 @@ public class Equipo {
     public String getCategoria() { return categoria; }
     public void setCategoria(String categoria) { this.categoria = categoria; }
 
-    public String getModelo() { return modelo; }
-    public void setModelo(String modelo) { this.modelo = modelo; }
+    //public String getModelo() { return modelo; }
+    //public void setModelo(String modelo) { this.modelo = modelo; }
 
     public String getNumeroSerie() { return numeroSerie; }
 

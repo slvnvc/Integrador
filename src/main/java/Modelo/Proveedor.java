@@ -63,6 +63,12 @@ public class Proveedor {
         this.direccion = direccion;
     }
 
+    // Método toString sobrescrito para mostrar el nombre del proveedor en JComboBox
+    @Override
+    public String toString() {
+        return nombre; // Devuelve el nombre para mostrar en el JComboBox
+    }
+
     
     
 }
