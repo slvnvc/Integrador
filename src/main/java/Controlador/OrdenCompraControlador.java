@@ -26,10 +26,10 @@ public class OrdenCompraControlador {
         ordenCompraDAO.agregarOrdenCompra(ordenCompra);
     }
 
-//    // metodo para obtener todas las órdenes de compra
-//    public List<OrdenCompra> obtenerTodasLasOrdenes() throws SQLException {
-//        return ordenCompraDAO.obtenerTodasLasOrdenes();
-//    }
+    // metodo para obtener todas las órdenes de compra
+    public List<OrdenCompra> obtenerTodasLasOrdenes() throws SQLException {
+        return ordenCompraDAO.obtenerTodasLasOrdenes();
+    }
     //3 atributos
     public List<OrdenCompra> obtenerOrdenesCompraBasicas() throws SQLException {
         return ordenCompraDAO.obtenerOrdenesCompraBasicas();

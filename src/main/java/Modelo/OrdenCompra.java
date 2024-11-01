@@ -219,6 +219,9 @@ public class OrdenCompra {
     private String fechaOrden;
     private List<ProductoOrden> productos;
 
+    public OrdenCompra() {
+    }
+    
     public OrdenCompra(String fechaOrden, int idProveedor, List<ProductoOrden> productos) {
         this.idProveedor = idProveedor;
         this.fechaOrden = fechaOrden;
@@ -231,6 +234,8 @@ public class OrdenCompra {
         this.idProveedor = idProveedor; // Asignar el ID del proveedor
         this.productos = new ArrayList<>(); // Inicializa la lista de productos
     }
+
+    
     // Getters
     public int getIdOrdenCompra() {
         return idOrdenCompra;
@@ -246,5 +251,11 @@ public class OrdenCompra {
 
     public List<ProductoOrden> getProductos() {
         return productos;
+    }
+    
+
+    // Método para agregar un producto
+    public void agregarProducto(ProductoOrden producto) {
+        productos.add(producto);
     }
 }

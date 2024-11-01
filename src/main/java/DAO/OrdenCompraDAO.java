@@ -13,7 +13,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 /**
  *
  * @author Silvana Villanueva
@@ -71,7 +73,64 @@ public class OrdenCompraDAO {
 //        }
 //        return ordenes;
 //    }
-//
+//  public List<OrdenCompra> obtenerTodasLasOrdenes() throws SQLException {
+//    String query = "SELECT o.ID_OrdenCompra, o.ID_Proveedor, o.FechaOrden, p.Producto, p.Cantidad " +
+//                   "FROM ordencompra o " +
+//                   "JOIN productosorden p ON o.ID_OrdenCompra = p.ID_OrdenCompra";
+//    
+//    List<OrdenCompra> ordenes = new ArrayList<>();
+//    
+//    try (PreparedStatement stmt = connection.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
+//        while (rs.next()) {
+//            OrdenCompra orden = new OrdenCompra(
+//                    rs.getInt("ID_OrdenCompra"),
+//                    rs.getInt("ID_Proveedor"),
+//                    rs.getString("FechaOrden"),
+//                    rs.getString("Producto"),
+//                    rs.getInt("Cantidad")
+//            );
+//            ordenes.add(orden);
+//        }
+//    }
+//    
+//    return ordenes;
+//}
+public List<OrdenCompra> obtenerTodasLasOrdenes() throws SQLException {
+    String query = "SELECT o.ID_OrdenCompra, o.FechaOrden, o.ID_Proveedor, p.Producto, p.Cantidad " +
+                   "FROM ordencompra o " +
+                   "JOIN productosorden p ON o.ID_OrdenCompra = p.ID_OrdenCompra";
+    
+    List<OrdenCompra> ordenes = new ArrayList<>();
+    Map<Integer, OrdenCompra> ordenMap = new HashMap<>();
+    
+    try (PreparedStatement stmt = connection.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
+        while (rs.next()) {
+            int idOrdenCompra = rs.getInt("ID_OrdenCompra");
+
+            // Si la orden aún no está en el mapa, crear una nueva
+            OrdenCompra orden = ordenMap.get(idOrdenCompra);
+            if (orden == null) {
+                orden = new OrdenCompra(
+                    idOrdenCompra,
+                    rs.getString("FechaOrden"),
+                    rs.getInt("ID_Proveedor")
+                );
+                ordenMap.put(idOrdenCompra, orden);
+                ordenes.add(orden);
+            }
+
+            // Agregar el producto a la orden
+            ProductoOrden producto = new ProductoOrden(
+                rs.getString("Producto"),
+                rs.getInt("Cantidad")
+            );
+            orden.agregarProducto(producto); // Usa el método agregarProducto para añadir a la lista
+        }
+    }
+    
+    return ordenes;
+}
+
     public List<OrdenCompra> obtenerOrdenesCompraBasicas() throws SQLException {
     List<OrdenCompra> ordenes = new ArrayList<>();
     String query = "SELECT ID_OrdenCompra, ID_Proveedor, FechaOrden FROM ordencompra";

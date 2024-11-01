@@ -17,6 +17,9 @@ public class ProductoOrden {
         this.cantidad = cantidad;
     }
 
+    public ProductoOrden() {
+    }
+    
     // Getters
     public String getNombreProducto() {
         return nombreProducto;

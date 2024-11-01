@@ -4,6 +4,7 @@
  */
 package Vista;
 import Modelo.OrdenCompra;
+import Modelo.ProductoOrden;
 
   
 /**
@@ -15,21 +16,40 @@ public class OrdenCompraVista extends javax.swing.JFrame {
      * Creates new form CvVista
      */
     
-//    public OrdenCompraVista(OrdenCompra oc) {
-//        initComponents();
-//        
-//        actualizarDatos(oc);
-//        
-//    }
-//
-//    
-//    public void actualizarDatos(OrdenCompra oc) {
-//        if (oc != null) {
-//            lblFechadeOrden.setText(oc.getFechaOrden());
-//            lblProveedor.setText(""+oc.getProveedor()); 
-//            lblProducto.setText(oc.getProducto());
-//            lblMontoTotal.setText(""+oc.getMontoTotal());
-//    }}
+    public OrdenCompraVista(OrdenCompra oc,ProductoOrden po) {
+        initComponents();
+        
+        actualizarDatos(oc,po);
+        
+    }
+
+    public static String obtenerNombreProveedor(int id) {
+    switch (id) {
+        case 1:
+            return "LaptopWorld";
+        case 2:
+            return "MonitorHub";
+        case 3:
+            return "MousePro";
+        case 4:
+            return "TecladoCenter";
+        case 5:
+            return "ImpresorasPlus";
+        default:
+            return "ID no válido";
+    }
+}
+
+    public void actualizarDatos(OrdenCompra oc, ProductoOrden po) {
+        if (oc != null) {
+            lblFechadeOrden.setText(oc.getFechaOrden());
+            lblProveedor.setText(obtenerNombreProveedor(oc.getIdProveedor()));
+            lblProducto.setText(po.getNombreProducto());
+//            lblProducto.setText(oc.getProductos().toString());
+//            oc.getProductos().get(0).getNombreProducto();
+//            oc.getProductos().get(0).getCantidad();
+            lblCantidad.setText(""+po.getCantidad());
+    }}
     
     
     @SuppressWarnings("unchecked")
@@ -44,7 +64,7 @@ public class OrdenCompraVista extends javax.swing.JFrame {
         lblFechadeOrden = new javax.swing.JLabel();
         lblProveedor = new javax.swing.JLabel();
         lblProducto = new javax.swing.JLabel();
-        lblMontoTotal = new javax.swing.JLabel();
+        lblCantidad = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         btnCerrar = new javax.swing.JButton();
 
@@ -60,7 +80,7 @@ public class OrdenCompraVista extends javax.swing.JFrame {
 
         jLabel41.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel41.setForeground(new java.awt.Color(51, 84, 179));
-        jLabel41.setText("Monto total:");
+        jLabel41.setText("Cantidad:");
 
         jLabel43.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel43.setForeground(new java.awt.Color(51, 84, 179));
@@ -95,7 +115,7 @@ public class OrdenCompraVista extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblFechadeOrden, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblMontoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 36, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -131,7 +151,7 @@ public class OrdenCompraVista extends javax.swing.JFrame {
                                 .addGap(19, 19, 19)
                                 .addComponent(lblProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(39, 39, 39))
-                            .addComponent(lblMontoTotal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(lblCantidad, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(162, 162, 162)
                 .addComponent(btnCerrar)
                 .addContainerGap(36, Short.MAX_VALUE))
@@ -160,41 +180,41 @@ public class OrdenCompraVista extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(OrdenCompraVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(OrdenCompraVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(OrdenCompraVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(OrdenCompraVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                OrdenCompra oc = new OrdenCompra();
-//                
-//                // Aquí debes configurar los datos del CV antes de pasar a CvVista
-//                new OrdenCompraVista(oc).setVisible(true);
-//            }
-//        });
-//    }
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(OrdenCompraVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(OrdenCompraVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(OrdenCompraVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(OrdenCompraVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                OrdenCompra oc = new OrdenCompra();
+                ProductoOrden po= new ProductoOrden();
+                // Aquí debes configurar los datos del CV antes de pasar a CvVista
+                new OrdenCompraVista(oc, po).setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCerrar;
@@ -204,8 +224,8 @@ public class OrdenCompraVista extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel43;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblCantidad;
     private javax.swing.JLabel lblFechadeOrden;
-    private javax.swing.JLabel lblMontoTotal;
     private javax.swing.JLabel lblProducto;
     private javax.swing.JLabel lblProveedor;
     // End of variables declaration//GEN-END:variables
