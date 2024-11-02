@@ -34,7 +34,10 @@ public class OrdenCompraControlador {
     public List<OrdenCompra> obtenerOrdenesCompraBasicas() throws SQLException {
         return ordenCompraDAO.obtenerOrdenesCompraBasicas();
     }
-    public OrdenCompra obtenerDetallesOrdenCompra(int idOrdenCompra) throws SQLException {
+    public OrdenCompra obtenerOrdenPorId(int idOrdenCompra) throws SQLException {
+        return ordenCompraDAO.obtenerOrdenPorId(idOrdenCompra);
+}   
+     public OrdenCompra obtenerDetallesOrdenCompra(int idOrdenCompra) throws SQLException {
         return ordenCompraDAO.obtenerDetallesOrdenCompra(idOrdenCompra);
 }
     public int obtenerIdProveedorPorOrden(int idOrdenCompra) throws SQLException {

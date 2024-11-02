@@ -21,12 +21,12 @@ public class OrdenSalidaControlador {
         this.ordenSalidaDAO = new OrdenSalidaDAO();
     }
 
-    // Método para agregar una nueva orden de salida
+    //metodo para agregar una nueva orden de salida
     public void agregarOrdenSalida(OrdenSalida ordenSalida) throws SQLException {
         ordenSalidaDAO.agregarOrdenSalida(ordenSalida);
     }
 
-    // Método para obtener todas las órdenes de salida
+    // metodo para obtener todas las órdenes de salida
     public List<OrdenSalida> obtenerTodasLasOrdenesSalida() throws SQLException {
         return ordenSalidaDAO.obtenerTodasLasOrdenesSalida();
     }

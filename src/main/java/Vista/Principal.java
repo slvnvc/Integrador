@@ -28,6 +28,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -58,6 +60,31 @@ public class Principal extends javax.swing.JFrame {
         List<Equipo> listaEquipos = equipoControlador.obtenerEquiposConProveedor(); // Cambia a obtenerEquiposConProveedor
         
         DefaultTableModel modeloTabla = (DefaultTableModel) tblEquipos1.getModel();
+        modeloTabla.setRowCount(0); // Limpiar tabla
+
+        for (Equipo equipo : listaEquipos) {
+            Object[] fila = {
+                equipo.getCodigoInventario(),
+                equipo.getNombre(),
+                equipo.getMarca(),
+                equipo.getCategoria(),
+                //cambioss equipo.getModelo(),
+                equipo.getNumeroSerie(),
+                equipo.getEstado(),
+                equipo.getNombreProveedor() // Agrega el nombre del proveedor
+            };
+            modeloTabla.addRow(fila); // Agregar fila
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+}
+    private void cargarTabla1() {
+    try {
+        EquipoControlador equipoControlador = new EquipoControlador();
+        List<Equipo> listaEquipos = equipoControlador.obtenerEquiposConProveedor(); // Cambia a obtenerEquiposConProveedor
+        
+        DefaultTableModel modeloTabla = (DefaultTableModel) tblEquipos2.getModel();
         modeloTabla.setRowCount(0); // Limpiar tabla
 
         for (Equipo equipo : listaEquipos) {
@@ -119,13 +146,38 @@ public class Principal extends javax.swing.JFrame {
         lblSaludo.setText("Te damos la bienvenida \n" + encargado.getNombre());
 
     }
-    
     private void actualizarTabla() {
     try {
         EquipoControlador equipoControlador = new EquipoControlador();
         List<Equipo> listaEquipos = equipoControlador.obtenerEquipos();
         
         DefaultTableModel modeloTabla = (DefaultTableModel) tblEquipos1.getModel();
+        modeloTabla.setRowCount(0); // Limpiar tabla
+
+        for (Equipo equipo : listaEquipos) {
+            Object[] fila = {
+                
+                equipo.getCodigoInventario(),
+                equipo.getNombre(),
+                equipo.getMarca(),
+                equipo.getCategoria(),
+                //equipo.getModelo(),
+                equipo.getNumeroSerie(),
+                equipo.getEstado(),
+                equipo.getNombreProveedor()
+            };
+            modeloTabla.addRow(fila); // Agregar fila
+        }
+        } catch (SQLException ex) {
+        ex.printStackTrace();
+            }
+    }
+    private void actualizarTabla1() {
+    try {
+        EquipoControlador equipoControlador = new EquipoControlador();
+        List<Equipo> listaEquipos = equipoControlador.obtenerEquipos();
+        
+        DefaultTableModel modeloTabla = (DefaultTableModel) tblEquipos2.getModel();
         modeloTabla.setRowCount(0); // Limpiar tabla
 
         for (Equipo equipo : listaEquipos) {
@@ -290,6 +342,21 @@ public class Principal extends javax.swing.JFrame {
 
         for (OrdenCompra orden : ordenesCompra) {
             cmbOrdenCompra.addItem("Orden N°: "+orden.getIdOrdenCompra()); // Agrega cada objeto OrdenCompra al combo
+        }
+        
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al cargar las órdenes de compra.");
+    }
+}
+    private void cargarOrdenesCompra1() {
+    OrdenCompraControlador ordenCompraControlador = new OrdenCompraControlador();
+    try {
+        List<OrdenCompra> ordenesCompra = ordenCompraControlador.obtenerTodasLasOrdenes();
+        cmbOrdenCompra1.removeAllItems(); // Limpiar el combo antes de llenarlo
+
+        for (OrdenCompra orden : ordenesCompra) {
+            cmbOrdenCompra1.addItem("Orden N°: "+orden.getIdOrdenCompra()); // Agrega cada objeto OrdenCompra al combo
         }
         
     } catch (SQLException e) {
@@ -744,6 +811,7 @@ public class Principal extends javax.swing.JFrame {
         txtBuscarEquipo = new javax.swing.JTextField();
         btnBuscarEquipoI = new javax.swing.JButton();
         btnRefrescar = new javax.swing.JButton();
+        btnRegistrarVarios = new javax.swing.JButton();
         PCompra = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
@@ -854,6 +922,28 @@ public class Principal extends javax.swing.JFrame {
         btnVerOrdenC1 = new javax.swing.JButton();
         btnAgregar = new javax.swing.JButton();
         spinnerCantidad = new javax.swing.JSpinner();
+        btnLimpiar = new javax.swing.JButton();
+        jPanel13 = new javax.swing.JPanel();
+        jPanel14 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jSeparator9 = new javax.swing.JSeparator();
+        jLabel42 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        txtEstado1 = new javax.swing.JTextField();
+        jLabel43 = new javax.swing.JLabel();
+        cmbOrdenCompra1 = new javax.swing.JComboBox<>();
+        jLabel22 = new javax.swing.JLabel();
+        lblNombreR = new javax.swing.JLabel();
+        lblProveedorR1 = new javax.swing.JLabel();
+        lblCategoriaR = new javax.swing.JLabel();
+        lblMarcaR = new javax.swing.JLabel();
+        lblCantidad = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        tblEquipos2 = new javax.swing.JTable();
+        btnRegistrarEquipo1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -1027,6 +1117,13 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        btnRegistrarVarios.setText("Registrar Pedido");
+        btnRegistrarVarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarVariosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -1041,7 +1138,8 @@ public class Principal extends javax.swing.JFrame {
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnVerTrabajadores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnAsignar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                            .addComponent(btnRegistrarVarios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(26, 26, 26))
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1069,8 +1167,10 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(btnBuscarEquipoI)
                         .addComponent(btnRefrescar)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                        .addComponent(btnRegistrarVarios)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnRegistrar)
                         .addGap(37, 37, 37)
                         .addComponent(btnAsignar)
@@ -2040,6 +2140,13 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        btnLimpiar.setText("Limpiar selecciones");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
         jPanel12Layout.setHorizontalGroup(
@@ -2062,13 +2169,13 @@ public class Principal extends javax.swing.JFrame {
                             .addComponent(jLabel41, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(66, 66, 66)
-                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(cmbNombres1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtFechadeOrden1, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
-                                .addComponent(cmbProveedores1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(spinnerCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cmbNombres1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtFechadeOrden1)
+                            .addComponent(cmbProveedores1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(spinnerCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                         .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel12Layout.createSequentialGroup()
                         .addGap(151, 151, 151)
@@ -2105,6 +2212,8 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel41)
                     .addComponent(spinnerCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(51, 51, 51)
+                .addComponent(btnLimpiar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAgregar)
                 .addGap(55, 55, 55))
@@ -2130,6 +2239,179 @@ public class Principal extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("tab9", jPanel10);
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel5.setText("Registrar un nuevo equipo");
+
+        jLabel42.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel42.setText("Proveedor:");
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel10.setText("Nombre:");
+
+        jLabel20.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel20.setText("Marca:");
+
+        jLabel21.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel21.setText("Estado:");
+
+        txtEstado1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEstado1ActionPerformed(evt);
+            }
+        });
+
+        jLabel43.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel43.setText("Orden de Compra:");
+
+        cmbOrdenCompra1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbOrdenCompra1ActionPerformed(evt);
+            }
+        });
+
+        jLabel22.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel22.setText("Categoría:");
+
+        jLabel23.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel23.setText("Cantidad:");
+
+        tblEquipos2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Codigo", "Nombre", "Marca", "Categoria", "Serie", "Estado", "Proveedor"
+            }
+        ));
+        jScrollPane12.setViewportView(tblEquipos2);
+
+        btnRegistrarEquipo1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnRegistrarEquipo1.setText("Registrar");
+        btnRegistrarEquipo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarEquipo1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel14Layout.createSequentialGroup()
+                                .addGap(7, 7, 7)
+                                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel43)
+                                    .addGroup(jPanel14Layout.createSequentialGroup()
+                                        .addGap(1, 1, 1)
+                                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel42, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(jPanel14Layout.createSequentialGroup()
+                                                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(81, 81, 81)
+                                                .addComponent(lblMarcaR, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(jPanel14Layout.createSequentialGroup()
+                                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel14Layout.createSequentialGroup()
+                                                .addGap(1, 1, 1)
+                                                .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(11, 11, 11)))
+                                        .addGap(56, 56, 56)
+                                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblCategoriaR, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblProveedorR1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtEstado1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(jPanel14Layout.createSequentialGroup()
+                                .addGap(143, 143, 143)
+                                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblNombreR, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cmbOrdenCompra1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
+                                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(22, 22, 22))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
+                                .addComponent(btnRegistrarEquipo1)
+                                .addGap(94, 94, 94))))))
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel14Layout.createSequentialGroup()
+                                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel43)
+                                    .addComponent(cmbOrdenCompra1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel10)
+                                    .addComponent(lblNombreR, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(27, 27, 27)
+                                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel20)
+                                    .addComponent(lblMarcaR, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel22)
+                                    .addComponent(lblCategoriaR, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(26, 26, 26)
+                                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel23)
+                                    .addComponent(lblCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(28, 28, 28)
+                                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel42)
+                                    .addComponent(lblProveedorR1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtEstado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel21))
+                        .addContainerGap(68, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRegistrarEquipo1)
+                        .addGap(58, 58, 58))))
+        );
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("tab10", jPanel13);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -2372,19 +2654,16 @@ try {
         JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila.");
         return; // Salir para que pueda seleccionar
     }
-
-    // Obtener los datos de la fila seleccionada
-    //int idGuia = Integer.parseInt(tblGuiaRemision.getValueAt(filaSeleccionada, 0).toString());
     int idOrdenCompra = Integer.parseInt(tblGuiaRemision.getValueAt(filaSeleccionada, 0).toString());
     String fechaOrdenCompra = tblGuiaRemision.getValueAt(filaSeleccionada, 1).toString();
     String nombreProveedor = tblGuiaRemision.getValueAt(filaSeleccionada, 2).toString();
     String fechaRecepcion = tblGuiaRemision.getValueAt(filaSeleccionada, 3).toString();
     String comentarios = tblGuiaRemision.getValueAt(filaSeleccionada, 4).toString();
 
-    // Crear una nueva instancia de GuiaRemision con los datos del constructor
+    // crear una nueva instancia de GuiaRemision con los datos del constructor
     GuiaRemision guiaRemision = new GuiaRemision(idOrdenCompra, fechaOrdenCompra, nombreProveedor, fechaRecepcion, comentarios);
 
-    // Abrir pantalla de visualización de guía de remisión
+    // abrir pantalla de visualización de guía de remisión
     GuiaRemisionVista guiaRemisionVista = new GuiaRemisionVista(guiaRemision);
     guiaRemisionVista.setVisible(true);
     guiaRemisionVista.setLocationRelativeTo(null);
@@ -2462,10 +2741,8 @@ try {
 
     if (selectedText != null && selectedText.startsWith("Orden N°: ")) {
         try {
-            // Extraer el ID de la orden de compra
             int idOrdenCompra = Integer.parseInt(selectedText.replace("Orden N°: ", "").trim());
 
-            // Obtener detalles de la orden de compra
             OrdenCompraControlador ordenCompraControlador = new OrdenCompraControlador();
             OrdenCompra ordenSeleccionada = ordenCompraControlador.obtenerDetallesOrdenCompra(idOrdenCompra);
 
@@ -2480,7 +2757,6 @@ try {
             JOptionPane.showMessageDialog(null, "Error al obtener detalles de la orden de compra.");
         }
     } else {
-        // Limpiar los labels si no hay selección válida
         lblFechaOC.setText("");
         lblProveedor.setText("");
     }
@@ -2494,7 +2770,6 @@ try {
         ProveedorControlador proveedorControlador = new ProveedorControlador();
         String proveedor = proveedorControlador.obtenerProveedorPorCategoria(categoriaSeleccionada);
 
-        // Mostrar el nombre del proveedor en el JLabel
         lblProveedorR.setText(proveedor != null ? proveedor : "");//sin proveedor
 
     } catch (SQLException ex) {
@@ -2524,11 +2799,11 @@ try {
                 trabajador.getDNI(),
                 trabajador.getTelefono(),
                 trabajador.getCorreo(),
-                trabajador.getEquipos() // Nombre del equipo asignado
+                trabajador.getEquipos() 
             };
-            modeloTabla.addRow(fila); // Agregar fila a la tabla
+            modeloTabla.addRow(fila); 
         }
-        txtBuscarTrabajador.setText("");//limpia la busqueda
+        txtBuscarTrabajador.setText("");
     } catch (SQLException ex) {
         ex.printStackTrace();
         JOptionPane.showMessageDialog(this, "Error al buscar trabajadores por equipo.");
@@ -2568,185 +2843,7 @@ try {
         JOptionPane.showMessageDialog(this, "Error al buscar equipos.");
     }
     }//GEN-LAST:event_btnBuscarEquipoIActionPerformed
-    // Método para agregar productos a la tabla
-////private void agregarProducto() {
-////    String fechaOrden = txtFechadeOrden1.getText(); // Obtener la fecha de orden
-////String proveedor = (String) cmbProveedores1.getSelectedItem(); // Obtener proveedor seleccionado
-////String producto = (String) cmbNombres1.getSelectedItem(); // Obtener producto seleccionado
-////int cantidad = (int) spinnerCantidad.getValue(); // Obtener la cantidad del spinner
-////
-////// Validar cantidad
-////if (cantidad <= 0) {
-////    JOptionPane.showMessageDialog(this, "La cantidad debe ser mayor que cero.");
-////    return;
-////}
-////
-////// Verificar si el producto ya está en la tabla
-////DefaultTableModel model = (DefaultTableModel) tblAgregarOC.getModel();
-////boolean productoExistente = false;
-////
-////for (int i = 0; i < model.getRowCount(); i++) {
-////    // Obtener valores de la tabla y comprobar que no sean null
-////    Object valorProveedor = model.getValueAt(i, 1); // Proveedor
-////    Object valorProducto = model.getValueAt(i, 2); // Producto
-////
-////    if (valorProveedor != null && valorProducto != null) {
-////        // Comparar solo si los valores no son null
-////        if (valorProducto.equals(producto) && valorProveedor.equals(proveedor)) {
-////            int nuevaCantidad = (int) model.getValueAt(i, 3) + cantidad; // Asegúrate de que la cantidad está en la columna 3
-////            model.setValueAt(nuevaCantidad, i, 3); // Actualizar cantidad
-////            productoExistente = true;
-////            break; // Salir del bucle una vez que se ha encontrado el producto
-////        }
-////    }
-////}
-////
-////// Si no existe el producto, agregar uno nuevo a la tabla
-////if (!productoExistente) {
-////    model.addRow(new Object[]{fechaOrden, proveedor, producto, cantidad}); // Ajusta según tu modelo de columnas
-////}
-////
-////// Reiniciar campos
-////
-////cmbProveedores1.setSelectedIndex(-1); // Reiniciar el JComboBox de proveedores
-////cmbNombres1.setSelectedIndex(-1); // Reiniciar el JComboBox de productos
-////spinnerCantidad.setValue(0); // Reiniciar el spinner de cantidad
-////}
-//////private void agregarProducto() {
-//////    String fechaOrden = txtFechadeOrden1.getText(); // Obtener la fecha de orden
-//////    Proveedor proveedorSeleccionado = (Proveedor) cmbProveedores1.getSelectedItem(); // Obtener el proveedor como objeto
-//////    String producto = (String) cmbNombres1.getSelectedItem(); // Obtener el producto seleccionado
-//////    int cantidad = (int) spinnerCantidad.getValue(); // Obtener la cantidad del spinner
-//////
-//////    // Validar cantidad
-//////    if (cantidad <= 0) {
-//////        JOptionPane.showMessageDialog(this, "La cantidad debe ser mayor que cero.");
-//////        return;
-//////    }
-//////
-//////    // Verificar si el producto ya está en la tabla
-//////    DefaultTableModel model = (DefaultTableModel) tblAgregarOC.getModel();
-//////    boolean productoExistente = false;
-//////
-//////    for (int i = 0; i < model.getRowCount(); i++) {
-//////        // Obtener valores de la tabla y comprobar que no sean null
-//////        Object valorProveedor = model.getValueAt(i, 1); // Proveedor
-//////        Object valorProducto = model.getValueAt(i, 2); // Producto
-//////
-//////        if (valorProveedor != null && valorProducto != null) {
-//////            // Comparar solo si los valores no son null
-//////            if (valorProducto.equals(producto) && valorProveedor.equals(proveedorSeleccionado)) {
-//////                int nuevaCantidad = (int) model.getValueAt(i, 3) + cantidad; // Asegúrate de que la cantidad está en la columna 3
-//////                model.setValueAt(nuevaCantidad, i, 3); // Actualizar cantidad
-//////                productoExistente = true;
-//////                break; // Salir del bucle una vez que se ha encontrado el producto
-//////            }
-//////        }
-//////    }
-//////
-//////    // Si no existe el producto, agregar uno nuevo a la tabla
-//////    if (!productoExistente) {
-//////        model.addRow(new Object[]{fechaOrden, proveedorSeleccionado, producto, cantidad}); // Agregar el objeto Proveedor
-//////    }
-//////
-//////    // Reiniciar campos
-//////    cmbProveedores1.setSelectedIndex(-1); // Reiniciar el JComboBox de proveedores
-//////    cmbNombres1.setSelectedIndex(-1); // Reiniciar el JComboBox de productos
-//////    spinnerCantidad.setValue(0); // Reiniciar el spinner de cantidad
-//////}
-//////    private void agregarProducto() {
-//////    String fechaOrden = txtFechadeOrden1.getText(); // Obtener la fecha de orden
-//////    String proveedorNombre = (String) cmbProveedores1.getSelectedItem(); // Obtener el proveedor seleccionado
-//////
-//////    // Validar que un proveedor ha sido seleccionado
-//////    if (proveedorNombre == null) {
-//////        JOptionPane.showMessageDialog(this, "Debe seleccionar un proveedor.");
-//////        return;
-//////    }
-//////
-//////    int idProveedor = proveedorMap.get(proveedorNombre); // Obtener el ID del proveedor usando el mapa
-//////
-//////    String producto = (String) cmbNombres1.getSelectedItem(); // Obtener el producto seleccionado
-//////    int cantidad = (int) spinnerCantidad.getValue(); // Obtener la cantidad del spinner
-//////
-//////    // Validar cantidad
-//////    if (cantidad <= 0) {
-//////        JOptionPane.showMessageDialog(this, "La cantidad debe ser mayor que cero.");
-//////        return;
-//////    }
-//////
-//////    // Verificar si el producto ya está en la tabla
-//////    DefaultTableModel model = (DefaultTableModel) tblAgregarOC.getModel();
-//////    boolean productoExistente = false;
-//////
-//////    for (int i = 0; i < model.getRowCount(); i++) {
-//////        Object valorProveedor = model.getValueAt(i, 1); // Proveedor
-//////        Object valorProducto = model.getValueAt(i, 2); // Producto
-//////
-//////        if (valorProveedor != null && valorProducto != null) {
-//////            if (valorProducto.equals(producto) && valorProveedor.equals(proveedorNombre)) {
-//////                int nuevaCantidad = (int) model.getValueAt(i, 3) + cantidad; // Columna 3 para cantidad
-//////                model.setValueAt(nuevaCantidad, i, 3); // Actualizar cantidad
-//////                productoExistente = true;
-//////                break; // Salir del bucle una vez que se ha encontrado el producto
-//////            }
-//////        }
-//////    }
-//////
-//////    // Si no existe el producto, agregar uno nuevo a la tabla
-//////    if (!productoExistente) {
-//////        model.addRow(new Object[]{fechaOrden, idProveedor, producto, cantidad}); // Almacenar el ID del proveedor
-//////    }
-//////
-//////    // Reiniciar campos
-//////    cmbProveedores1.setSelectedIndex(-1); // Reiniciar el JComboBox de proveedores
-//////    cmbNombres1.setSelectedIndex(-1); // Reiniciar el JComboBox de productos
-//////    spinnerCantidad.setValue(0); // Reiniciar el spinner de cantidad
-////////}
-//private void agregarProducto() {
-//    String fechaOrden = txtFechadeOrden1.getText(); // Obtener la fecha de orden
-//    String proveedor = (String) cmbProveedores1.getSelectedItem(); // Obtener proveedor seleccionado
-//    String producto = (String) cmbNombres1.getSelectedItem(); // Obtener producto seleccionado
-//    int cantidad = (int) spinnerCantidad.getValue(); // Obtener la cantidad del spinner
-//
-//    // Validar cantidad
-//    if (cantidad <= 0) {
-//        JOptionPane.showMessageDialog(this, "La cantidad debe ser mayor que cero.");
-//        return;
-//    }
-//
-//    // Verificar si el producto ya está en la tabla
-//    DefaultTableModel model = (DefaultTableModel) tblAgregarOC.getModel();
-//    boolean productoExistente = false;
-//
-//    for (int i = 0; i < model.getRowCount(); i++) {
-//        // Obtener valores de la tabla y comprobar que no sean null
-//        Object valorProveedor = model.getValueAt(i, 1); // Proveedor
-//        Object valorProducto = model.getValueAt(i, 2); // Producto
-//
-//        if (valorProveedor != null && valorProducto != null) {
-//            // Comparar solo si los valores no son null
-//            if (valorProducto.equals(producto) && valorProveedor.equals(proveedor)) {
-//                int nuevaCantidad = (int) model.getValueAt(i, 3) + cantidad; // Actualizar cantidad
-//                model.setValueAt(nuevaCantidad, i, 3); // Actualizar cantidad
-//                productoExistente = true;
-//                break; // Salir del bucle una vez que se ha encontrado el producto
-//            }
-//        }
-//    }
-//
-//    // Si no existe el producto, agregar uno nuevo a la tabla
-//    if (!productoExistente) {
-//        model.addRow(new Object[]{fechaOrden, proveedor, producto, cantidad}); // Ajusta según tu modelo de columnas
-//    }
-//
-//    // Reiniciar campos
-//    cmbProveedores1.setSelectedIndex(-1); // Reiniciar el JComboBox de proveedores
-//    cmbNombres1.setSelectedIndex(-1); // Reiniciar el JComboBox de productos
-//    spinnerCantidad.setValue(0); // Reiniciar el spinner de cantidad
-//}
-
-
+  
 private void agregarProducto() {
     String fechaOrden = txtFechadeOrden1.getText(); // Obtener la fecha de orden
     String proveedorNombre = (String) cmbProveedores1.getSelectedItem(); // Obtener proveedor seleccionado
@@ -2766,8 +2863,7 @@ private void agregarProducto() {
     boolean productoExistente = false;
 
     for (int i = 0; i < model.getRowCount(); i++) {
-        // Obtener valores de la tabla y comprobar que no sean null
-        Object valorProveedor = model.getValueAt(i, 1); // Proveedor
+       Object valorProveedor = model.getValueAt(i, 1); // Proveedor
         Object valorProducto = model.getValueAt(i, 2); // Producto
 
         if (valorProveedor != null && valorProducto != null) {
@@ -2780,62 +2876,18 @@ private void agregarProducto() {
             }
         }
     }
-
     // Si no existe el producto, agregar uno nuevo a la tabla
     if (!productoExistente) {
-        model.addRow(new Object[]{fechaOrden, idProveedor, producto, cantidad}); // Usar el idProveedor aquí
+        model.addRow(new Object[]{fechaOrden, idProveedor, producto, cantidad}); 
         modeloo.addRow(new Object[]{fechaOrden, idProveedor, producto, cantidad});
     }
 
     // Reiniciar campos
-    cmbProveedores1.setSelectedIndex(-1); // Reiniciar el JComboBox de proveedores
-    cmbNombres1.setSelectedIndex(-1); // Reiniciar el JComboBox de productos
-    spinnerCantidad.setValue(0); // Reiniciar el spinner de cantidad
+    cmbProveedores1.setSelectedIndex(-1); 
+    cmbNombres1.setSelectedIndex(-1);
+    spinnerCantidad.setValue(0); 
 }
 
-//    String fechaOrden = txtFechadeOrden1.getText(); // Obtener la fecha de orden
-//    // Obtener el proveedor seleccionado como un objeto Proveedor
-//    Proveedor proveedorSeleccionado = (Proveedor) cmbProveedores1.getSelectedItem(); // Asegúrate de que esto devuelva el objeto Proveedor
-//    int idProveedor = proveedorSeleccionado.getIdProveedor(); // Obtener el ID del proveedor
-//    String producto = (String) cmbNombres1.getSelectedItem(); // Obtener producto seleccionado
-//    int cantidad = (int) spinnerCantidad.getValue(); // Obtener la cantidad del spinner
-//
-//    // Validar cantidad
-//    if (cantidad <= 0) {
-//        JOptionPane.showMessageDialog(this, "La cantidad debe ser mayor que cero.");
-//        return;
-//    }
-//
-//    // Verificar si el producto ya está en la tabla
-//    DefaultTableModel model = (DefaultTableModel) tblAgregarOC.getModel();
-//    boolean productoExistente = false;
-//
-//    for (int i = 0; i < model.getRowCount(); i++) {
-//        // Obtener valores de la tabla y comprobar que no sean null
-//        Object valorProveedor = model.getValueAt(i, 1); // Proveedor
-//        Object valorProducto = model.getValueAt(i, 2); // Producto
-//
-//        if (valorProveedor != null && valorProducto != null) {
-//            // Comparar solo si los valores no son null
-//            if (valorProducto.equals(producto) && valorProveedor.equals(proveedorSeleccionado.getNombre())) {
-//                int nuevaCantidad = (int) model.getValueAt(i, 3) + cantidad; // Actualizar cantidad
-//                model.setValueAt(nuevaCantidad, i, 3); // Actualizar cantidad
-//                productoExistente = true;
-//                break; // Salir del bucle una vez que se ha encontrado el producto
-//            }
-//        }
-//    }
-//
-//    // Si no existe el producto, agregar uno nuevo a la tabla
-//    if (!productoExistente) {
-//        model.addRow(new Object[]{fechaOrden, idProveedor, producto, cantidad}); // Usar el idProveedor aquí
-//    }
-//
-//    // Reiniciar campos
-//    cmbProveedores1.setSelectedIndex(-1); // Reiniciar el JComboBox de proveedores
-//    cmbNombres1.setSelectedIndex(-1); // Reiniciar el JComboBox de productos
-//    spinnerCantidad.setValue(0); // Reiniciar el spinner de cantidad
-//}
 
 // Método para guardar la orden de compra
 private void guardarOrdenCompra() {
@@ -2845,8 +2897,7 @@ private void guardarOrdenCompra() {
         String producto = (String) model.getValueAt(i, 2);
         int cantidad = (int) model.getValueAt(i, 4);
 
-        // Aquí realiza la inserción a la base de datos
-        // Inserta en la tabla de inventario y actualiza las cantidades necesarias
+        
     }
 
     // Limpiar la tabla después de guardar
@@ -2886,19 +2937,19 @@ private void guardarOrdenCompra() {
 
         for (int i = 0; i < tblAgregarOC.getRowCount(); i++) {
             if (idProveedor == -1) {
-                idProveedor = (int) tblAgregarOC.getValueAt(i, 1); // Suponemos que el ID del proveedor está en la columna 1
+                idProveedor = (int) tblAgregarOC.getValueAt(i, 1); 
             }
-            String nombreProducto = (String) tblAgregarOC.getValueAt(i, 2); // Nombre del producto en la columna 2
-            int cantidad = (int) tblAgregarOC.getValueAt(i, 3); // Cantidad en la columna 3
+            String nombreProducto = (String) tblAgregarOC.getValueAt(i, 2); 
+            int cantidad = (int) tblAgregarOC.getValueAt(i, 3); 
 
             // Crear un nuevo producto y agregarlo a la lista
             listaProductos.add(new ProductoOrden(nombreProducto, cantidad));
         }
 
-        // Crear la nueva orden de compra
+        // crear la nueva orden de compra
         OrdenCompra nuevaOrden = new OrdenCompra(fechaOrden, idProveedor, listaProductos);
 
-        // Uso del controlador y DAO
+        // uso del controlador y DAO
         OrdenCompraControlador controlador = new OrdenCompraControlador();
         controlador.agregarOrdenCompra(nuevaOrden);
         
@@ -2979,24 +3030,20 @@ private void cargarProveedores1() {
     private void cargarNombresEquipos1() {
     ProveedorControlador proveedorControlador = new ProveedorControlador();
     
-    // Verifica si hay un proveedor seleccionado en cmbProveedores
     if (cmbProveedores1.getSelectedItem() == null) {
-        cmbNombres1.removeAllItems(); // Limpiar cmbNombres si no hay proveedor seleccionado
+        cmbNombres1.removeAllItems(); 
         return;
     }
 
     try {
-        // Obtén el nombre del proveedor seleccionado y su ID
+        // obtener el nombre del proveedor seleccionado y su ID
         String proveedorSeleccionado = cmbProveedores1.getSelectedItem().toString();
         int idProveedor = proveedorControlador.obtenerIdProveedorPorNombre(proveedorSeleccionado);
 
-        // Obtén la lista de nombres de equipos para el proveedor seleccionado
         List<String> nombresEquipos = proveedorControlador.obtenerNombresEquiposPorProveedor(idProveedor);
 
-        // Limpia el ComboBox de nombres antes de añadir nuevos elementos
         cmbNombres1.removeAllItems();
 
-        // Rellena el ComboBox cmbNombres con los nombres de equipos
         for (String nombre : nombresEquipos) {
             cmbNombres1.addItem(nombre);
         }
@@ -3012,9 +3059,134 @@ private void cargarProveedores1() {
        cmbProveedores1.setSelectedIndex(-1);
        cmbNombres1.setSelectedIndex(-1);
        DefaultTableModel model = (DefaultTableModel) tblAgregarOC.getModel();
-       model.setRowCount(0); // Esto limpia todas las filas de la tabla
+       model.setRowCount(0); 
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtEstado1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEstado1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEstado1ActionPerformed
+
+    private void cmbOrdenCompra1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbOrdenCompra1ActionPerformed
+         String selectedText = (String) cmbOrdenCompra1.getSelectedItem();
+
+if (selectedText != null && selectedText.startsWith("Orden N°: ")) {
+    try {
+        // extraer el id de la orden de compra
+        int idOrdenCompra = Integer.parseInt(selectedText.replace("Orden N°: ", "").trim());
+
+        OrdenCompraControlador ordenCompraControlador = new OrdenCompraControlador();
+        OrdenCompra ordenSeleccionada = ordenCompraControlador.obtenerOrdenPorId(idOrdenCompra); 
+
+        if (ordenSeleccionada != null) {
+            
+            //obtener el proveedor
+            ProveedorControlador proveedorControlador = new ProveedorControlador();
+            String nombreProveedor = proveedorControlador.obtenerProveedorPorId(ordenSeleccionada.getIdProveedor());
+            lblProveedorR1.setText(nombreProveedor);
+
+            // obtener el nombre del producto y dividirlo en palabras
+            String nombreProducto = ordenSeleccionada.obtenerNombreProducto();
+            lblNombreR.setText(nombreProducto);
+            if (nombreProducto != null) {
+                String[] partesNombre = nombreProducto.split(" ");
+                if (partesNombre.length > 0) {
+                    lblCategoriaR.setText(partesNombre[0]); // primera palabra como categoría
+                }
+                if (partesNombre.length > 1) {
+                    lblMarcaR.setText(partesNombre[1]); // segunda palabra como marca
+                }
+                
+            }
+            int cantidadProducto = ordenSeleccionada.obtenerCantidadProducto();
+            lblCantidad.setText(String.valueOf(cantidadProducto));
+           
+            txtEstado1.setText("Disponible"); 
+            
+        }
+    } catch (NumberFormatException | SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al obtener detalles de la orden de compra.");
+    }
+} else {
+    // Limpiar los labels si no hay selección válida
+    lblNombreR.setText("");
+    lblProveedorR1.setText("");
+    lblMarcaR.setText("");
+    lblCategoriaR.setText("");
+    txtEstado1.setText("");
+    lblCantidad.setText("");
+}
+
+    }//GEN-LAST:event_cmbOrdenCompra1ActionPerformed
+
+    private void btnRegistrarVariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVariosActionPerformed
+        jTabbedPane1.setSelectedIndex(9);
+        cargarTabla1();
+        cargarOrdenesCompra1();
+        cmbOrdenCompra1.setSelectedIndex(-1);
+        
+        
+    }//GEN-LAST:event_btnRegistrarVariosActionPerformed
+
+    private void btnRegistrarEquipo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarEquipo1ActionPerformed
+        // Botón para registrar EQUIPO
+// Validación de campos vacíos antes de continuar
+if (lblNombreR.getText().isEmpty() || 
+    lblMarcaR.getText().isEmpty() || 
+    lblCategoriaR.getText().isEmpty() || 
+    txtEstado1.getText().isEmpty() || 
+    lblCantidad.getText().isEmpty() || 
+    lblProveedorR1.getText().isEmpty()) {
+    
+    JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos antes de registrar el equipo.");
+    return; 
+}
+
+
+String nombre = lblNombreR.getText();
+String marca = lblMarcaR.getText();
+String categoria = lblCategoriaR.getText();
+String estado = txtEstado1.getText(); 
+int cantidad;
+
+try {
+    
+    cantidad = Integer.parseInt(lblCantidad.getText());
+} catch (NumberFormatException e) {
+    JOptionPane.showMessageDialog(this, "La cantidad debe ser un número válido.");
+    return; // Detiene el proceso si la cantidad no es válida
+}
+
+// obtener el ID del proveedor usando el nombre en lblProveedorR1
+try {
+    ProveedorControlador proveedorControlador = new ProveedorControlador();
+    int idProveedor = proveedorControlador.obtenerIdProveedorPorCategoria(categoria);
+
+   for (int i = 0; i < cantidad; i++) {
+        Equipo nuevoEquipo = new Equipo(0, nombre, marca, categoria, estado, idProveedor);
+       
+    EquipoControlador equipoControlador = new EquipoControlador();
+    equipoControlador.agregarEquipo(nuevoEquipo);
+    }
+
+      actualizarTabla1();
+    cmbOrdenCompra1.setSelectedIndex(-1);
+    JOptionPane.showMessageDialog(this, "Equipos registrados exitosamente.");
+} catch (SQLException ex) {
+    ex.printStackTrace();
+    JOptionPane.showMessageDialog(this, "Error al registrar los equipos.");
+}
+    
+
+  
+
+    }//GEN-LAST:event_btnRegistrarEquipo1ActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        DefaultTableModel model = (DefaultTableModel) tblAgregarOC.getModel();
+    model.setRowCount(0);
+    }//GEN-LAST:event_btnLimpiarActionPerformed
     
 
     /**
@@ -3071,11 +3243,14 @@ private void cargarProveedores1() {
     private javax.swing.JButton btnGuardarOC1;
     private javax.swing.JButton btnGuardarOS;
     private javax.swing.JButton btnInventario;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnNotificaciones;
     private javax.swing.JButton btnRefrescar;
     private javax.swing.JButton btnRefrescar1;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnRegistrarEquipo;
+    private javax.swing.JButton btnRegistrarEquipo1;
+    private javax.swing.JButton btnRegistrarVarios;
     private javax.swing.JButton btnRemision;
     private javax.swing.JButton btnSalida;
     private javax.swing.JButton btnVerGuiaRemision;
@@ -3092,10 +3267,12 @@ private void cargarProveedores1() {
     private javax.swing.JComboBox<String> cmbEquiposD;
     private javax.swing.JComboBox<String> cmbNombres1;
     private javax.swing.JComboBox<String> cmbOrdenCompra;
+    private javax.swing.JComboBox<String> cmbOrdenCompra1;
     private javax.swing.JComboBox<String> cmbProveedores1;
     private javax.swing.JComboBox<String> cmbTrabajador;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -3105,6 +3282,10 @@ private void cargarProveedores1() {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
@@ -3125,6 +3306,9 @@ private void cargarProveedores1() {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -3132,6 +3316,8 @@ private void cargarProveedores1() {
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -3143,6 +3329,7 @@ private void cargarProveedores1() {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -3159,19 +3346,26 @@ private void cargarProveedores1() {
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
+    private javax.swing.JSeparator jSeparator9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jtxtComentarios;
     private javax.swing.JTextArea jtxtMotivo;
+    private javax.swing.JLabel lblCantidad;
+    private javax.swing.JLabel lblCategoriaR;
     private javax.swing.JLabel lblDestino;
     private javax.swing.JLabel lblFechaOC;
+    private javax.swing.JLabel lblMarcaR;
+    private javax.swing.JLabel lblNombreR;
     private javax.swing.JLabel lblProveedor;
     private javax.swing.JLabel lblProveedorR;
+    private javax.swing.JLabel lblProveedorR1;
     private javax.swing.JLabel lblSaludo;
     private javax.swing.JSpinner spinnerCantidad;
     private javax.swing.JTable tblAgregarOC;
     private javax.swing.JTable tblAsignacion;
     private javax.swing.JTable tblEquipos;
     private javax.swing.JTable tblEquipos1;
+    private javax.swing.JTable tblEquipos2;
     private javax.swing.JTable tblGuiaRemision;
     private javax.swing.JTable tblOrdenC;
     private javax.swing.JTable tblOrdenSalida;
@@ -3180,6 +3374,7 @@ private void cargarProveedores1() {
     private javax.swing.JTextField txtBuscarEquipo;
     private javax.swing.JTextField txtBuscarTrabajador;
     private javax.swing.JTextField txtEstado;
+    private javax.swing.JTextField txtEstado1;
     private javax.swing.JTextField txtFechaAsignacion;
     private javax.swing.JTextField txtFechaSalida;
     private javax.swing.JTextField txtFechadeOrden1;

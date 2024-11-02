@@ -166,6 +166,59 @@ public List<OrdenCompra> obtenerTodasLasOrdenes() throws SQLException {
     }
     return null; // retorna null si no se encuentra la orden
     }
+    public OrdenCompra obtenerOrdenPorId(int idOrdenCompra) throws SQLException {
+    String query = "SELECT o.ID_OrdenCompra, o.FechaOrden, o.ID_Proveedor, p.Producto, p.Cantidad " +
+                   "FROM ordencompra o " +
+                   "JOIN productosorden p ON o.ID_OrdenCompra = p.ID_OrdenCompra " +
+                   "WHERE o.ID_OrdenCompra = ?";
+
+    OrdenCompra orden = null;
+    
+    try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        stmt.setInt(1, idOrdenCompra); // Establece el parámetro de la consulta
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                // Crear la orden de compra si existe
+                orden = new OrdenCompra(
+                    rs.getInt("ID_OrdenCompra"),
+                    rs.getString("FechaOrden"),
+                    rs.getInt("ID_Proveedor")
+                );
+
+                // Agregar los productos a la orden
+                do {
+                    ProductoOrden producto = new ProductoOrden(
+                        rs.getString("Producto"),
+                        rs.getInt("Cantidad")
+                    );
+                    orden.agregarProducto(producto); // Usa el método agregarProducto para añadir a la lista
+                } while (rs.next()); // Continuar para obtener otros productos en la misma orden
+            }
+        }
+    }
+
+    return orden; // Devuelve la orden de compra encontrada o null si no existe
+}
+
+    
+     public OrdenCompra obtenerTodosDetallesOrdenCompra(int idOrdenCompra) throws SQLException {
+    String query = "SELECT o.ID_OrdenCompra, o.FechaOrden, o.ID_Proveedor, p.Producto, p.Cantidad " +
+                   "FROM ordencompra o " +
+                   "JOIN productosorden p ON o.ID_OrdenCompra = p.ID_OrdenCompra";
+    
+    try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        stmt.setInt(1, idOrdenCompra);
+        ResultSet rs = stmt.executeQuery();
+        
+        if (rs.next()) {
+            int idProveedor = rs.getInt("ID_Proveedor");
+            String fechaOrden = rs.getString("FechaOrden");
+            
+            return new OrdenCompra(idOrdenCompra, fechaOrden, idProveedor);
+        }
+    }
+    return null; // retorna null si no se encuentra la orden
+    }
 
     public int obtenerIdProveedorPorOrden(int idOrdenCompra) throws SQLException {
     String query = "SELECT ID_Proveedor FROM ordencompra WHERE ID_OrdenCompra = ?";
